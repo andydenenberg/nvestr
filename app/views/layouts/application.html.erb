@@ -9,10 +9,7 @@
 	    <%= stylesheet_link_tag "application", :media => "all" %>
 	    <%= javascript_include_tag "application" %>
 	    <%= csrf_meta_tags %>
-	    <%= yield(:head) %>
-	
-	<% puts 'application.html' %>
-	
+	    <%= yield(:head) %>	
   </head>
   <body class="<%= controller_name %> <%= action_name %>" style='padding-top:60px;'>
     <header class="navbar navbar-inverse navbar-fixed-top">
@@ -37,10 +34,6 @@
     </div> <!--! end of #main -->
   </body>
 	<p>
-	  <% if mobile_device? %>
-	    <%= link_to "Full Site", :mobile => 0 %>
-	  <% else %>
-	    <%= link_to "Mobile Site", :mobile => 1 %>
-	  <% end %>
+	    <%= link_to "Mobile Site", start_path(:mobile => 1), :target => '_blank' %>
 	</p>
 </html>
