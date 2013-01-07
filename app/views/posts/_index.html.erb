@@ -1,0 +1,41 @@
+<% @posts.each do |post| %>
+	<% post.body.length > 300 ? body = post.body[0..300].html_safe : body = post.body.html_safe %>
+		<div class='row'>
+			<div class='span11'>
+				<div class='row introbox  offset1' style='min-height: 110px;'>
+					<div class='span4'>
+							<div class='lead' style='border-bottom:thin dotted #000000;
+							}'><%= link_to post.title, post_path(post, :type_is => @type_is) %></div>
+							<small><%= User.find(post.user_id).name ||= '' %> on <%= post.created_at.strftime('%b-%d-%Y') %> |
+							Comments: <%= post.comments.count %> | <%= post.id %>
+							<span class="<%= type_color(post.type_is) %>">
+							<%= link_to 'Read ' + post.type_is, post_path(post, :type_is => @type_is), :style => 'color:white;' %></span></small><br><br>
+							
+					</div>
+					<div class='span5'>
+						<% if post.attachments.count > 0 %>
+							<b>Attachments</b>
+						<ol>
+						<% post.attachments.each_with_index do |attach| %>
+							<li>
+							<% if !attach.url.blank? %>
+								<code>Link: <%= link_to attach.url, "http://" + attach.url, :target => '_blank' %></code>
+							<% end %>
+							<% if !attach.image.url.include?('missing.png') %>
+							<code>File: <%= link_to attach.image_file_name, attach.image.url, :target => '_blank' %></code>
+							<% end %>
+							<%= attach.description.html_safe %>
+							</li>
+							<% end %> 
+						<% end %>
+						
+						<%= body %><br>
+						
+					</div>
+					<br>
+				</div>
+			</div>
+		</div>
+		<br><br>		
+<% end %>
+<%= will_paginate @posts, :class => 'pagination pagination-centered pagination-small', :style => 'vertical-align:middle;'%>

@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="span3 offset1">
+	<ul class="breadcrumb">
+	  		<li><%= link_to 'Home', start_path %> <span class="divider">/</span></li>
+		<% if @type_is != nil %>
+	  		<li class="active"><%= @type_is %></li>
+		<% else %>
+			<li><%= link_to 'Discussion', posts_path(:type_is => 'Discussion') %> <span class="divider">/</span></li>
+			<li><%= link_to 'News', posts_path(:type_is => 'News') %> </li>
+		<% end %>
+	</ul>
+  </div>
+  <div class='span8'>
+ 
+		<% if @type_is == 'Discussion' %>
+		  <%= link_to 'Add Discussion Item', new_post_path(:type_is => 'Discussion'), :class => 'btn btn-mini' %>
+		<% elsif @type_is == 'News' %>
+		  <%= link_to 'Add News Item', new_post_path(:type_is => 'News'), :class => 'btn btn-info btn-mini' %>
+		<% else %>
+		  <%= link_to 'Add Discussion Item', new_post_path(:type_is => 'Discussion'), :class => 'btn btn-mini' %>
+		  <%= link_to 'Add News Item', new_post_path(:type_is => 'News'), :class => 'btn btn-info btn-mini' %>		
+		<% end %>	
+  </div>
+</div>
+<br>
+
+<div id='table'>
+	<%= render 'index' %>
+</div>
+
+
+<br />
+
+		  <%= select_tag "type_is", options_for_select(['Discussions & News', 'Discussion', 'News'], :selected => @type_is), :class => 'span2' %>
+
+
+

@@ -1,0 +1,22 @@
+
+
+<div class="row">
+  <div class="span3 offset1">
+	<ul class="breadcrumb">
+	  <li><%= link_to 'Home', start_path %> <span class="divider">/</span></li>
+	  <li><%= link_to @post.type_is, posts_path(:type_is => @post.type_is ) %> <span class="divider">/</span></li>
+	  <li>Item: <%= @post.id %></li>	
+	</ul>
+  </div>
+  <div class='span8'>
+		<% if @post.type_is == 'Discussion' %>
+		  <%= link_to 'New Discussion Item', new_post_path(:item_type => 'Discussion'), :class => 'btn btn-mini' %>
+		<% else %>
+		  <%= link_to 'New News Item', new_post_path(:item_type => 'News'), :class => 'btn btn-info btn-mini' %>
+		<% end %>	
+  </div>
+</div>
+<br>
+
+<%= render 'show' %>
+

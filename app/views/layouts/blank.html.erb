@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Stc" %></title>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Stc" %>">
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+    <%= yield(:head) %>
+  </head>
+  <body class="<%= controller_name %> <%= action_name %>">
+    <header class="navbar navbar-inverse navbar-fixed-top">
+      <nav class="navbar-inner">
+        <div class="container">
+          <%= render 'layouts/navigation' %>
+        </div>
+      </nav>
+    </header>
+    <div id="main" role="main">
+              <%= yield %>
+          <footer class='center_text'>
+				<br><br><br><small>LSSC @2012</small><br><br>
+          </footer>
+    </div> <!--! end of #main -->
+  </body>
+</html>

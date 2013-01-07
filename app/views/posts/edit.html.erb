@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="span3 offset1">
+	<ul class="breadcrumb">
+	  <li><%= link_to 'Home', start_path %> <span class="divider">/</span></li>
+	  <li><%= link_to @post.type_is, posts_path(:type_is => @post.type_is ) %> <span class="divider">/</span></li>
+	  <li>Item: <%= @post.id %></li>	
+	</ul>
+  </div>
+</div>
+
+<%= render 'form' %>
+

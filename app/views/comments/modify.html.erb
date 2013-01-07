@@ -1,0 +1,15 @@
+
+<h4><%= @post.title %></h4>
+
+<%= simple_form_for(@comment, :html => { :class => 'form-vertical span9' } ) do |f| %>
+
+  <div class="form-inputs">
+	<label for="stackedSelect">Edit Comment</label>
+    <%= f.text_area :note , :class => "input textarea span8", :rows => 5  %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %> |
+	<%= link_to 'Cancel', :back %>
+  </div>
+<% end %>

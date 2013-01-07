@@ -1,0 +1,30 @@
+<%= simple_form_for(@post, :html => { :class => 'form-vertical span9' } ) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+		<%= f.fields_for :attachments do |attach| %>
+		
+		  	<% if attach.object.new_record? %>
+				<h4>Attachments:</h4>
+				<div class='row'>
+					<div class='span4'>
+							<label for="stackedSelect">URL</label>
+							<%= attach.text_field :url , :class => "input span3"%>
+							<label for="stackedSelect">Description</label>
+							<%= attach.text_field :description , :class => "input span8" %>
+					</div>
+					<div class='span4'>
+							<label for="stackedSelect">File</label>
+							<%= attach.file_field :image %>
+					</div>
+				</div>
+			<% end %>
+		<% end %>
+	
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit , 'Save' %> | 
+	<%= link_to 'Cancel', @post %>
+  </div>
+<% end %>

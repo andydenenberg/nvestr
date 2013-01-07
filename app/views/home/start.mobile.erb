@@ -1,0 +1,52 @@
+
+
+<div data-role="header">
+
+      <h1>DenVestR</h1>
+      <a href="../../" data-icon="home" data-direction="reverse">Home</a>
+      <a href="../nav.html" data-icon="search" data-rel="dialog" data-transition="fade">Search</a>
+   </div><!-- /header -->
+
+   <div data-role="content">
+      <h2>Current Portfolio Results</h2>
+      <p>THe Latest Results of our Picks</p>
+
+    
+       <table data-role="table" id="table-custom-2" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-theme="b" data-column-btn-text="Columns to display..." data-column-popup-theme="a">
+        
+                <thead>
+                  <tr class="ui-bar-d">
+                    <th data-priority="2">Mem</th>
+                    <th>Symbol</th>
+                    <th data-priority="3">Price</th>
+                    <th data-priority="1"><abbr title="Rotten Tomato Rating">Change</abbr></th>
+                    <th data-priority="5">Perf</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+					<% @price.portfolio.each_with_index do |stock| %>
+						<% price = @price.current(stock[0]) %>
+						<tr>
+							<th><%= stock[1] %></th>
+							<td><%= link_to stock[6], "http://m.yahoo.com/w/yfinance/quote/#{stock[6]}/?chart=1d&.intl=US&.lang=en", :target => '_blank' %></td>
+							<td class='aln_r'>$<%= stock[7] %></td>
+							<td class='aln_r'><%= stock[8] %></td>
+							<td class='aln_r'><%= number_to_percentage (100*(stock[7].to_f - stock[2]) / stock[2]), :precision => 2 %></td>
+						</tr>
+						<% end %>			
+				</table>
+
+
+
+                </tbody>
+              </table>
+      
+         </div><!-- /content -->
+
+<script>
+
+</script>
+
+
+

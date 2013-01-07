@@ -1,0 +1,18 @@
+<%= simple_form_for(@comment, :html => { :class => 'form-vertical' } ) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.text_area :note , :class => "input textarea span8", :rows => 10  %>
+	<label for="stackedSelect">Created by</label>
+	<%= f.select :post_id , Post.all.collect { |u|  [ u.title, u.id ] } %>
+  </div>
+
+  <div class="form-inputs">
+	<label for="stackedSelect">Created by</label>
+	<%= f.select :user_id , User.all.collect { |u|  [ u.name, u.id ] } %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

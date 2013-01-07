@@ -1,0 +1,24 @@
+<%= simple_form_for(@post, :html => { :class => 'form-vertical span9' } ) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+	<h4>Comments:</h4>
+		<%= f.fields_for :comments do |comment| %>
+		
+		<% if comment.object.new_record? %>
+			  <div class="form-inputs">
+				<label for="stackedSelect">New Comment</label>
+			    <%= comment.text_area :note , :class => "input textarea span8", :rows => 5  %>
+				<%= comment.hidden_field :user_id , :value => current_user.id %>
+			  </div>
+		<% end %>
+
+	<% end %>
+	
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit , 'Save' %> | 
+	<%= link_to 'Cancel', post_path(@post, :type_is => 'Discussion') %>
+  </div>
+<% end %>

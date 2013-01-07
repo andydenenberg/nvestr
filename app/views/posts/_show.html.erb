@@ -1,0 +1,51 @@
+
+<div class="row">
+  <div class="span10 offset1">
+	  <div class='blank_box'>
+		
+		<div class='lead' style='border-bottom:thin dotted #000000;'><%= link_to @post.title, @post %></div>
+
+<% if @post.attachments.count > 0 %>
+	<b>Attachments</b>
+<ol>
+<% @post.attachments.each_with_index do |attach| %>
+	<li>
+	<% if !attach.url.blank? %>
+		<code>Link: <%= link_to attach.url, "http://" + attach.url, :target => '_blank' %></code>
+	<% end %>
+	<% if !attach.image.url.include?('missing.png') %>
+	<code>File: <%= link_to attach.image_file_name, attach.image.url, :target => '_blank' %></code>
+	<% end %>
+	<%= attach.description.html_safe %>
+	</li>
+	<% end %> 
+<% end %>
+<br>
+<p style='font-size:16px;line-height:120%;'><%= @post.body.html_safe %></p>
+	
+	
+	
+	</div>	
+	
+
+	<div class='row pull-right'>
+		<% if current_user.id == @post.user_id %>
+			<%= link_to_function 'Add Attachment', "AddAttachment(" + @post.id.to_s + "); return false", :class => 'btn btn-mini btn-primary' %>			<%= link_to 'Edit', edit_post_path(@post, :type_is => @type_is), :class => 'btn btn-mini' %>
+			<%= link_to 'Destroy', @post, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %>
+		<% end %>
+		
+	Created by: <b><%= User.find(@post.user_id).name %></b> on <%= @post.created_at.strftime('%b %d, %Y') %>
+	</div><br>
+	    
+	<div id='comment'></div>
+
+	<%= render 'comments'%>
+	
+  </div><!--/span-->
+
+
+</div><!--/row-->
+
+<br>
+
+

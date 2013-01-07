@@ -1,0 +1,105 @@
+
+
+<div class='row'>
+	<div class='span6'>
+		<div class='introbox'>
+	    	<h4><%= link_to 'My Notes', posts_path(:type_is => 'Discussion') %></h4>
+	
+					<% @disc.each do |post| %>
+			    	<b><em style='font-size:16px;'><%= link_to post.title, post_path(post, :type_is => 'Discussion') %></em></b>
+			    	<p><%= post.attachments.first.description.html_safe %>
+					   <code><%= link_to 'Read Item', post_path(post, :type_is => 'Discussion') %></code> |
+		 					 <%= post.created_at.strftime('%b-%d-%Y') %></p>
+
+			<hr>
+					<% end %>
+						<%= will_paginate @news, :class => 'pagination pagination-right pagination-small'%>
+	
+			<p><%= link_to 'Add Note &raquo;'.html_safe, posts_path(:type_is => 'Discussion') , :class => "btn btn-small btn-success" %></p>
+		</div>		    
+	</div>
+	
+	<div class='span6'>
+		<div class='introbox'>
+			<h4><%= link_to 'News', posts_path(:type_is => 'News') %></h4>
+			<% @news.each do |post| %>
+	    	<b><em style='font-size:16px;'><%= link_to post.title, post_path(post, :type_is => 'News') %></em></b>
+	    	<p><%= post.attachments.first.description.html_safe %>
+			   <code><%= link_to 'Read Item', post_path(post, :type_is => 'News') %></code> |
+ 					 <%= post.created_at.strftime('%b-%d-%Y') %></p>
+	
+	<hr>
+			<% end %>
+				<%= will_paginate @news, :class => 'pagination pagination-right pagination-small'%>
+			
+		</div>		    
+	</div>
+</div>
+
+	<div class="row">		
+        <div class="span12 schoolbox">
+	
+<div class='well' style='background-color:white;'>	
+	
+		<%= select_tag "portfolio", options_for_select(['Favorites', 'Dad', 'Gina', 'Mom', 'Mike', 'Nerissa'], :selected => 'Favorites'), :class => 'span2' %> <b>Portfolio</b>
+		    <table class='table table-condensed table-bordered table-striped'>
+				<tr>
+					<th colspan=1>Member</th>
+					<th colspan=3 class='aln_c'>Position</th>
+					<th colspan=2 class='aln_c'>Daily Result</th>
+					<th colspan=2 class='for_day aln_c'>Overall Gain/Loss</th>
+				</tr>
+				<tr>
+					<th></th>
+					<th>Stock</th>
+					<th class='aln_c'>Purchase Price</th>
+					<th class='aln_c'>Days Held</th>
+					<th class='aln_c'>Current Price</th>
+					<th class='aln_c'>Change</th>
+					<th class='aln_c'>$</th>
+					<th class='aln_c'>%</th>
+				</tr>
+				
+<style>
+.aln_c
+{
+	text-align:center !important;	
+}
+.aln_r
+{
+	text-align:right !important;	
+}
+.for_day
+{
+	background-color:#D9EDF7 !important;
+}
+</style>				
+
+				
+				
+	<% @price.portfolio.each_with_index do |stock| %>
+		<% price = @price.current(stock[0]) %>
+		<tr>
+			<th><%= stock[1] %></th>
+			<td><%= stock[5] %> [<%= stock[6] %>]</td>
+			<td class='aln_r'>$<%= stock[2]%></td>
+			<td class='aln_r'><%= (Date.today.day.to_i - stock[3].to_i) %> </td> <!-- Holding Period -->
+			<td class='aln_r'>$<%= stock[7] %></td>
+			<td class='aln_r'><%= stock[8] %></td>
+			<td class='aln_r'><%= number_to_currency(stock[7].to_f - stock[2], :delimiter => "") %></td> <!-- Gain/Loss -->
+			<td class='aln_r'><%= number_to_percentage (100*(stock[7].to_f - stock[2]) / stock[2]) %></td>
+		</tr>
+		<% end %>			
+</table>
+		
+</div>
+	
+        </div><!--/span-->
+
+     </div><!--/row-->
+
+
+
+
+
+
