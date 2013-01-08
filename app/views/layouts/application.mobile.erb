@@ -19,12 +19,8 @@
     <div id="main" role="main">
       <div class="container">
               <%= yield %>
-			<p>
-			    <%= link_to "Full Site", start_path(:mobile => 0), :target => '_blank' %>
-			</p>
-
           <footer class='center_text'>
-				<br><br><br><small>Denenberg @2012</small><br><br>
+				<br><br><br><small>Denenberg @2012 | <%= link_to "Full Site", start_path(:mobile => 0), :target => '_blank' %></small><br><br>
           </footer>
       </div> <!--! end of .container -->
     </div> <!--! end of #main -->
