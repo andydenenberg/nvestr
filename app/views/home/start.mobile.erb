@@ -3,13 +3,14 @@
 <div data-role="header">
 
       <h1>DenVestR</h1>
-      <a href="../../" data-icon="home" data-direction="reverse">Home</a>
-      <a href="../nav.html" data-icon="search" data-rel="dialog" data-transition="fade">Search</a>
+      <a href="#" data-icon="home" data-direction="reverse">Home</a>
+		<%= link_to 'Logout', destroy_user_session_path, :method=>'delete', 'data-icon' => "search", 'data-rel' => "dialog",  'data-transition' => "fade" %>
    </div><!-- /header -->
 
    <div data-role="content">
-      <h2>Current Portfolio Results</h2>
-      <p>THe Latest Results of our Picks</p>
+      <h2>Favorite Stock Results</h2>
+      <p>Latest Results as of:<br>
+		<%= Time.now.strftime("at %I:%M%p") %></p>
 
     
        <table data-role="table" id="table-custom-2" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-theme="b" data-column-btn-text="Columns to display..." data-column-popup-theme="a">
@@ -44,9 +45,10 @@
       
          </div><!-- /content -->
 
-<script>
+		<div data-role="footer">
 
-</script>
+		      <h1>Denenberg @2012 | <%= link_to "Full Site", start_path(:mobile => 0), :target => '_blank' %></h1>
+		   </div><!-- /header -->
 
 
 

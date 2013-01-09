@@ -17,10 +17,10 @@ class HomeController < ApplicationController
     require 'price'
     @price = Price.new
     
-    respond_to do |format|
-      format.html { puts 'html' }
-      format.mobile { puts 'mobile' }
-    end
+#    respond_to do |format|
+#      format.html { puts 'html' }
+#      format.mobile { puts 'mobile' }
+#    end
     
   end
   

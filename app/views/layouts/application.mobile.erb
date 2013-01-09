@@ -10,6 +10,9 @@
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
 		<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
 		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+		
+		<%= javascript_include_tag "application" %>
+	    
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<%= stylesheet_link_tag "plain.css", :media => "all" %>
@@ -19,9 +22,6 @@
     <div id="main" role="main">
       <div class="container">
               <%= yield %>
-          <footer class='center_text'>
-				<br><br><br><small>Denenberg @2012 | <%= link_to "Full Site", start_path(:mobile => 0), :target => '_blank' %></small><br><br>
-          </footer>
       </div> <!--! end of .container -->
     </div> <!--! end of #main -->
   </body>		

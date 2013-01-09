@@ -1,3 +1,20 @@
+# To make Jquery Mobile work with devise - do the following
+
+#    I had to make the following changes to make this work:
+#    config/initializers/devise.rb
+#    config.http_authenticatable_on_xhr = false Had to make that false otherwise jQuery mobile sends XHR requests to login and you get a 401 error.
+#    config.navigational_formats = [:"*/*", "*/*", :html, :mobile]
+#
+#    This otherwise it wouldn't recognize the format. You'd think this would handle the redirections but it actually doesn't. You need to do one more thing.
+#    It's hacky to me so I added it to: config/initializers/devise_hack.rb
+#
+#    ActionController::Responder.class_eval do alias :to_mobile :to_html end
+#
+#    Now it works.
+
+ActionController::Responder.class_eval do alias :to_mobile :to_html end
+
+
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -56,6 +73,7 @@ Devise.setup do |config|
 
   # If http headers should be returned for AJAX requests. True by default.
   # config.http_authenticatable_on_xhr = true
+   config.http_authenticatable_on_xhr = false
 
   # The realm used in Http Basic Authentication. "Application" by default.
   # config.http_authentication_realm = "Application"
@@ -198,6 +216,7 @@ Devise.setup do |config|
   #
   # The "*/*" below is required to match Internet Explorer requests.
   # config.navigational_formats = ["*/*", :html]
+  config.navigational_formats = [:"*/*", "*/*", :html, :mobile]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = Rails.env.test? ? :get : :delete
