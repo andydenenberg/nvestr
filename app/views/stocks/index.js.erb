@@ -1,1 +1,12 @@
-$("#portfolio_list").html("<%= escape_javascript(render("index")) %>");
+if ('<%= @view %>' == 'Edit') {
+	$("#portfolio_list").html("<%= escape_javascript(render("edit")) %>");	
+}
+else if ('<%= @view %>' == 'Support')  {
+	$("#portfolio_list").html("<%= escape_javascript(render("support")) %>");	
+}
+else {
+	$("#portfolio_list").html("<%= escape_javascript(render("index")) %>");	
+}
+
+
+	

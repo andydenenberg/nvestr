@@ -2,14 +2,9 @@ class StocksController < ApplicationController
   # GET /stocks
   # GET /stocks.json
   def index
+    @view = params[:view] ||= 'Performance'
     @port = params[:portfolio] ||= 'Family Favorites'
     @stocks = Stock.portfolio(@port) # where(:portfolio => params[:portfolio])
-
-#    respond_to do |format|
-#      format.html # index.html.erb
-#      format.json { render json: @stocks }
-#    end
-
   end
 
   # GET /stocks/1

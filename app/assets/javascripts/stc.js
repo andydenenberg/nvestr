@@ -23,10 +23,17 @@ $(function () {
         });
         $('#portfolio_is').change(function () {
 		   Portfolio_is = document.getElementById('portfolio_is').value ;
-                $.get('/stocks', {portfolio:Portfolio_is} , null, 'script');
+                $.get('/stocks', { portfolio:Portfolio_is} , null, 'script');
                 return false;
         });
 });
+
+
+function EditList(tab) {
+	   Portfolio_is = document.getElementById('portfolio_is').value
+          $.get('/stocks', { portfolio:Portfolio_is, view:tab }, null, 'script');
+          return false;
+  }
 
 function AddComment(Post) {
 	$('#add_comment_button').hide()
