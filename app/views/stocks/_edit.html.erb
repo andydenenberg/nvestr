@@ -30,8 +30,19 @@
 		<td></td>
 
 		<% s = Stock.find_by_symbol(stock[6].downcase) %>
-	    <td><%= link_to 'S', stock_path(s) %>|<%= link_to 'E', edit_stock_path(s) %>|<%= link_to 'D', s, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+		
+	    <td>
+			<div class="btn-group">
+			<%= link_to 'Show', stock_path(s), :class => 'btn btn-mini' %>
+			<%= link_to 'Edit', edit_stock_path(s), :class => 'btn btn-mini btn-info' %>
+			<%= link_to 'Delete', s, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %>
+			</div>
+			</td>
 
   </tr>
 <% end %>
 </table>
+
+<%= link_to 'Add Stock', new_stock_path, :class => 'btn btn-mini btn-primary' %>
+
+
