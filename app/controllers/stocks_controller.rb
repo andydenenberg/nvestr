@@ -27,6 +27,7 @@ class StocksController < ApplicationController
   # GET /stocks/new.json
   def new
     @stock = Stock.new
+    @stock.comments.build
 
     respond_to do |format|
       format.html # new.html.erb

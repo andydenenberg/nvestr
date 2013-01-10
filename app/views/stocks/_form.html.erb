@@ -4,7 +4,7 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.association :user %>
+    <%= f.association :user, :selected => current_user %>
     <%= f.input :symbol %>
     <%= f.input :purch_price %>
 
@@ -12,6 +12,36 @@
 	  <%= f.text_field :purch_date, 'data-behaviour' => 'datepicker' %><br />
 	
     <%= f.input :portfolio %>
+
+
+		<% i = 0 %>
+		<%= f.fields_for :comments do |comment| %>
+		<div class='form-box'>
+		<div class='row'>
+			<div class='span4'>
+				<% if !comment.object.new_record? %>
+				<label class="checkbox inline">
+			<!--- attach.check_box :_destroy, {:checked => attach.object.persisted?}, '0', '1' %>Save Attachment? ---->
+					<%= comment.check_box :_destroy %><b>Delete Comment <%= i ; i += 1 %></b>					
+				</label>
+				<% else %>
+				<label for="stackedSelect"><b>Comment</b></label>
+				<% end %>				
+			</div>
+		</div>
+		<br>
+		  <div class="form-inputs">
+			<label for="stackedSelect">New Comment</label>
+		    <%= comment.text_area :note , :class => "input textarea span8", :rows => 5  %>
+			<%= comment.hidden_field :user_id , :value => current_user.id %>
+		  </div>
+		</div>
+	<% end %>
+
+
+
+
+
   </div>
 
   <div class="form-actions">

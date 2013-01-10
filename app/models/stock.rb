@@ -1,6 +1,8 @@
 class Stock < ActiveRecord::Base
   belongs_to :user
-  attr_accessible :portfolio, :purch_date, :purch_price, :symbol, :user_id
+  attr_accessible :portfolio, :purch_date, :purch_price, :symbol, :user_id, :comments_attributes
+  has_many :comments, :dependent => :destroy
+  accepts_nested_attributes_for :comments, :allow_destroy => true
 
   require 'csv'
 
