@@ -21,6 +21,11 @@ $(function () {
                 $.get('/posts', {type_is:Type_is} , null, 'script');
                 return false;
         });
+        $('#portfolio_is').change(function () {
+		   Portfolio_is = document.getElementById('portfolio_is').value ;
+                $.get('/stocks', {portfolio:Portfolio_is} , null, 'script');
+                return false;
+        });
 });
 
 function AddComment(Post) {

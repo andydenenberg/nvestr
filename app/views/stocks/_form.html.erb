@@ -1,0 +1,20 @@
+
+
+<%= simple_form_for(@stock) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :user %>
+    <%= f.input :symbol %>
+    <%= f.input :purch_price %>
+
+	  <%= f.label 'Purchase Date: ' %>
+	  <%= f.text_field :purch_date, 'data-behaviour' => 'datepicker' %><br />
+	
+    <%= f.input :portfolio %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

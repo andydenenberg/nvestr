@@ -1,0 +1,23 @@
+
+
+<h2>Portfolio</h2>
+
+	<div class="row">		
+        <div class="span12 schoolbox">
+	
+			<div class='well' style='background-color:white;'>	
+					
+				<%= select_tag "portfolio_is", options_for_select(Stock.all.collect { |p| p.portfolio }.uniq!, :selected => @port), :class => 'span2' %> <b>Portfolio</b>
+				
+				<div id='portfolio_list'>
+				<%= render 'index' %>
+				</div>
+				
+
+	</div><!--/well-->	
+   </div><!--/span-->
+</div><!--/row-->
+
+<br />
+
+<%= link_to 'New Stock', new_stock_path %>

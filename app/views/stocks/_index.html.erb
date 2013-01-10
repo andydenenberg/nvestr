@@ -1,0 +1,40 @@
+<table class='table table-condensed table-bordered table-striped'>
+			
+		<tr>
+			<th colspan=1>Member</th>
+			<th colspan=3 class='aln_c'>Position</th>
+			<th colspan=2 class='aln_c'>Daily Result</th>
+			<th colspan=2 class='for_day aln_c'>Overall Gain/Loss</th>
+			<th colspan=2 class='aln_r'>
+		</tr>
+		<tr>
+			<th></th>
+			<th>Stock</th>
+			<th class='aln_c'>Purchase Price</th>
+			<th class='aln_c'>Days Held</th>
+			<th class='aln_c'>Current Price</th>
+			<th class='aln_c'>Change</th>
+			<th class='aln_c'>$</th>
+			<th class='aln_c'>%</th>
+			<th></th>
+		</tr>
+
+<% @stocks.each_with_index do |stock| %>
+	<tr>
+		<th><%= stock[1] %></th>
+		<td><%= stock[5] %> [<%= stock[6] %>]</td>
+		<td class='aln_r'>$<%= stock[2]%></td>
+		<td class='aln_r'><%= distance_of_time_in_words(stock[3], Date.today) %> </td> <!-- Holding Period -->
+		<td class='aln_r'>$<%= stock[7] %></td>
+		<td class='aln_r'><%= stock[8] %></td>
+		<td class='aln_r'><%= number_to_currency(stock[7].to_f - stock[2], :delimiter => "") %></td> <!-- Gain/Loss -->
+		<td class='aln_r'><%= number_to_percentage (100*(stock[7].to_f - stock[2]) / stock[2]) %></td>
+
+		<% s = Stock.find_by_symbol(stock[6].downcase) %>
+	    <td><%= link_to 'S', stock_path(s) %>
+		 | <%= link_to 'E', edit_stock_path(s) %>
+		 | <%= link_to 'D', s, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+  </tr>
+<% end %>
+</table>

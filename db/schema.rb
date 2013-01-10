@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121114020007) do
+ActiveRecord::Schema.define(:version => 20130109174956) do
 
   create_table "attachments", :force => true do |t|
     t.string   "url"
@@ -52,6 +52,18 @@ ActiveRecord::Schema.define(:version => 20121114020007) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
+
+  create_table "stocks", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "symbol"
+    t.decimal  "purch_price", :precision => 16, :scale => 2
+    t.date     "purch_date"
+    t.string   "portfolio"
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+  end
+
+  add_index "stocks", ["user_id"], :name => "index_stocks_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

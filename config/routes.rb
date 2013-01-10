@@ -1,4 +1,6 @@
 Stc::Application.routes.draw do
+  resources :stocks
+
   resources :attachments 
 
   resources :comments do

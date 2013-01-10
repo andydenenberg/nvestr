@@ -1,5 +1,31 @@
   require 'csv'
   
+  CONVERSIONS = [
+    [1000, 'M'],
+    [900, 'DM'],
+    [500, 'D'],
+    [400, 'CD'],
+    [100, 'C'],
+    [90, 'XC'],
+    [50, 'L'],
+    [40, 'XL'],
+    [10, 'X'],
+    [9, 'IX'],
+    [5, 'V'],
+    [4, 'IV'],
+    [1, 'I']
+  ]
+
+  def conversions_factors_for(in_arabic)
+    CONVERSIONS.find { |arabic, _| arabic <= in_arabic }
+  end
+
+  def convert(in_arabic)
+    return '' if in_arabic.zero?
+    arabic, roman = conversions_factors_for(in_arabic)
+    roman + convert(in_arabic - arabic)
+  end
+  
 class Price
   def current(symbol)  
     url = "http://download.finance.yahoo.com/d/quotes.csv?s=#{symbol}&f=snl1d1t1c1ohgv&e=.csv"
@@ -8,14 +34,7 @@ class Price
 #    return open(url).read.inspect # .gsub(/\r\n/,'')   
   end  
   
-  def portfolio
-    portfolio = [ 
-      ['dis', 'Gina', 51.21, '01/03/12' ],
-      ['dish', 'Mike', 36.93, '01/03/12' ],
-      ['goog', 'Rissa', 723.67, '01/03/12' ],
-      [ 'ltd', 'Mom', 44.71, '01/03/12' ],
-      ['tsla', 'Tim', 34.77, '01/03/12' ],
-      ['xom', 'Dad', 88.55, '01/03/12' ] ]
+  def portfolio(portfolio)
     port = [ ]
     
     portfolio.each do |stock|

@@ -60,24 +60,15 @@
 					<th class='aln_c'>%</th>
 				</tr>
 				
-<style>
-.aln_c
-{
-	text-align:center !important;	
-}
-.aln_r
-{
-	text-align:right !important;	
-}
-.for_day
-{
-	background-color:#D9EDF7 !important;
-}
-</style>				
-
 				
-				
-	<% @price.portfolio.each_with_index do |stock| %>
+	<% @price.portfolio(		    portfolio = [ 
+			      ['dis', 'Gina', 51.21, '01/03/12' ],
+			      ['dish', 'Mike', 36.93, '01/03/12' ],
+			      ['goog', 'Rissa', 723.67, '01/03/12' ],
+			      [ 'ltd', 'Mom', 44.71, '01/03/12' ],
+			      ['tsla', 'Tim', 34.77, '01/03/12' ],
+			      ['xom', 'Dad', 88.55, '01/03/12' ] ]
+	).each_with_index do |stock| %>
 		<% price = @price.current(stock[0]) %>
 		<tr>
 			<th><%= stock[1] %></th>
@@ -92,10 +83,8 @@
 		<% end %>			
 </table>
 		
-</div>
-	
+		</div><!--/well-->	
         </div><!--/span-->
-
      </div><!--/row-->
 
 <%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %>
