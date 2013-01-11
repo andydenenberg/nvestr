@@ -1,3 +1,12 @@
+<style>
+.center-wrapper{
+text-align: center;
+}
+.center-wrapper * {
+margin: 0 auto;
+}
+</style>
+
 <!-- Home -->
 <div data-role="page" id="page1">
     <div data-theme="a" data-role="header">
@@ -6,18 +15,19 @@
         </h3>
     </div>
     <div data-role="content">
-        <h2>
-            Welcome to our Collaboration!
-        </h2>
-        <h5>
-            Working together to make better investments
-        </h5>
+	
+		<div class='center-wrapper'>
+<br>	
+        <h1>Welcome to our Collaboration!</h1>
+<br>
+        <h3>Working together to make better investments</h3>
+<br>
+		<h3>Leveraging each other's insights and experience</h3>
+<br>
+<br>
+		<%= link_to 'Start', stocks_path, 'data-role' => "button", 'data-theme' => "e" , :class => 'center-wrapper' %>
 
-        <div class="ui-grid-a">
-            <div class="ui-block-b">
-		<%= link_to 'Start', stocks_path, 'data-role' => "button", 'data-theme' => "e" %>
-            </div>
-        </div>
+		</div>
 
 
     <div data-theme="a" data-role="footer" data-position="fixed">

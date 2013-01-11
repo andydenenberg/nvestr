@@ -1,21 +1,28 @@
 <script>
-$('select[data-observe-url]').change(function() {
-     var selected = $(this).find(':selected').val();
 
-$.get('/stocks', 
+$(document).ready(function(){
+SelectList() ;
+})
+
+function SelectList() {
+    var selected = $(this).find(':selected').val();
+	$.get('/stocks', 
       { portfolio:selected, mobile:true },         
-      function(data) {
-        $("#port_list").html(data);
-      });
+      function(data) { $("#port_list").html(data); }
+	);
+  }
 
+$('select[data-observe-url]').change(function() {
+SelectList() ;
 });
+
 </script>
 
 
 <div data-role="header">
 
       <h1>DenVestR</h1>
-      <a href="#" data-icon="home" data-direction="reverse">Home</a>
+      <a href="/" data-icon="home" data-direction="reverse">Home</a>
 		<%= link_to 'Logout', destroy_user_session_path, :method=>'delete', 'data-icon' => "search", 'data-rel' => "dialog",  'data-transition' => "fade" %>
    </div><!-- /header -->
 
