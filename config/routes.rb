@@ -21,7 +21,8 @@ Stc::Application.routes.draw do
 #    root :to => 'home#welcome'
 #  end
 
-  root :to => "home#welcome"
+  root :to => 'stocks#index'
+  
   devise_for :users
   resources :users
   
