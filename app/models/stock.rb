@@ -35,8 +35,8 @@ class Stock < ActiveRecord::Base
       stock.push ( (current_price.to_f - purchase_price) / purchase_price )
       stock.push company
       stock.push symbol
-      stock.push current_price
-      stock.push change
+      stock.push current_price.to_f
+      stock.push change.to_f
       port.push stock
 
       end

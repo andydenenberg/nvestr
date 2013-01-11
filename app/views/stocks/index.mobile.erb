@@ -1,13 +1,13 @@
 <script>
 
 $(document).ready(function(){
-SelectList() ;
+SelectList('overall') ;
 })
 
-function SelectList() {
+function SelectList(Action) {
     var selected = $("#portfolio-select option:selected").text();
 	$.get('/stocks', 
-      { portfolio:selected, mobile:true },         
+      { portfolio:selected, mobile:true, type_of_action:Action },         
       function(data) { $("#port_list").html(data); }
 	);
   }
@@ -18,28 +18,43 @@ SelectList() ;
 
 </script>
 
+<div data-theme="b" data-role="header">
+	<span class="ui-title">
+    </span>
+    
+    <%= link_to current_user.name, '#', 'data-role' => "button", 'data-inline' => "true", 'data-direction' => "reverse", 'data-theme' => "a", 'data-icon' => "star", 'data-iconpos' => "left", :class => "ui-btn-left" %>
+    </a>
+    <%= link_to 'Logout', destroy_user_session_path, :method=>'delete', 'data-role' => "button", 'data-inline' => "true", 'data-direction' => "reverse", 'data-theme' => "a", 'data-icon' => "star", 'data-iconpos' => "left", :class => "ui-btn-right" %>
+    </a>
+</div>
 
-<div data-role="header">
 
-      <h1>DenVestR</h1>
-      <a href="/" data-icon="home" data-direction="reverse">Home</a>
-		<%= link_to 'Logout', destroy_user_session_path, :method=>'delete', 'data-icon' => "search", 'data-rel' => "dialog",  'data-transition' => "fade" %>
-   </div><!-- /header -->
 
    <div data-role="content">
 	
-	<select id="portfolio-select" name="portfolio-select">
-	<option>Family Favorites</option>
-	<option>New Ideas</option>
-	</select>
+<%= select_tag "portfolio-select", options_for_select(Stock.all.collect { |p| p.portfolio }.uniq, :selected => @port) %>	
 	
-	
-      <p>Latest Results as of: <%= Time.now.strftime("at %I:%M%p") %></p>
 
 <div id='port_list'>
 </div>
 
-    
+
+<br>
+<div data-role="navbar" data-iconpos="top">
+    <ul>
+        <li>
+			<%= link_to_function "Today's<br>Action".html_safe, "SelectList('today');", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "plus" %>
+        </li>
+        <li>
+			<%= link_to_function "Overall<br>Action".html_safe, "SelectList('overall');", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "plus", :class => "ui-btn-active ui-state-persist" %>
+        </li>
+        <li>
+			<%= link_to 'Add Stock', new_stock_path(:mobile => 1), 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "plus" %>
+        </li>
+    </ul>
+</div>
+
+
       
          </div><!-- /content -->
 

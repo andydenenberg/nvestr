@@ -9,9 +9,10 @@
     <%= f.input :purch_price %>
 
 	  <%= f.label 'Purchase Date: ' %>
-	  <%= f.text_field :purch_date, 'data-behaviour' => 'datepicker' %><br />
+	  <%= f.text_field :purch_date, :type => 'date' %>
 	
-    <%= f.input :portfolio %>
+	  <%= f.label 'Portfolio: ' %>
+<%= f.select :portfolio, Stock.all.collect { |p| p.portfolio }.uniq %>
 
 
 		<% i = 0 %>

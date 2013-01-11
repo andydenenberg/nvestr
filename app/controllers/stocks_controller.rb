@@ -7,10 +7,14 @@ class StocksController < ApplicationController
     @port = params[:portfolio] ||= 'Family Favorites'
     @stocks = Stock.portfolio(@port) # where(:portfolio => params[:portfolio])
     
-    puts @port
+    puts params.inspect 
     
      if params[:mobile] == 'true'
-     render :partial => 'table.mobile', :layout => false
+       if params[:type_of_action] == 'overall'
+         render :partial => 'overall_action.mobile', :layout => false
+       else
+         render :partial => 'todays_action.mobile', :layout => false
+       end
      end
       
   end
@@ -48,15 +52,22 @@ class StocksController < ApplicationController
   def create
     @stock = Stock.new(params[:stock])
 
-    respond_to do |format|
-      if @stock.save
-        format.html { redirect_to @stock, notice: 'Stock was successfully created.' }
-        format.json { render json: @stock, status: :created, location: @stock }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @stock.errors, status: :unprocessable_entity }
-      end
+    if @stock.save
+      redirect_to stocks_path
+    else
+      render action: "new"
     end
+    
+#    respond_to do |format|
+#      if @stock.save
+#        format.html { redirect_to @stock, notice: 'Stock was successfully created.' }
+#        format.json { render json: @stock, status: :created, location: @stock }
+#      else
+#        format.html { render action: "new" }
+#        format.json { render json: @stock.errors, status: :unprocessable_entity }
+#      end
+#    end
+
   end
 
   # PUT /stocks/1

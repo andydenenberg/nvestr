@@ -1,3 +1,4 @@
+
 <!-- views/devise/sessions/new.mobile.erb -->
 
 <div data-role="page" id="page1">
@@ -8,6 +9,11 @@
     </div>
 
 <div data-role="content">
+	<div data-role="collapsible-set" class="home_collapsibles">
+
+<div data-role="collapsible" data-theme="d" data-collapsed="false" class="home_collapsible_hidden">
+
+<h3 style="border-top: 1px solid #ccc;"><span class="home_collapsible_logo home_collapsible_login">&nbsp;</span>Log In</h3>			
   <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
 
 
@@ -31,17 +37,18 @@
 
 </form>
 
+</div>
 
-
-
-
-    <h4>
-        Need help?
-    </h4>
+<div data-role="collapsible" data-theme="d" data-collapsed="true" class="home_collapsible_hidden">
+	
+<h3 style="border-top: 1px solid #ccc;"><span class="home_collapsible_logo home_collapsible_login">&nbsp;</span>Need help?</h3>			
 		  <%= link_to "Lost password?", new_password_path(resource_name),
 		'data-role' => "button",  'data-inline' => "true" %><br />
 
 		  <%= link_to "Sign up", new_registration_path(resource_name),
 		'data-role' => "button",  'data-inline' => "true", 'data-theme' =>"e" %>
+		
+</div>
+</div>
 
 </div>
