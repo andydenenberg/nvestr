@@ -1,28 +1,28 @@
 
-<p>Latest Results as of: <%= Time.now.strftime("at %I:%M%p") %></p>
+<p><b>Overall Action</b> as of: <%= Time.now.strftime("at %I:%M%p") %></p>
 
-<h4>Overall Action</h4>
+
 
 <table data-role="table" id="table-custom-2" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-theme="b" data-column-btn-text="Columns to display..." data-column-popup-theme="a">
  
          <thead>
            <tr class="ui-bar-d">
              <th data-priority="2">Mem</th>
-             <th>Symbol</th>
+             <th>Stock</th>
              <th data-priority="3">Price</th>
-             <th data-priority="1"><abbr title="Rotten Tomato Rating">Change</abbr></th>
+             <th data-priority="1">Chng</abbr></th>
              <th data-priority="5">Perf</th>
            </tr>
          </thead>
          <tbody>
 
-				<% @stocks.each_with_index do |stock| %>
-					<tr>
+				<% @stocks.each_with_index do |stock,i| %>
+					<%= i.odd? ? "<tr style='background: #eee;' >".html_safe : "<tr>".html_safe %>
 						<th><%= stock[1] %></th>
 						<td><%= stock[6] %></td>
-						<td class='aln_r'>$<%= stock[7] %></td>
-						<td class='aln_r'><%= number_to_currency(stock[7].to_f - stock[2], :delimiter => "") %></td> <!-- Gain/Loss -->
-						<td class='aln_r'><%= number_to_percentage (100*(stock[7].to_f - stock[2]) / stock[2]) %></td>
+						<td style='text-align:right !important;'>$<%= stock[7] %></td>
+						<td style='text-align:right !important;'><%= number_to_currency(stock[7].to_f - stock[2], :delimiter => "") %></td> <!-- Gain/Loss -->
+						<td style='text-align:right !important;'><%= number_to_percentage (100*(stock[7].to_f - stock[2]) / stock[2]) %></td>
 				  </tr>
 				<% end %>
 

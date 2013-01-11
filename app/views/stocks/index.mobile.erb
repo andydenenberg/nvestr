@@ -18,6 +18,7 @@ SelectList() ;
 
 </script>
 
+
 <div data-theme="b" data-role="header">
 	<span class="ui-title">
     </span>
@@ -49,7 +50,7 @@ SelectList() ;
 			<%= link_to_function "Overall<br>Action".html_safe, "SelectList('overall');", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "plus", :class => "ui-btn-active ui-state-persist" %>
         </li>
         <li>
-			<%= link_to 'Add Stock', new_stock_path(:mobile => 1), 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "plus" %>
+			<%= link_to "Add<br>Stock".html_safe, new_stock_path(:mobile => 1), 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "plus" %>
         </li>
     </ul>
 </div>
