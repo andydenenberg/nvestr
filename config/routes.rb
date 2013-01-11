@@ -16,10 +16,11 @@ Stc::Application.routes.draw do
     end
   end
     
-  authenticated :user do
+#  authenticated :user do
 #    root :to => 'home#index'
-    root :to => 'home#start'
-  end
+#    root :to => 'home#welcome'
+#  end
+
   root :to => "home#welcome"
   devise_for :users
   resources :users

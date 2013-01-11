@@ -1,6 +1,10 @@
 <ul class="nav nav-tabs">
+	
   <li class='<%= active_view(@view,'Performance') %>'>
     <%= link_to_function 'Performance', "EditList('Performance'); return false", :id => 'edit_list_button' %></li>
+
   <li class='<%= active_view(@view,'Support') %>'><%= link_to_function 'Support', "EditList('Support'); return false", :id => 'edit_list_button' %></li>
+
   <li class='<%= active_view(@view,'Edit') %>'><%= link_to_function 'Edit', "EditList('Edit'); return false", :id => 'edit_list_button' %></li>
+
 </ul>

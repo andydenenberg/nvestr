@@ -1,10 +1,18 @@
 class StocksController < ApplicationController
+  before_filter :authenticate_user!
   # GET /stocks
   # GET /stocks.json
   def index
     @view = params[:view] ||= 'Performance'
     @port = params[:portfolio] ||= 'Family Favorites'
     @stocks = Stock.portfolio(@port) # where(:portfolio => params[:portfolio])
+    
+    puts @port
+    
+     if params[:mobile] == 'true'
+     render :partial => 'table.mobile', :layout => false
+     end
+      
   end
 
   # GET /stocks/1

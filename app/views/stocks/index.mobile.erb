@@ -1,0 +1,45 @@
+<script>
+$('select[data-observe-url]').change(function() {
+     var selected = $(this).find(':selected').val();
+
+$.get('/stocks', 
+      { portfolio:selected, mobile:true },         
+      function(data) {
+        $("#port_list").html(data);
+      });
+
+});
+</script>
+
+
+<div data-role="header">
+
+      <h1>DenVestR</h1>
+      <a href="#" data-icon="home" data-direction="reverse">Home</a>
+		<%= link_to 'Logout', destroy_user_session_path, :method=>'delete', 'data-icon' => "search", 'data-rel' => "dialog",  'data-transition' => "fade" %>
+   </div><!-- /header -->
+
+   <div data-role="content">
+	
+	<select id="portfolio-select" name="portfolio-select" data-observe-url="/stocks?view=%(selected)">
+	<option>Family Favorites</option>
+	<option>New Ideas</option>
+	</select>
+	
+	
+      <p>Latest Results as of: <%= Time.now.strftime("at %I:%M%p") %></p>
+
+<div id='port_list'>
+</div>
+
+    
+      
+         </div><!-- /content -->
+
+		<div data-role="footer">
+
+		      <h1>Denenberg @2012 | <%= link_to "Full Site", start_path(:mobile => 0), :target => '_blank' %></h1>
+		   </div><!-- /header -->
+
+
+

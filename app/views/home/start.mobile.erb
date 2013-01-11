@@ -11,6 +11,7 @@
       <h2>Favorite Stock Results</h2>
       <p>Latest Results as of:<br>
 		<%= Time.now.strftime("at %I:%M%p") %></p>
+		
 
     
        <table data-role="table" id="table-custom-2" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-theme="b" data-column-btn-text="Columns to display..." data-column-popup-theme="a">
@@ -26,7 +27,14 @@
                 </thead>
                 <tbody>
 
-					<% @price.portfolio.each_with_index do |stock| %>
+					<% @price.portfolio(		    portfolio = [ 
+							      ['dis', 'Gina', 51.21, '01/03/12' ],
+							      ['dish', 'Mike', 36.93, '01/03/12' ],
+							      ['goog', 'Rissa', 723.67, '01/03/12' ],
+							      [ 'ltd', 'Mom', 44.71, '01/03/12' ],
+							      ['tsla', 'Tim', 34.77, '01/03/12' ],
+							      ['xom', 'Dad', 88.55, '01/03/12' ] ]
+					).each_with_index do |stock| %>
 						<% price = @price.current(stock[0]) %>
 						<tr>
 							<th><%= stock[1] %></th>

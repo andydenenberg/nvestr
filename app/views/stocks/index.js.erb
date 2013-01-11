@@ -4,9 +4,10 @@ if ('<%= @view %>' == 'Edit') {
 else if ('<%= @view %>' == 'Support')  {
 	$("#portfolio_list").html("<%= escape_javascript(render("support")) %>");	
 }
-else {
+else if ('<%= @view %>' == 'Performance'){
 	$("#portfolio_list").html("<%= escape_javascript(render("index")) %>");	
 }
+
 
 
 	
