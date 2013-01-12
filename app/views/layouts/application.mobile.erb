@@ -18,12 +18,10 @@
 		<%= stylesheet_link_tag "plain.css", :media => "all" %>
 	
   </head>
-  <body class="<%= controller_name %> <%= action_name %>" style='padding-top:60px;'>
-    <div id="main" role="main">
+  <body>
       <div class="container">
               <%= yield %>
-      </div> <!--! end of .container -->
-    </div> <!--! end of #main -->
+      </div>
   </body>		
 
 </html>

@@ -7,7 +7,7 @@ class StocksController < ApplicationController
     @port = params[:portfolio] ||= 'Family Favorites'
     @stocks = Stock.portfolio(@port) # where(:portfolio => params[:portfolio])
     
-    puts params.inspect 
+    puts request.user_agent 
     
      if params[:mobile] == 'true'
        if params[:type_of_action] == 'overall'

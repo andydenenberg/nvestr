@@ -1,0 +1,44 @@
+<div data-role="page" id="page1">
+    <div data-theme="a" data-role="header">
+		<a href="/stocks?mobile=1" data-icon="home" data-direction="reverse">Home</a>
+        <h3>DENvestR</h3>
+    </div>
+
+<div data-role="content">
+	
+	
+	<ul data-role="listview" data-divider-theme="b" data-inset="true">
+        <li data-role="list-divider" role="heading">
+            Users
+        </li>
+		  <% @users.each do |user| %>
+        <li data-theme="b">
+                <%= link_to "#{user.name} <span class='ui-li-count'>#{user.email}</span>".html_safe, '/users/edit', 'data-transition' => "slide" %>
+        </li>
+		  <% end %>
+    </ul>
+
+
+
+	<table data-role="table" id="table-custom-2" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-theme="b" data-column-btn-text="Columns to display..." data-column-popup-theme="a">
+
+	         <thead>
+	           <tr class="ui-bar-d">
+	             <th>Mem</th>
+	             <th>Email</th>
+	             <th>Role</th>
+	           </tr>
+	         </thead>
+	         <tbody>
+			  <% @users.each do |user| %>
+			    <tr>
+			        <td><%= link_to user.name, user %></td>
+			        <td><%= user.email %></td>
+			        <td><%= user.roles.first.name.titleize unless user.roles.first.nil? %></td>
+			    </tr>
+			  <% end %>
+	        </tbody>
+	</table>
+
+
+</div>

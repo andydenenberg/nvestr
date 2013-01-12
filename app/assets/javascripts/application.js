@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require bootstrap
 //= requite stc.js
-//= require bootstrap-datepicker
 //= require_tree .
 
 $(document).on("focus", "[data-behaviour~='datepicker']", function(e){

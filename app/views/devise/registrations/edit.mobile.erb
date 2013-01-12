@@ -1,0 +1,45 @@
+<div data-role="page" id="page1">
+    <div data-theme="a" data-role="header">
+		<a href="/stocks?mobile=1" data-icon="home" data-direction="reverse">Home</a>
+        <h3>DENvestR</h3>
+    </div>
+
+<div data-role="content">
+	
+	<div data-role="collapsible-set" class="home_collapsibles">
+	<div data-role="collapsible" data-theme="d" data-collapsed="true" class="home_collapsible_hidden">
+
+	<h3 style="border-top: 1px solid #ccc;"><span class="home_collapsible_logo home_collapsible_login">&nbsp;</span>My Account</h3>			
+	<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'form-vertical' }) do |f| %>
+	  <%= f.error_notification %>
+	  <%= f.input :name, :autofocus => true %>
+	  <%= f.input :email, :required => true %>
+	  <%= f.input :password, :autocomplete => "off", :hint => "leave blank if you don't want to change", :required => false %>
+	  <%= f.input :password_confirmation, :required => false %>
+	  <%= f.input :current_password, :hint => "we need your current password to confirm your changes", :required => true %>
+	  <%= f.button :submit, 'Update', :class => 'btn-primary' %>
+	<% end %>
+	<h3>Cancel my account</h3>
+	<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>.</p>
+	<%= link_to "Back", :back %>	
+	</div>
+
+	<div data-role="collapsible" data-theme="d" data-collapsed="true" class="home_collapsible_hidden">
+	<h3 style="border-top: 1px solid #ccc;"><span class="home_collapsible_logo home_collapsible_login">&nbsp;</span>Accounts</h3>
+
+	<ul data-role="listview" data-divider-theme="b" data-inset="true">
+        <li data-role="list-divider" role="heading">
+            Users
+        </li>
+		  <% User.all.each do |user| %>
+        <li data-theme="b">
+                <%= link_to "#{user.name} <span class='ui-li-count'>#{user.email}</span>".html_safe, '/users/edit?mobile=1', 'data-transition' => "slide" %>
+        </li>
+		  <% end %>
+    </ul>
+	
+	</div>
+	
+	</div>
+
+</div>
