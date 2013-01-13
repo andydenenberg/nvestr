@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
     if session[:mobile_param]
       session[:mobile_param] == "1"
     else
-      request.user_agent =~ /Mobile|webOS/
+      req_type = request.user_agent =~ /Mobile|webOS/
     end
   end
   helper_method :mobile_device?
@@ -21,6 +21,16 @@ class ApplicationController < ActionController::Base
   def prepare_for_mobile
     session[:mobile_param] = params[:mobile] if params[:mobile]
     request.format = :mobile if mobile_device?
+
+#    puts 'request format: ' + request.format
+#    print 'request.user_agent =~ /Mobile|webOS/ -> '
+#    puts request.user_agent =~ /Mobile|webOS/
+#    puts 'request.user_agent: ' + request.user_agent
+#    puts mobile_device?
+#    print 'session[:mobile_param] '
+#    puts session[:mobile_param] if session[:mobile_param]
+#    puts params[:mobile]
+
   end
       
 end

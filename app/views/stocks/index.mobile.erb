@@ -7,13 +7,14 @@ SelectList('overall') ;
 function SelectList(Action) {
     var selected = $("#portfolio-select option:selected").text();
 	$.get('/stocks', 
-      { portfolio:selected, mobile:true, type_of_action:Action },         
+      { portfolio:selected, type_of_action:Action },         
       function(data) { $("#port_list").html(data); }
 	);
   }
 
+
 $("#portfolio-select").change(function() {
-SelectList() ;
+SelectList('overall') ;
 });
 
 </script>
@@ -44,13 +45,13 @@ SelectList() ;
 <div data-role="navbar" data-iconpos="top">
     <ul>
         <li>
-			<%= link_to_function "Today's<br>Action".html_safe, "SelectList('today');", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "plus" %>
+			<%= link_to_function "Today's<br>Action".html_safe, "SelectList('today');", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "star" %>
         </li>
         <li>
-			<%= link_to_function "Overall<br>Action".html_safe, "SelectList('overall');", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "plus", :class => "ui-btn-active ui-state-persist" %>
+			<%= link_to_function "Overall<br>Action".html_safe, "SelectList('overall');", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "star", :class => "ui-btn-active ui-state-persist" %>
         </li>
         <li>
-			<%= link_to "Add<br>Stock".html_safe, new_stock_path(:mobile => 1), 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "plus" %>
+			<%= link_to "Add<br>Position".html_safe, new_stock_path(:mobile => 1), 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "plus" %>
         </li>
     </ul>
 </div>

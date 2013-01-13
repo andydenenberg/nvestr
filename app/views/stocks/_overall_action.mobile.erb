@@ -20,9 +20,9 @@
 					<%= i.odd? ? "<tr style='background: #eee;' >".html_safe : "<tr>".html_safe %>
 						<th><%= stock[1] %></th>
 						<td><%= stock[6] %></td>
-						<td style='text-align:right !important;'>$<%= stock[7] %></td>
+						<td style='text-align:right !important;'><%= number_to_currency stock[7] %></td>
 						<td style='text-align:right !important;'><%= distance_of_time_in_words(stock[3], Date.today) %></td> <!-- Gain/Loss -->
-						<td style='text-align:right !important;'><%= number_to_percentage (100*(stock[7].to_f - stock[2]) / stock[2]) %></td>
+						<td style='text-align:right !important;'><%= number_to_percentage (100*(stock[7].to_f - stock[2]) / stock[2]), :precision => 2 %></td>
 				  </tr>
 				<% end %>
 

@@ -6,10 +6,8 @@ class StocksController < ApplicationController
     @view = params[:view] ||= 'Performance'
     @port = params[:portfolio] ||= 'Family Favorites'
     @stocks = Stock.portfolio(@port) # where(:portfolio => params[:portfolio])
-    
-    puts request.user_agent 
-    
-     if params[:mobile] == 'true'
+
+     if params[:type_of_action]
        if params[:type_of_action] == 'overall'
          render :partial => 'overall_action.mobile', :layout => false
        else

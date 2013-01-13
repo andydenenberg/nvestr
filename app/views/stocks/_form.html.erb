@@ -4,7 +4,6 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.association :user, :selected => current_user %>
     <%= f.input :symbol %>
     <%= f.input :purch_price %>
 
@@ -12,7 +11,9 @@
 	  <%= f.text_field :purch_date, :type => 'date' %>
 	
 	  <%= f.label 'Portfolio: ' %>
-<%= f.select :portfolio, Stock.all.collect { |p| p.portfolio }.uniq %>
+<%= f.select :portfolio, Stock.all.collect { |p| p.portfolio }.uniq, :selected => 'Family Favorites' %>
+
+<%= f.association :user, :selected => current_user %>
 
 
 		<% i = 0 %>

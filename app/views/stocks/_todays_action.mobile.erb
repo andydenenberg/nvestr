@@ -18,9 +18,9 @@
 				<%= i.odd? ? "<tr style='background: #eee;' >".html_safe : "<tr>".html_safe %>
 						<th><%= stock[1] %></th>
 						<td><%= stock[6] %></td>
-						<td style='text-align:right !important;'>$<%= stock[7] %></td>
+						<td style='text-align:right !important;'><%= number_to_currency stock[7], :precision => 2 %></td>
 						<td style='text-align:right !important;'><%= stock[8] %></td> <!-- Gain/Loss -->
-						<td style='text-align:right !important;'><%= number_to_percentage ( 100 * ( stock[8] / stock[7] ) ) %></td>
+						<td style='text-align:right !important;'><%= number_to_percentage ( 100 * ( stock[8] / stock[7] )), :precision => 2  %></td>
 				  </tr>
 				<% end %>
 
