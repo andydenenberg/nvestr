@@ -1,6 +1,6 @@
 
 <%= simple_form_for(@stock) do |f| %>
-  <%= f.error_notification %>
+<div style='color:red;'><%= @error[0] if @error %></div>
 
 <div class="ui-grid-a">
     <div class="ui-block-a">
@@ -11,14 +11,12 @@
 	</div>
 	<div class="ui-block-b">
     	<div data-role="fieldcontain">
-		  	<%= f.label 'Purchase price:' %><br>	
-    		<%= f.text_field :purch_price %>
+		  <%= f.label 'Purchase Date:' %><br>
+		  <%= f.text_field :purch_date, :type => 'date', :value => Date.today %>
     	</div>
 	</div>
 </div>
 
-	  <%= f.label 'Purchase Date:' %><br>
-	  <%= f.text_field :purch_date, :type => 'date', :value => Date.today %>
 
 
 <div class="ui-grid-a">
@@ -51,9 +49,8 @@
 				<% end %>				
 			</div>
 		</div>
-		<br>
 		  <div class="form-inputs">
-			<label for="stackedSelect">New Comment</label>
+			<label for="stackedSelect">Comment</label>
 		    <%= comment.text_area :note , :class => "input textarea span8", :rows => 5  %>
 			<%= comment.hidden_field :user_id , :value => current_user.id %>
 		  </div>
@@ -63,8 +60,7 @@
 
 
 
+    		<%= f.button :submit, 'Create position' , 'data-role' => "button", 'data-inline' => "true", 'data-theme' => "b" %>
+			<%= link_to 'Cancel', stocks_path(:mobile => 1), 'data-role' => "button", 'data-inline' => "true", 'data-theme' => "b", :style => 'background-image: -webkit-linear-gradient(top, white, #5393C5);' %>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
 <% end %>

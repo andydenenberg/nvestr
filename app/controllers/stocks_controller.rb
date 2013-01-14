@@ -53,6 +53,7 @@ class StocksController < ApplicationController
     if @stock.save
       redirect_to stocks_path
     else
+      @error = @stock.errors.full_messages
       render action: "new"
     end
     

@@ -27,8 +27,8 @@
 		<td class='aln_r'><%= distance_of_time_in_words(stock[3], Date.today) %> </td> <!-- Holding Period -->
 		<td class='aln_r'>$<%= stock[7] %></td>
 		<td class='aln_r'><%= stock[8] %></td>
-		<td class='aln_r'><%= number_to_currency(stock[7].to_f - stock[2], :delimiter => "") %></td> <!-- Gain/Loss -->
-		<td class='aln_r'><%= number_to_percentage (100*(stock[7].to_f - stock[2]) / stock[2]) %></td>
+		<td class='aln_r'><%= number_to_currency(stock[9].to_f, :delimiter => "") %></td> <!-- Gain/Loss -->
+		<td class='aln_r'><%= number_to_percentage 100*(stock[10].to_f) %></td>
   </tr>
 <% end %>
 </table>

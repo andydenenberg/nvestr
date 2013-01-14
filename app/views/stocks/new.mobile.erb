@@ -1,3 +1,4 @@
+
 <div data-role="page" id="page1">
     <div data-theme="a" data-role="header">
 		<a href="/stocks?mobile=1" data-icon="home" data-direction="reverse">Home</a>
@@ -5,12 +6,10 @@
     </div>
 
 <div data-role="content">
-	
-	<h2>Add position</h2>
+	<b>Add position</b>
+  <%= @notice %>
 
 <%= render 'form' %>
-
-<%= link_to 'Back', stocks_path %>
 
 </div>
 
