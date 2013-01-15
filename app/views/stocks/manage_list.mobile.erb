@@ -1,0 +1,80 @@
+<script>
+function GoHome()
+  {
+	window.location = '/stocks?mobile=1' ;
+  }
+</script>
+
+<div data-theme="b" data-role="header">
+	<span class="ui-title">
+    </span>    
+    <%= link_to 'Home', '/stocks?mobile=1', 'data-role' => "button", 'data-inline' => "true", 'data-direction' => "reverse", 'data-theme' => "a", 'data-icon' => "star", 'data-iconpos' => "left", :class => "ui-btn-left" %>
+</div>
+
+
+
+<div data-role="content">
+	
+<%= select_tag "portfolio-select", options_for_select( [ @port ] , :selected => 'Family Favorites'), 'data-theme' => "b" %>	
+
+
+<p><b>Manage List</b> as of: <%= Time.now.strftime(" %I:%M%p") %></p>
+
+<table class="ui-body-d ui-shadow table-stripe ui-responsive" data-rel="dialog">
+ 
+         <thead>
+           <tr class="ui-bar-d">
+             <th>Mem</th>
+             <th>Stock</th>
+			 <th>Action</th>
+           </tr>
+         </thead>
+         <tbody>
+
+		<% @stocks.each_with_index do |stock,i| %>
+			<%= i.odd? ? "<tr style='background: #eee;' >".html_safe : "<tr>".html_safe %>
+				<th><%= stock[1] %></th>
+				<td><%= stock[6] %></td>
+				<td>						
+					<div class="ui-grid-a">
+					    <div class="ui-block-a">
+						<%= link_to 'Edit', '#', 'data-role' => "button", 'data-icon' => "grid", 'data-iconpos' => "left", 'data-mini' => "true", 'data-inline' => 'true', 'data-theme' => "b" %>							
+						</div>
+						<div class="ui-block-b">
+						<%= link_to 'Delete', Stock.find_by_symbol(stock[6].downcase), method: :delete, data: { confirm: 'Are you sure?' }, 'data-role' => "button", 'data-icon' => "minus", 'data-iconpos' => "left", 'data-mini' => "true", 'data-inline' => 'true', 'data-theme' => "e"  %>										
+						</div>
+					</div>
+				</td>							
+		  </tr>
+		<% end %>
+         </tbody>
+       </table>
+
+<br>
+	<%= link_to 'Add Position', new_stock_path(:mobile => 1, :portfolio_view => @port), 'data-icon' => 'plus', 'data-role' => "button", 'data-inline' => "false", 'data-theme' => "b", 'data-mini' => "true" %>
+
+	<br>
+	<div data-role="navbar" data-iconpos="top">
+	    <ul>
+	        <li>
+				<%= link_to_function "Today's<br>Action".html_safe, "GoHome();", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "star" %>
+	        </li>
+	        <li>
+				<%= link_to_function "Overall<br>Action".html_safe, "GoHome();", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "star" %>
+	        </li>
+	        <li>
+				<%= link_to "Manage<br>List".html_safe, '#', 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "plus", :class => "ui-btn-active ui-state-persist" %>
+	        </li>
+	    </ul>
+	</div>
+
+
+
+	         </div><!-- /content -->
+
+	<div data-role="footer" data-theme="b">
+	      <h1>Denenberg @2012 | <%= link_to "Full Site", stocks_path(:mobile => 0), :target => '_blank' %></h1>
+	</div><!-- /header -->
+
+
+
