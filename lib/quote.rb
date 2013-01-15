@@ -1,7 +1,15 @@
   
+
 module Quote
   require 'csv'
   require 'open-uri'
+
+    def self.distance_of_time_in_days(from_time, to_time = 0)
+      from_time = from_time.to_time if from_time.respond_to?(:to_time)
+      to_time = to_time.to_time if to_time.respond_to?(:to_time)
+      from_time, to_time = to_time, from_time if from_time > to_time
+      distance_in_days = (((to_time - from_time).abs) / 86400).round
+    end
     
     def self.current_price(symbol)  
       url = "http://download.finance.yahoo.com/d/quotes.csv?s=#{symbol}&f=snl1d1c1&e=.csv"
@@ -16,7 +24,6 @@ module Quote
       comps = date.split('/')
       ds = "&a=#{comps[0].to_i-1}&b=#{comps[1]}&c=#{comps[2]}&d=#{comps[0].to_i-1}&e=#{comps[1]}&f=#{comps[2]}"
       url = "http://ichart.yahoo.com/table.csv?s=#{symbol}#{ds}&g=d&ignore=.csv"
-
   #    url = "http://ichart.yahoo.com/table.csv?s=#{symbol}&a=0&b=09&c=2013&d=0&e=09&f=2013&g=d&ignore=.csv"
       # http://code.google.com/p/yahoo-finance-managed/wiki/csvHistQuotesDownload
       resp = CSV.parse(open(url).read)

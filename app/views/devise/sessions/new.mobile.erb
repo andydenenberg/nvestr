@@ -2,9 +2,9 @@
 <!-- views/devise/sessions/new.mobile.erb -->
 
 <div data-role="page" id="page1">
-    <div data-theme="a" data-role="header">
+    <div data-theme="b" data-role="header">
         <h3>
-            DENvestR
+            DenVestR
         </h3>
     </div>
 
@@ -17,20 +17,18 @@
   <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
 
 
-		    <p><%= f.label :email %>
-		    <%= f.text_field :email %></p>
+		    <%= f.label :email %>
+		    <%= f.text_field :email %>
 
-		    <p><%= f.label :password %>
-		    <%= f.password_field :password %></p>
+		    <%= f.label :password %>
+		    <%= f.password_field :password %>
 
-		    <% if devise_mapping.rememberable? -%>
 		    <div id="checkboxes2" data-role="fieldcontain">
 		        <fieldset data-role="controlgroup" data-type="vertical" data-mini="true">
 		      			<%= f.check_box :remember_me %> <%= f.label :remember_me %>
 		        </fieldset>
 		    <p><%= f.submit "Sign in", 'data-inline' => "true", 'data-theme' => "b", 'data-icon' => "plus", 'data-iconpos' => "left" %></p>
 		    </div>		
-		    <% end -%>
 		
 	
   <% end %>
@@ -52,3 +50,8 @@
 </div>
 
 </div>
+
+<div data-role="footer">
+
+      <h1>Denenberg @2012 | <%= link_to "Full Site", stocks_path(:mobile => 0), :target => '_blank' %></h1>
+   </div><!-- /header -->

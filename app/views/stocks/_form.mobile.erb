@@ -23,7 +23,7 @@
     <div class="ui-block-a">
         <div data-role="fieldcontain">
 	        <label for="selectmenu1">Portfolio:</label><br>
-			<%= f.select :portfolio, Stock.all.collect { |p| p.portfolio }.uniq, :selected => 'Family Favorites', 'data-theme' => "b" %>
+			<%= f.select :portfolio, Stock.all.collect { |p| p.portfolio }.uniq, :selected => @port, 'data-theme' => "b" %>
         </div>
     </div>
     <div class="ui-block-b">

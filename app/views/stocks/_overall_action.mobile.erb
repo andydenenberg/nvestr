@@ -1,16 +1,15 @@
 
-<p><b>Overall Action</b> as of: <%= Time.now.strftime("at %I:%M%p") %></p>
+<div id='pv' ><%= @port %></div>
+As of: <%= Time.now.strftime(" %I:%M%p") %><br>
 
-
-
-<table data-role="table" id="table-custom-2" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-theme="b" data-column-btn-text="Columns to display..." data-column-popup-theme="a">
+<table class="ui-body-d ui-shadow table-stripe ui-responsive" data-rel="dialog">
  
          <thead>
            <tr class="ui-bar-d">
              <th data-priority="2">Mem</th>
              <th>Stock</th>
              <th data-priority="3">Price</th>
-             <th data-priority="1">Held</abbr></th>
+             <th data-priority="1">Days<br>Held</abbr></th>
              <th data-priority="5">Perf</th>
            </tr>
          </thead>
@@ -21,10 +20,12 @@
 						<th><%= stock[1] %></th>
 						<td><%= stock[6] %></td>
 						<td style='text-align:right !important;'><%= number_to_currency stock[7] %></td>
-						<td style='text-align:right !important;'><%= distance_of_time_in_words(stock[3], Date.today) %></td> <!-- Gain/Loss -->
+						<td style='text-align:right !important;'><%= Quote.distance_of_time_in_days(stock[3], Date.today) %></td> <!-- Gain/Loss -->
 						<td style='text-align:right !important;'><%= number_to_percentage (100*(stock[7].to_f - stock[2]) / stock[2]), :precision => 2 %></td>
 				  </tr>
 				<% end %>
 
          </tbody>
        </table>
+
+

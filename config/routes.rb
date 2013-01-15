@@ -1,5 +1,10 @@
 Stc::Application.routes.draw do
-  resources :stocks
+
+  resources :stocks do
+    collection do
+      get 'manage_list'
+    end
+  end
 
   resources :attachments 
 

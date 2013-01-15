@@ -1,5 +1,13 @@
 <script>
 
+
+function ManageList()
+  {
+	PV = $("#pv").text();
+	window.location = '/stocks/manage_list?mobile=1&portfolio_view=' + PV ;
+  }
+
+
 $(document).ready(function(){
 SelectList('overall') ;
 })
@@ -19,8 +27,6 @@ SelectList('overall') ;
 
 </script>
 
-<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-
 
 <div data-theme="b" data-role="header">
 	<span class="ui-title">
@@ -28,7 +34,7 @@ SelectList('overall') ;
     
     <%= link_to current_user.name, 'users/edit?mobile=1', 'data-role' => "button", 'data-inline' => "true", 'data-direction' => "reverse", 'data-theme' => "a", 'data-icon' => "star", 'data-iconpos' => "left", :class => "ui-btn-left" %>
     </a>
-    <%= link_to 'Logout', destroy_user_session_path, :method=>'delete', 'data-role' => "button", 'data-inline' => "true", 'data-direction' => "reverse", 'data-theme' => "a", 'data-icon' => "star", 'data-iconpos' => "left", :class => "ui-btn-right" %>
+    <%= link_to 'Logout', destroy_user_session_path(:user), :method=>'delete', 'data-role' => "button", 'data-inline' => "true", 'data-direction' => "reverse", 'data-theme' => "a", 'data-icon' => "star", 'data-iconpos' => "left", :class => "ui-btn-right" %>
     </a>
 </div>
 
@@ -36,12 +42,11 @@ SelectList('overall') ;
 
    <div data-role="content">
 	
-<%= select_tag "portfolio-select", options_for_select(Stock.all.collect { |p| p.portfolio }.uniq, :selected => @port) %>	
+<%= select_tag "portfolio-select", options_for_select(Stock.all.collect { |p| p.portfolio }.uniq, :selected => @port), 'data-theme' => "b" %>	
 	
 
 <div id='port_list'>
 </div>
-
 
 <br>
 <div data-role="navbar" data-iconpos="top">
@@ -53,7 +58,7 @@ SelectList('overall') ;
 			<%= link_to_function "Overall<br>Action".html_safe, "SelectList('overall');", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "star", :class => "ui-btn-active ui-state-persist" %>
         </li>
         <li>
-			<%= link_to "Add<br>Position".html_safe, new_stock_path(:mobile => 1), 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "plus" %>
+			<%= link_to_function "Manage<br>List".html_safe, "ManageList();", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "grid" %>
         </li>
     </ul>
 </div>
@@ -62,10 +67,9 @@ SelectList('overall') ;
       
          </div><!-- /content -->
 
-		<div data-role="footer">
-
-		      <h1>Denenberg @2012 | <%= link_to "Full Site", stocks_path(:mobile => 0), :target => '_blank' %></h1>
-		   </div><!-- /header -->
+<div data-role="footer" data-theme="b">
+      <h1>Denenberg @2012 | <%= link_to "Full Site", stocks_path(:mobile => 0), :target => '_blank' %></h1>
+</div><!-- /header -->
 
 
 

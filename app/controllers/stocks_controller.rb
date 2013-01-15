@@ -2,7 +2,14 @@ class StocksController < ApplicationController
   before_filter :authenticate_user!
   # GET /stocks
   # GET /stocks.json
+
+  def manage_list
+    @stocks = Stock.portfolio(params[:portfolio_view]) # where(:portfolio => params[:portfolio])
+    @port = params[:portfolio_view]
+  end
+  
   def index
+        
     @view = params[:view] ||= 'Performance'
     @port = params[:portfolio] ||= 'Family Favorites'
     @stocks = Stock.portfolio(@port) # where(:portfolio => params[:portfolio])
@@ -31,6 +38,7 @@ class StocksController < ApplicationController
   # GET /stocks/new
   # GET /stocks/new.json
   def new
+    @port = params[:portfolio_view]
     @stock = Stock.new
     @stock.comments.build
 
@@ -49,9 +57,10 @@ class StocksController < ApplicationController
   # POST /stocks.json
   def create
     @stock = Stock.new(params[:stock])
-
+    purch_price = Quote.hist_price(@stock.symbol, @stock.purch_date.strftime("%m/%d/%Y"))    
+    @stock.purch_price = purch_price['Close']
     if @stock.save
-      redirect_to stocks_path
+      redirect_to stocks_path(:mobile => 1, :portfolio => @stock.portfolio )
     else
       @error = @stock.errors.full_messages
       render action: "new"
