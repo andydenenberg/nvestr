@@ -63,8 +63,6 @@ class StocksController < ApplicationController
   # POST /stocks.json
   def create
     @stock = Stock.new(params[:stock])
-    purch_price = Quote.hist_price(@stock.symbol, @stock.purch_date.strftime("%m/%d/%Y"))    
-    @stock.purch_price = purch_price['Close']
     if @stock.save
       redirect_to stocks_path(:mobile => 1, :portfolio => @stock.portfolio )
     else
