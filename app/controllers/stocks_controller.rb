@@ -2,6 +2,12 @@ class StocksController < ApplicationController
   before_filter :authenticate_user!
   # GET /stocks
   # GET /stocks.json
+  
+  def lookup
+    price = Quote.current_price(params[:symbol])['LastTrade']
+    render :text => price.to_s
+    
+  end
 
   def manage_list
     @stocks = Stock.portfolio(params[:portfolio_view]) # where(:portfolio => params[:portfolio])

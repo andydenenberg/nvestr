@@ -3,6 +3,7 @@ Stc::Application.routes.draw do
   resources :stocks do
     collection do
       get 'manage_list'
+      get 'lookup'
     end
   end
 

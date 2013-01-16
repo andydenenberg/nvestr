@@ -8,6 +8,8 @@
 					
 				<%= select_tag "portfolio_is", options_for_select(Stock.all.collect { |p| p.portfolio }.uniq, :selected => @port), :class => 'span2' %>
 
+				<%= render 'tabs' %>				
+
 				<div id='portfolio_list'>
 				<%= render 'index' %>
 				</div>

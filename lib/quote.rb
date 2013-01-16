@@ -11,13 +11,16 @@ module Quote
       distance_in_days = (((to_time - from_time).abs) / 86400).round
     end
     
-    def self.current_price(symbol)  
+    def self.current_price(symbol)
+      symbol.gsub!(/[^a-z]/i, '') # remove any non alpha chars
+      if symbol.length == 0  # if blank stuff with dummy string
+        symbol = 'xyzxyz'
+      end
       url = "http://download.finance.yahoo.com/d/quotes.csv?s=#{symbol}&f=snl1d1c1&e=.csv"
       data = CSV.parse(open(url).read)[0]
       current_price = { }
       ['Symbol', 'Name', 'LastTrade', 'LastTradeDate', 'Change' ].each_with_index { |title, i| current_price[title] = data[i] }
       current_price
-  #    return open(url).read.inspect # .gsub(/\r\n/,'')   
     end  
 
     def self.hist_price(symbol,date)  

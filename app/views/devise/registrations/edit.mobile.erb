@@ -7,7 +7,7 @@
 <div data-role="content">
 	
 	<div data-role="collapsible-set" class="home_collapsibles">
-	<div data-role="collapsible" data-theme="d" data-collapsed="true" class="home_collapsible_hidden">
+	<div data-role="collapsible" data-theme="b" data-collapsed="true" class="home_collapsible_hidden">
 
 	<h3 style="border-top: 1px solid #ccc;"><span class="home_collapsible_logo home_collapsible_login">&nbsp;</span>My Account</h3>			
 	<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'form-vertical' }) do |f| %>
@@ -19,12 +19,12 @@
 	  <%= f.input :current_password, :hint => "we need your current password to confirm your changes", :required => true %>
 	  <%= f.button :submit, 'Update', :class => 'btn-primary' %>
 	<% end %>
-	<h3>Cancel my account</h3>
-	<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>.</p>
-	<%= link_to "Back", :back %>	
+
+<br>	
+	<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, 'data-icon' => 'plus', 'data-role' => "button", 'data-inline' => "false", 'data-theme' => "e", 'data-mini' => "false" %>.</p>
 	</div>
 
-	<div data-role="collapsible" data-theme="d" data-collapsed="true" class="home_collapsible_hidden">
+	<div data-role="collapsible" data-theme="b" data-collapsed="true" class="home_collapsible_hidden">
 	<h3 style="border-top: 1px solid #ccc;"><span class="home_collapsible_logo home_collapsible_login">&nbsp;</span>Accounts</h3>
 
 	<ul data-role="listview" data-divider-theme="b" data-inset="true">

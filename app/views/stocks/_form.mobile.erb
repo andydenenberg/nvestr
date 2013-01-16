@@ -1,23 +1,44 @@
+<script>
+function GetPrice() {
+	Symbol = $("#stock_symbol").val();
+	PurchDate = $("#stock_purch_date").val();
+	$.get('/stocks/lookup', 
+      { symbol:Symbol, purch_date:PurchDate },         
+      function(data) { UpdatePrice(data); }
+	);
+}
+function UpdatePrice(data) {
+	$("#stock_purch_price").val (data);
+//$("#stock_purch_price").text = 'data' ;
+}
+
+</script>
 
 <%= simple_form_for(@stock) do |f| %>
 <div style='color:red;'><%= @error[0] if @error %></div>
 
-<div class="ui-grid-a">
+<div class="ui-grid-b">
     <div class="ui-block-a">
         <div data-role="fieldcontain">
 		  	<%= f.label 'Ticker Symbol:' %><br>	
     		<%= f.text_field :symbol %>
+			<%= link_to_function 'Get Price', 'GetPrice();', 'data-role' => "button", 'data-inline' => "true", 'data-theme' => "b", :style => 'background-image: -webkit-linear-gradient(top, white, #5393C5);' %>
     	</div>
 	</div>
 	<div class="ui-block-b">
+        <div data-role="fieldcontain">
+			<%= f.label 'Purchase Price:' %><br>	
+			<%= f.text_field :purch_price %>
+    	</div>
+	</div>
+    
+	<div class="ui-block-c">
     	<div data-role="fieldcontain">
 		  <%= f.label 'Purchase Date:' %><br>
 		  <%= f.text_field :purch_date, :type => 'date', :value => Date.today %>
     	</div>
 	</div>
 </div>
-
-<%= f.hidden_field :purch_price, :value => 21 %>
 
 <div class="ui-grid-a">
     <div class="ui-block-a">

@@ -14,8 +14,10 @@ class HomeController < ApplicationController
   def start 
     @news = Post.where(:type_is => 'news').paginate(:page => params[:page], :per_page => 2)   
     @disc = Post.where(:type_is => 'discussion').paginate(:page => params[:page], :per_page => 2)   
-#    require 'price'
-    @price = Price.new
+
+    @view = params[:view] ||= 'Performance'
+    @port = params[:portfolio] ||= 'Family Favorites'
+    @stocks = Stock.portfolio(@port) # where(:portfolio => params[:portfolio])
     
 #    respond_to do |format|
 #      format.html { puts 'html' }
