@@ -1,10 +1,11 @@
 
-<div id='pv' ><%= @port %></div>
-As of: <%= Time.now.strftime(" %I:%M%p") %><br>
 
-<table data-role="table" id="table-custom-2" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-theme="b" data-column-btn-text="Columns to display..." data-column-popup-theme="a">
- 
-         <thead>
+<table class="ui-body-d ui-shadow table-stripe ui-responsive" data-rel="dialog"  style="margin: auto;">
+<thead><tr><td colspan=5 style='text-align:center;'>
+	<div id='pv' style='display:none;'><%= @port %></div>
+	Today as of: <%= Time.now.strftime(" %I:%M%p") %><br>
+</td></tr> 
+</thead>         
            <tr class="ui-bar-d">
              <th data-priority="2">Mem</th>
              <th>Stock</th>
@@ -12,7 +13,7 @@ As of: <%= Time.now.strftime(" %I:%M%p") %><br>
              <th data-priority="1">Change</abbr></th>
              <th data-priority="5">Perf</th>
            </tr>
-         </thead>
+         
          <tbody>
 
 				<% @stocks.each_with_index do |stock, i| %>

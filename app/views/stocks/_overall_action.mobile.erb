@@ -1,10 +1,12 @@
 
-<div id='pv' ><%= @port %></div>
-As of: <%= Time.now.strftime(" %I:%M%p") %><br>
 
-<table class="ui-body-d ui-shadow table-stripe ui-responsive" data-rel="dialog">
+<table class="ui-body-d ui-shadow table-stripe ui-responsive" data-rel="dialog"  style="margin: auto;">
+	<thead><tr><td colspan=5 style='text-align:center;'>
+		<div id='pv' style='display:none;'><%= @port %></div>
+		Overall Performance as of: <%= Time.now.strftime(" %I:%M%p") %><br>
+	</td></tr> 
+	</thead>         
  
-         <thead>
            <tr class="ui-bar-d">
              <th data-priority="2">Mem</th>
              <th>Stock</th>
@@ -12,7 +14,6 @@ As of: <%= Time.now.strftime(" %I:%M%p") %><br>
              <th data-priority="1">Days<br>Held</abbr></th>
              <th data-priority="5">Perf</th>
            </tr>
-         </thead>
          <tbody>
 
 				<% @stocks.each_with_index do |stock,i| %>

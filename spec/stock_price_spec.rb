@@ -1,12 +1,26 @@
 
-
 require 'spec_helper'
 
 # rake db:test:prepare
 
 describe 'Functional tests DenVestR' do
   
-  
+  describe 'Portfolio is a basket of Stocks and Cash' do
+    it 'should contain cash' do
+      portfolio = Portfolio.new
+      portfolio.cash = 10000.00
+      (portfolio.cash).should eq(10000.00)
+    end
+    
+    it 'should belong to a valid user' do
+      portfolio = Portfolio.new
+      user_id = User.find_by_email('andy@denenberg.net')
+      portfolio.user = user_id
+      expect(portfolio.user).to eq(user_id)
+    end
+    
+  end
+    
   describe "distance_of_time_in_days" do
     it "should give the difference between to dates" do
       Quote.distance_of_time_in_days("10-10-2001","20-10-2001").should eq(10)

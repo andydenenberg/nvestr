@@ -1,14 +1,8 @@
-<script>
-function GoHome()
-  {
-	window.location = '/stocks?mobile=1' ;
-  }
-</script>
 
 <div data-theme="b" data-role="header">
 	<span class="ui-title">
     </span>    
-    <%= link_to 'Home', '/stocks?mobile=1', 'data-role' => "button", 'data-inline' => "true", 'data-direction' => "reverse", 'data-theme' => "a", 'data-icon' => "star", 'data-iconpos' => "left", :class => "ui-btn-left" %>
+	<%= link_to_function "Home", "GoHome1('#{@port}');", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "home" %>
 </div>
 
 
@@ -51,16 +45,16 @@ function GoHome()
        </table>
 
 <br>
-	<%= link_to 'Add Position', new_stock_path(:mobile => 1, :portfolio_view => @port), 'data-icon' => 'plus', 'data-role' => "button", 'data-inline' => "false", 'data-theme' => "b", 'data-mini' => "true" %>
+	<%= link_to 'Add Position', new_stock_path(:mobile => 1, :portfolio_view => @port), 'data-icon' => 'plus', 'data-role' => "button", 'data-inline' => "true", 'data-theme' => "b", 'data-mini' => "true" %><br>
 
 	<br>
 	<div data-role="navbar" data-iconpos="top">
 	    <ul>
 	        <li>
-				<%= link_to_function "Today's<br>Action".html_safe, "GoHome();", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "star" %>
+				<%= link_to_function "Today's<br>Action".html_safe, "GoHome1('#{@port}');", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "star" %>
 	        </li>
 	        <li>
-				<%= link_to_function "Overall<br>Action".html_safe, "GoHome();", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "star" %>
+				<%= link_to_function "Overall<br>Action".html_safe, "GoHome1('#{@port}');", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "star" %>
 	        </li>
 	        <li>
 				<%= link_to "Manage<br>List".html_safe, '#', 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "plus", :class => "ui-btn-active ui-state-persist" %>

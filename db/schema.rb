@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130110191014) do
+ActiveRecord::Schema.define(:version => 20130117014208) do
 
   create_table "attachments", :force => true do |t|
     t.string   "url"
@@ -33,6 +33,18 @@ ActiveRecord::Schema.define(:version => 20130110191014) do
     t.datetime "updated_at", :null => false
     t.integer  "stock_id"
   end
+
+  create_table "portfolios", :force => true do |t|
+    t.decimal  "cash",       :precision => 10, :scale => 0
+    t.integer  "stock_id"
+    t.integer  "user_id"
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.string   "name"
+  end
+
+  add_index "portfolios", ["stock_id"], :name => "index_portfolios_on_stock_id"
+  add_index "portfolios", ["user_id"], :name => "index_portfolios_on_user_id"
 
   create_table "posts", :force => true do |t|
     t.string   "title"
@@ -57,11 +69,11 @@ ActiveRecord::Schema.define(:version => 20130110191014) do
   create_table "stocks", :force => true do |t|
     t.integer  "user_id"
     t.string   "symbol"
-    t.decimal  "purch_price", :precision => 16, :scale => 2
+    t.decimal  "purch_price",  :precision => 16, :scale => 2
     t.date     "purch_date"
-    t.string   "portfolio"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.integer  "portfolio_id"
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
   end
 
   add_index "stocks", ["user_id"], :name => "index_stocks_on_user_id"

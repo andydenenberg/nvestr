@@ -1,5 +1,8 @@
 <script>
 
+/Mobile/.test(navigator.userAgent) && !location.hash && setTimeout(function () {
+    if (!pageYOffset) window.scrollTo(0, 1);
+}, 1000);
 
 function ManageList()
   {
@@ -25,6 +28,16 @@ $("#portfolio-select").change(function() {
 SelectList('overall') ;
 });
 
+function NewPortfolioTest() {
+	$("#new_portfolio").submit();
+//	window.location = '/stocks?mobile=1' ;	
+}
+
+function AddPosition() {
+    PV = $("#portfolio-select option:selected").text();
+	window.location = '/stocks/new?mobile=1&portfolio_view=' + PV ;	
+}
+
 </script>
 
 
@@ -39,10 +52,38 @@ SelectList('overall') ;
 </div>
 
 
-
-   <div data-role="content">
+<div data-role="content">
 	
-<%= select_tag "portfolio-select", options_for_select(Stock.all.collect { |p| p.portfolio }.uniq, :selected => @port), 'data-theme' => "b" %>	
+	
+		<div data-role="popup" id="new_portfolio_popup" data-theme="a" class="ui-corner-all">
+			<%= simple_form_for(@portfolio, :url => portfolios_create_path(@portfolio)) do |f| %>
+				<div style="padding:10px 20px;">
+				  <h3>Create Portfolio</h3>
+		          <label for="un" >Portfolio Name:</label>
+			    	<%= f.text_field :name  %>
+
+		          <label for="pw" >Initial Cash:</label>
+				<%= f.text_field :cash, :value => number_with_precision(f.object.cash, :precision => 0) %>
+				<%= f.hidden_field :user_id, :value => current_user.id %>
+
+
+	<%= link_to_function 'Submit', 'NewPortfolioTest();', 'data-role' => "button", 'data-inline' => "true", 'data-theme' => "b" %>
+	<a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Cancel</a>	    	  
+				</div>
+			<% end %>
+		</div>
+	
+	<div class="ui-grid-a">
+		 <div class="ui-block-a">
+<a href="#new_portfolio_popup" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" data-mini = "true">New Portfolio</a>
+		</div>
+		<div class="ui-block-b">	
+<%= link_to_function 'Add position', 'AddPosition();', 'data-role' => "button", 'data-inline' => "true", 'data-theme' => "b", 'data-mini' => "false", 'data-mini' => "true" if Portfolio.first %>	
+		</div>
+	</div>
+		
+			
+<%= select_tag "portfolio-select", options_for_select(Portfolio.where(:user_id => current_user.id).collect { |p| p.name }, :selected => @port), 'data-theme' => "b" %>	
 	
 
 <div id='port_list'>

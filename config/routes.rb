@@ -1,9 +1,13 @@
 Stc::Application.routes.draw do
 
+
+  post 'portfolios/create' => 'portfolios#create'
+
   resources :stocks do
     collection do
       get 'manage_list'
       get 'lookup'
+      get 'new_portfolio'
     end
   end
 

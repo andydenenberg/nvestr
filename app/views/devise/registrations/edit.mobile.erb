@@ -1,6 +1,8 @@
+
+
 <div data-role="page" id="page1">
     <div data-theme="a" data-role="header">
-		<a href="/stocks?mobile=1" data-icon="home" data-direction="reverse">Home</a>
+	<%= link_to_function "Home", "GoHome1('#{@port}');", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "home" %>
         <h3>DENvestR</h3>
     </div>
 
@@ -25,11 +27,11 @@
 	</div>
 
 	<div data-role="collapsible" data-theme="b" data-collapsed="true" class="home_collapsible_hidden">
-	<h3 style="border-top: 1px solid #ccc;"><span class="home_collapsible_logo home_collapsible_login">&nbsp;</span>Accounts</h3>
+	<h3 style="border-top: 1px solid #ccc;"><span class="home_collapsible_logo home_collapsible_login">&nbsp;</span>Users</h3>
 
 	<ul data-role="listview" data-divider-theme="b" data-inset="true">
         <li data-role="list-divider" role="heading">
-            Users
+            All Active Users
         </li>
 		  <% User.all.each do |user| %>
         <li data-theme="b">

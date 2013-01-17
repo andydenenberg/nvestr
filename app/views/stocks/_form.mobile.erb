@@ -12,6 +12,16 @@ function UpdatePrice(data) {
 //$("#stock_purch_price").text = 'data' ;
 }
 
+function SubmitForm() {
+	$("#new_stock").submit();
+//	window.location = '/stocks?mobile=1' ;	
+}
+function Cancel() {
+	window.location = '/stocks?mobile=1' ;
+	
+}
+
+
 </script>
 
 <%= simple_form_for(@stock) do |f| %>
@@ -44,7 +54,8 @@ function UpdatePrice(data) {
     <div class="ui-block-a">
         <div data-role="fieldcontain">
 	        <label for="selectmenu1">Portfolio:</label><br>
-			<%= f.select :portfolio, Stock.all.collect { |p| p.portfolio }.uniq, :selected => @port, 'data-theme' => "b" %>
+			<%= f.select :portfolio_id, options_for_select(Portfolio.where(:user_id => current_user.id).collect { |p| [p.name, p.id] }, :selected => Portfolio.find_by_name(@port).id ), 'data-theme' => "b" %>
+						
         </div>
     </div>
     <div class="ui-block-b">
@@ -79,9 +90,9 @@ function UpdatePrice(data) {
 	<% end %>
 
 
+<%= link_to_function 'Submit', 'SubmitForm();', 'data-role' => "button", 'data-inline' => "true", 'data-theme' => "b" %>
 
+<%= link_to_function 'Cancel', 'Cancel();', 'data-role' => "button", 'data-inline' => "true", 'data-theme' => "b", :style => 'background-image: -webkit-linear-gradient(top, white, #5393C5);' %>
 
-    		<%= f.button :submit, 'Create position' , 'data-role' => "button", 'data-inline' => "true", 'data-theme' => "b" %>
-			<%= link_to 'Cancel', stocks_path(:mobile => 1), 'data-role' => "button", 'data-inline' => "true", 'data-theme' => "b", :style => 'background-image: -webkit-linear-gradient(top, white, #5393C5);' %>
 
 <% end %>

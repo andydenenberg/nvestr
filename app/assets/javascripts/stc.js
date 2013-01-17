@@ -10,6 +10,16 @@
   })();
 
 
+function GoHome1(Portfolio)
+  {
+	window.location = '/stocks?mobile=1&portfolio=' + Portfolio;
+  }
+
+function GoHome()
+  {
+	window.location = '/stocks?mobile=1' ;
+  }
+
 $(function () {
         $('.pagination a').click(function () {
 		   Type_is = document.getElementById('type_is').value ;

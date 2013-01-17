@@ -1,6 +1,7 @@
 class Stock < ActiveRecord::Base
   belongs_to :user
-  attr_accessible :portfolio, :purch_date, :purch_price, :symbol, :user_id, :comments_attributes
+  belongs_to :portfolio
+  attr_accessible :portfolio_id, :purch_date, :purch_price, :symbol, :user_id, :comments_attributes
   has_many :comments, :dependent => :destroy
   accepts_nested_attributes_for :comments, :allow_destroy => true
   
@@ -15,18 +16,24 @@ class Stock < ActiveRecord::Base
   #    return open(url).read.inspect # .gsub(/\r\n/,'')   
     end  
 
-    def self.portfolio(port_name)
-
+    def self.portfolio(port_name,sort_order)
+      port = Portfolio.find_by_name(port_name)
+        
       portfolio = [ ]
-      self.where(:portfolio => port_name).each do |p|        
+      if port
+      port.stocks.each do |p|        
         lookup = Quote.current_price(p.symbol)
-
       # symbol-0, user.name-1, purch_price-2, purch_date-3, gain_loss-4, company-5, symbol-6, current_price-7, change-8, gain_loss-9
-
       portfolio.push [ p.symbol, p.user.name, p.purch_price, p.purch_date, (lookup['LastTrade'].to_f - p.purch_price) / p.purch_price, lookup['Name'], lookup['Symbol'], lookup['LastTrade'].to_f, lookup['Change'].to_f, lookup['LastTrade'].to_f - p.purch_price, (lookup['LastTrade'].to_f - p.purch_price) / p.purch_price ]
-
       end
-      portfolio.sort_by!{|k| -k[4]}
+      if sort_order == 'overall'
+        portfolio.sort_by!{|k| -k[4]}
+      else
+        portfolio.sort_by!{|k| -k[8]}
+      end
+      
+      end
+      return portfolio
     end
   
 end

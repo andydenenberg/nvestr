@@ -1,0 +1,71 @@
+<script>
+function GetPrice() {
+	Symbol = $("#stock_symbol").val();
+	PurchDate = $("#stock_purch_date").val();
+	$.get('/stocks/lookup', 
+      { symbol:Symbol, purch_date:PurchDate },         
+      function(data) { UpdatePrice(data); }
+	);
+}
+function UpdatePrice(data) {
+	$("#stock_purch_price").val (data);
+//$("#stock_purch_price").text = 'data' ;
+}
+
+function NewPortfolioSubmit() {
+	$("#new_portfolio").submit();
+//	window.location = '/stocks?mobile=1' ;	
+}
+function CancelNewPortfolio() {
+	window.location = '/stocks?mobile=1' ;
+	
+}
+
+
+</script>
+
+<div data-role="page" id="page1">
+    <div data-theme="a" data-role="header">
+		<a href="/stocks?mobile=1" data-icon="home" data-direction="reverse">Home</a>
+        <h3>DENvestR</h3>
+    </div>
+
+<div data-role="content">
+	<b>New Portfolio</b>
+
+<%= simple_form_for(@portfolio, :url => portfolios_create_path(@portfolio)) do |f| %>
+
+<div class="ui-grid-a">
+    <div class="ui-block-a">
+        <div data-role="fieldcontain">
+	        <%= f.label 'Portfolio Name:' %><br>
+		    <%= f.text_field :name  %>
+        </div>
+    </div>
+    <div class="ui-block-b">
+        <div data-role="fieldcontain">
+		  	<%= f.label 'Initial Cash:' %><br>
+			<%= f.text_field :cash, :value => number_with_precision(f.object.cash, :precision => 0), :class => 'span2' %>
+			<%= f.hidden_field :user_id, :value => current_user.id %>
+        </div>
+    </div>
+</div>
+
+
+<%= link_to_function 'Ajax Submit', 'NewPortfolioSubmit();', 'data-role' => "button", 'data-inline' => "true", 'data-theme' => "b" %>
+
+<%= link_to_function 'Cancel', 'CancelNewPortfolio();', 'data-role' => "button", 'data-inline' => "true", 'data-theme' => "b", :style => 'background-image: -webkit-linear-gradient(top, white, #5393C5);' %>
+
+
+<% end %>
+
+
+
+
+
+</div>
+
+</div>
+
+
+

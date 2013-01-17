@@ -1,17 +1,36 @@
+<script>
+function GetPrice() {
+	Symbol = $("#stock_symbol").val();
+	PurchDate = $("#stock_purch_date").val();
+	$.get('/stocks/lookup', 
+      { symbol:Symbol, purch_date:PurchDate },         
+      function(data) { UpdatePrice(data); }
+	);
+}
+function UpdatePrice(data) {
+	$("#stock_purch_price").val (data);
+//$("#stock_purch_price").text = 'data' ;
+}
 
+</script>
 
 <%= simple_form_for(@stock) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :symbol %>
-    <%= f.input :purch_price %>
+	<%= f.label 'Symbol:' %>
+    <%= f.text_field :symbol %>
+	<%= link_to_function 'Get Price', 'GetPrice();', :class => 'btn btn-info btn-mini' %><br>
+
+	<%= f.label 'Purchase Price:' %>
+    <%= f.text_field :purch_price %>
 
 	  <%= f.label 'Purchase Date: ' %>
-	  <%= f.text_field :purch_date, :type => 'date' %>
+	  <%= f.text_field :purch_date, :type => 'date', :value => Date.today %>
 	
 	  <%= f.label 'Portfolio: ' %>
-<%= f.select :portfolio, Stock.all.collect { |p| p.portfolio }.uniq, :selected => 'Family Favorites' %>
+<%= f.select :portfolio_id, options_for_select(Portfolio.where(:user_id => current_user.id).collect { |p| [p.name, p.id] }, :selected => @port ) %>
+
 
 <%= f.association :user, :selected => current_user %>
 
@@ -50,3 +69,4 @@
     <%= f.button :submit %>
   </div>
 <% end %>
+
