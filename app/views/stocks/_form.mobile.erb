@@ -61,7 +61,7 @@ function Cancel() {
     <div class="ui-block-b">
         <div data-role="fieldcontain">
 	        <label for="selectmenu1">User:</label><br>
-			<%= f.select :user_id, User.all.collect { |u| [ u.name, u.id ] }, :selected => current_user.name, 'data-theme' => "b" %>
+			<%= f.select :user_id, User.all.collect { |u| [ u.name, u.id ] }, :selected => current_user.id, 'data-theme' => "b" %>
         </div>
     </div>
 </div>
