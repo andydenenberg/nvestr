@@ -27,7 +27,7 @@
 		<td class='aln_r'><%= distance_of_time_in_words(stock[3], Date.today) %> </td> <!-- Holding Period -->
 		<td class='aln_r'>$<%= stock[7] %></td>
 		<td class='aln_r'><%= stock[8] %></td>
-		<td><%= Stock.find_by_symbol(stock[6].downcase).comments.collect { |com| com.note }[0] %></td>
+		<td><%= Stock.where(:symbol => stock[6].downcase).collect { |com| com.comments[0].note } %></td>
 
 		<% s = Stock.find_by_symbol(stock[6].downcase) %>
 		
