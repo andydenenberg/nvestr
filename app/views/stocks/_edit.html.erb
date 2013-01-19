@@ -29,12 +29,12 @@
 		<td class='aln_r'><%= distance_of_time_in_words(stock[3], Date.today) %> </td> <!-- Holding Period -->
 		<td class='aln_r'>$<%= stock[7] %></td>
 		<td class='aln_r'><%= stock[8] %></td>
-		<td><%= s.collect { |com| com.comments[0].note } %></td>		
+		<td><%= s.collect { |com| com.comments[0].note }[0] if s.collect { |com| com.comments[0].note } != [''] %></td>		
 	    <td>
 			<div class="btn-group">
 			<%= link_to 'Show', stock_path(s), :class => 'btn btn-mini' %>
 			<%= link_to 'Edit', edit_stock_path(s), :class => 'btn btn-mini btn-info' %>
-			<%= link_to 'Delete', s, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %>
+			<%= link_to 'Delete', stock_path(s), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %>
 			</div>
 			</td>
 
