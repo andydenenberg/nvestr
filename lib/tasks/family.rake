@@ -1,7 +1,12 @@
-namespace :family do
-  desc "Setup Family Members"
-  task :setup => :environment do
 
+namespace :family do
+  
+desc 'Build the Databases'
+task :setup => ["db:drop", "db:create", "db:migrate", "db:seed", "build_db"]
+
+desc "Setup Family Members"
+task :build_db => :environment do
+  
 User.all.each do |user| 
   p = Portfolio.create!( :name => 'Family Fun', :user_id => user.id, :cash => 100000 )
   puts 'New portfolio created: ' + p.name + ' for ' + p.user_id.to_s
