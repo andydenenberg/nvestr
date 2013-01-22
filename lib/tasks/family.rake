@@ -8,13 +8,13 @@ User.all.each do |user|
 end
   
 introduction = Post.create! :title => 'Welcome to our Family Portfolio Competition',
-:body => 'At the first of the year everyone started with $100,000 cash.<br>
-<br>
-On January 3, everyone took a $10,000 position of their favorite stock.
-Therefore there is approximately $90,000 of uninvested cash available to purchase more stocks. <br>
-<br>
-You cannot purchase more than your cash balance can afford.
-You can sell a stock and the proceeds add to your cash balance to be reinvested. <br>',
+:body => "<br>At the first of the year everyone started with $100,000 cash.<br><br>
+On January 3, each family member's portfolio added a $10,000 position of their favorite stock.
+Therefore there is approximately $90,000 of uninvested cash available to purchase more stocks. <br><br>
+You cannot purchase more than your cash balance can afford, but you can sell a stock and the proceeds add to your cash balance to be reinvested. <br><br>
+Please manage your Family Favorite portfolio and you can also create additional portfolios to test your ideas...<br><br>
+<h4>Good Luck!</h4>
+PS - If using a phone browser or IPad you are automatically sent to the mobile site - click on 'Full Site' in footer to override this.<br><br>",
 :type_is => 'Discussion',
 :user_id => User.find_by_email('andy@denenberg.net')
 
@@ -137,17 +137,6 @@ def stock(size,symbol,price,date,user,comment, portfolio)
             }
   return s
 end
-
-introduction = Post.create! :title => 'Welcome to our Family Portfolio Competition',
-:body => 'At the first of the year everyone started with $100,000 cash.<br>
-<br>
-On January 3, everyone took a $10,000 position of their favorite stock.
-Therefore there is approximately $90,000 of uninvested cash available to purchase more stocks. <br>
-<br>
-You cannot purchase more than your cash balance can afford.
-You can sell a stock and the proceeds add to your cash balance to be reinvested. <br>',
-:type_is => 'Discussion',
-:user_id => User.find_by_email('andy@denenberg.net')
 
 portfolio = Portfolio.create!( :name => 'YCharts', :user_id => 1, :cash => 100000 )
 puts 'New portfolio created: ' + portfolio.name + ' for ' + portfolio.user_id.to_s
