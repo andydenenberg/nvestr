@@ -12,9 +12,21 @@ Role.create([
   { :name => 'VIP' }
 ], :without_protection => true)
 puts 'SETTING UP DEFAULT USER LOGIN'
-user = User.create! :name => 'First User', :email => 'user@example.com', :password => 'please', :password_confirmation => 'please'
+user = User.create! :name => 'Andy', :email => 'andy@denenberg.net', :password => 'xxxxxx', :password_confirmation => 'xxxxxx'
 puts 'New user created: ' << user.name
-user2 = User.create! :name => 'Second User', :email => 'user2@example.com', :password => 'please', :password_confirmation => 'please'
-puts 'New user created: ' << user2.name
 user.add_role :admin
-user2.add_role :VIP
+user = User.create! :name => 'Roberta', :email => 'roberta@denenberg.net', :password => 'minnie', :password_confirmation => 'minnie'
+puts 'New user created: ' << user.name
+user.add_role :admin
+user = User.create! :name => 'Mike', :email => 'mike@denenberg.net', :password => 'minnie', :password_confirmation => 'minnie'
+puts 'New user created: ' << user.name
+user.add_role :admin
+user = User.create! :name => 'Tim', :email => 'tim@denenberg.net', :password => 'minnie', :password_confirmation => 'minnie'
+puts 'New user created: ' << user.name
+user.add_role :admin
+user = User.create! :name => 'Nerissa', :email => 'nerissa@denenberg.net', :password => 'minnie', :password_confirmation => 'minnie'
+puts 'New user created: ' << user.name
+user.add_role :admin
+user = User.create! :name => 'Gina', :email => 'gina@denenberg.net', :password => 'minnie', :password_confirmation => 'minnie'
+puts 'New user created: ' << user.name
+user.add_role :admin

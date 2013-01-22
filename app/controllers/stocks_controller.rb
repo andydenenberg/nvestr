@@ -3,17 +3,23 @@ class StocksController < ApplicationController
   # GET /stocks
   # GET /stocks.json
   
+  def sell_shares
+    Stock.find(params[:stock_id]).sell_position(params[:shares])        
+    redirect_to stocks_path( :portfolio => params[:portfolio])    
+  end
+  
   def new_portfolio
     @portfolio = Portfolio.new :cash => 10000.00    
   end
   
   def lookup
-    price = Quote.current_price(params[:symbol])['LastTrade']
-    render :text => price.to_s    
+    price = Quote.current_price(params[:symbol])
+    render :text => price['LastTrade'].to_s  + '#&#' + price['Name']  
   end
 
   def manage_list
-    @stocks = Stock.portfolio(params[:portfolio_view],params[:type_of_action]) # where(:portfolio => params[:portfolio])
+#    @stocks = Stock.portfolio(params[:portfolio_view],params[:type_of_action]) # where(:portfolio => params[:portfolio])
+    @stocks = Portfolio.where(:name => params[:portfolio_view], :user_id => current_user).first.rank_by_gain_loss(params[:type_of_action])    
     @port = params[:portfolio_view]
   end
   
@@ -22,9 +28,11 @@ class StocksController < ApplicationController
     @error = params[:error]
     
     @view = params[:view] ||= 'Performance'
-    @port = params[:portfolio] ||= Portfolio.where(:user_id => current_user).first.name if !Portfolio.where(:user_id => current_user).empty?
-    @stocks = Stock.portfolio(@port, params[:type_of_action]) # where(:portfolio => params[:portfolio])
     
+    @port = params[:portfolio] ||= Portfolio.where(:user_id => current_user).first.name if !Portfolio.where(:user_id => current_user).empty?
+        
+    @stocks = Portfolio.where(:name => @port, :user_id => current_user).first.rank_by_gain_loss(params[:type_of_action]) 
+
     @portfolio = Portfolio.new :cash => 10000.00
 
      if params[:type_of_action]
@@ -64,16 +72,18 @@ class StocksController < ApplicationController
   # GET /stocks/1/edit
   def edit
     @stock = Stock.find(params[:id])
+    @port = params[:portfolio]
+    
   end
 
   # POST /stocks
   # POST /stocks.json
   def create
-    @stock = Stock.new(params[:stock])
-    if @stock.save
-      redirect_to stocks_path(:mobile => 1, :portfolio => @stock.portfolio.name )
+    stock = Stock.add_position(params[:stock])
+    if stock
+      redirect_to stocks_path( :portfolio => stock.portfolio.name )
     else
-      @error = @stock.errors.full_messages
+      @error = stock.errors.full_messages
       render action: "new"
     end
     

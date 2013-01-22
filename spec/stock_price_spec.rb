@@ -41,7 +41,7 @@ describe 'Functional tests DenVestR' do
         :symbol => "ATMI",
         :purch_price => 21.0,
         :purch_date => '01/02/2013',
-        :portfolio => 'Family Favorites'
+        :portfolio_id => 1
       }
     end
     

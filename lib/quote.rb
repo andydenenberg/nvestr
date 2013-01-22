@@ -12,7 +12,7 @@ module Quote
     end
     
     def self.current_price(symbol)
-      symbol.gsub!(/[^a-z]/i, '') # remove any non alpha chars
+      symbol.gsub!(/[^a-z-]/i, '') # remove any non alpha chars
       if symbol.length == 0  # if blank stuff with dummy string
         symbol = 'xyzxyz'
       end

@@ -8,6 +8,7 @@ Stc::Application.routes.draw do
       get 'manage_list'
       get 'lookup'
       get 'new_portfolio'
+      post 'sell_shares'
     end
   end
 
@@ -31,7 +32,7 @@ Stc::Application.routes.draw do
 #    root :to => 'home#welcome'
 #  end
 
-  root :to => 'stocks#index'
+  root :to => 'home#start'
   
   devise_for :users
   resources :users

@@ -7,22 +7,20 @@
 </td></tr> 
 </thead>         
            <tr class="ui-bar-d">
-             <th data-priority="2">Mem</th>
              <th>Stock</th>
-             <th data-priority="3">Price</th>
-             <th data-priority="1">Change</abbr></th>
-             <th data-priority="5">Perf</th>
+             <th>Price</th>
+             <th>Chng</th>
+			 <th>Percnt</th>
            </tr>
          
          <tbody>
 
 				<% @stocks.each_with_index do |stock, i| %>
 				<%= i.odd? ? "<tr style='background: #eee;' >".html_safe : "<tr>".html_safe %>
-						<th><%= stock[1] %></th>
-						<td><%= stock[6] %></td>
-						<td style='text-align:right !important;'><%= number_to_currency stock[7], :precision => 2 %></td>
-						<td style='text-align:right !important;'><%= stock[8] %></td> <!-- Gain/Loss -->
-						<td style='text-align:right !important;'><%= number_to_percentage ( 100 * ( stock[8] / stock[7] )), :precision => 2  %></td>
+						<td style='border-bottom: 1px solid #000;'><%= stock.symbol.upcase %></td>
+						<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_currency stock.current_price, :precision => 2 %></td>
+						<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_currency(stock.todays_change[0]) %></td>
+						<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_percentage 100*stock.todays_change[1] %></td> <!-- Gain/Loss -->
 				  </tr>
 				<% end %>
 

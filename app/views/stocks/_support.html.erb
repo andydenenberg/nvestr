@@ -15,17 +15,8 @@
 			<th colspan=4 class='aln_c'></th>
 		</tr>
 
-<% @stocks.each_with_index do |stock| %>
-	<tr>
-		<% s = Stock.where(:symbol => stock[6].downcase) %>
-		
-		<th><%= stock[1] %></th>
-		<td><%= stock[5] %> [<%= stock[6] %>]</td>
-		<td class='aln_r'>$<%= stock[2]%></td>
-		<td class='aln_r'><%= distance_of_time_in_words(stock[3], Date.today) %> </td> <!-- Holding Period -->
-		<td><%= s.collect { |com| com.comments[0].note }[0] if s.collect { |com| com.comments[0].note } != [''] %></td>
-  </tr>
-<% end %>
+
+
 </table>
 
 

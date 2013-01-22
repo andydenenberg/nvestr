@@ -1,18 +1,20 @@
+
 <%= render 'tabs' %>				
 
 <table class='table table-condensed table-bordered table-striped'>
 			
 		<tr>
-			<th colspan=1>Member</th>
-			<th colspan=3 class='aln_c'>Position</th>
+			<th colspan=6 class='aln_c'>Position</th>
 			<th colspan=2 class='aln_c'>Daily Result</th>
-			<th colspan=2 class='for_day aln_c'>Overall Gain/Loss</th>
+			<th colspan=2 class='for_day aln_c'>Gain/Loss</th>
 		</tr>
 		<tr>
-			<th></th>
 			<th>Stock</th>
+			<th>Quantity Held</th>
+			<th>Sell</th>
 			<th class='aln_c'>Purchase Price</th>
 			<th class='aln_c'>Days Held</th>
+			<th class='aln_c'>Value</th>
 			<th class='aln_c'>Current Price</th>
 			<th class='aln_c'>Change</th>
 			<th class='aln_c'>$</th>
@@ -20,17 +22,69 @@
 		</tr>
 
 <% @stocks.each_with_index do |stock| %>
+
+<% if stock.quantity != 0 %><!-- Skip entries that have quantity of zero -->
+
 	<tr>
-		<th><%= stock[1] %></th>
-		<td><%= stock[5] %> [<%= stock[6] %>]</td>
-		<td class='aln_r'>$<%= stock[2]%></td>
-		<td class='aln_r'><%= distance_of_time_in_words(stock[3], Date.today) %> </td> <!-- Holding Period -->
-		<td class='aln_r'>$<%= stock[7] %></td>
-		<td class='aln_r'><%= stock[8] %></td>
-		<td class='aln_r'><%= number_to_currency(stock[9].to_f, :delimiter => "") %></td> <!-- Gain/Loss -->
-		<td class='aln_r'><%= number_to_percentage 100*(stock[10].to_f) %></td>
+		<td>Company Name[<%= stock.symbol.upcase %>]</td>
+		<td class='aln_r'><p><%= number_with_precision(stock.quantity, :delimiter => ',', :precision => 0) %></td>
+		<td><div class="dropdown">
+			  <a class="dropdown-toggle btn btn-mini btn-warning" data-toggle="dropdown" href="#">Sell</a>
+			  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+				  <div class="modal-body">
+					<%= form_tag(sell_shares_stocks_path(:portfolio => @port), :class => 'form-horizontal' ) do %>
+					  	<p><%= stock.quantity %> shares of <%= stock.symbol.upcase %></p>
+					    sell <%= text_field_tag :shares ,'', :class => 'span1' %><br>
+						<%= hidden_field_tag :stock_id, stock %>
+						<%= hidden_field_tag :price, stock.current_price %>
+						
+				  </div>
+				  <div class="modal-footer">
+					    <%= submit_tag 'Sell Shares', :class => 'btn btn-warning btn-mini'%>	
+				    <button class="btn btn-mini" data-dismiss="modal" aria-hidden="true">Close</button>
+					<% end %>	
+				  </div>
+			  </ul>
+			</div>
+			</p>
+		</td>
+		<td class='aln_r'><%= number_to_currency(stock.purch_price) %></td>
+		<td class='aln_r'><%= distance_of_time_in_words(stock.purch_date, Date.today) %> </td> <!-- Holding Period -->
+		<td class='aln_r'><%= number_to_currency(stock.position_value) %></td>
+		<td class='aln_r'><%= number_to_currency(stock.current_price) %></td>
+		<td class='aln_r'><%= number_to_currency(stock.todays_change[0]) %> (<%= number_to_percentage 100*stock.todays_change[1] %> )</td>
+		<td class='aln_r'><%= number_to_currency(stock.position_gain_loss[0]) %></td> <!-- Gain/Loss -->
+		<td class='aln_r'><%= number_to_percentage 100*(stock.position_gain_loss[1]) %></td>
   </tr>
+	<% end %>
 <% end %>
+	<tr><td colspan=10></td></tr>	
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<th class='aln_r'>Cash</th>
+	<td class='aln_r'><%= number_to_currency(Portfolio.find_by_name(@port).cash) if Portfolio.find_by_name(@port) %></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+<tr>
+	<tr><td colspan=10></td></tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<th class='aln_r'>Total</th>
+		<td class='aln_r'><%= number_to_currency(Portfolio.find_by_name(@port).current_value) %></td>
+		<th  colspan=2 class='aln_r'>Unrealized Gain/Loss</th>
+		<td class='aln_r'><%= number_to_currency(Portfolio.find_by_name(@port).unrealized_gain_loss ) %></td>
+		<td></td>
+	<tr>
+		
+
 </table>
 
 

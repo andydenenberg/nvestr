@@ -18,7 +18,6 @@
  
          <thead>
            <tr class="ui-bar-d">
-             <th>Mem</th>
              <th>Stock</th>
 			 <th>Action</th>
            </tr>
@@ -27,15 +26,14 @@
 
 		<% @stocks.each_with_index do |stock,i| %>
 			<%= i.odd? ? "<tr style='background: #eee;' >".html_safe : "<tr>".html_safe %>
-				<th><%= stock[1] %></th>
-				<td><%= stock[6] %></td>
+				<th><%= stock.symbol.upcase %></th>
 				<td>						
 					<div class="ui-grid-a">
 					    <div class="ui-block-a">
 						<%= link_to 'Edit', '#', 'data-role' => "button", 'data-icon' => "grid", 'data-iconpos' => "left", 'data-mini' => "true", 'data-inline' => 'true', 'data-theme' => "b" %>							
 						</div>
 						<div class="ui-block-b">
-						<%= link_to 'Delete', Stock.find_by_symbol(stock[6].downcase), method: :delete, data: { confirm: 'Are you sure?' }, 'data-role' => "button", 'data-icon' => "minus", 'data-iconpos' => "left", 'data-mini' => "true", 'data-inline' => 'true', 'data-theme' => "e"  %>										
+						<%= link_to 'Delete', stock, method: :delete, data: { confirm: 'Are you sure?' }, 'data-role' => "button", 'data-icon' => "minus", 'data-iconpos' => "left", 'data-mini' => "true", 'data-inline' => 'true', 'data-theme' => "e"  %>										
 						</div>
 					</div>
 				</td>							

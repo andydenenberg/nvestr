@@ -1,62 +1,43 @@
+<div data-theme="b" data-role="header">
+	<span class="ui-title">
+    </span>
+	<%= link_to_function 'Signed-in as ' + current_user.name, 'GoAdmin();', 'data-icon' => "home" %>
 
-
-<div data-role="header">
-
-      <h1>DenVestR</h1>
-      <a href="#" data-icon="home" data-direction="reverse">Home</a>
-		<%= link_to 'Logout', destroy_user_session_path, :method=>'delete', 'data-icon' => "search", 'data-rel' => "dialog",  'data-transition' => "fade" %>
-   </div><!-- /header -->
+    <%= link_to 'Logout', destroy_user_session_path(:user), :method=>'delete', 'data-role' => "button", 'data-inline' => "true", 'data-direction' => "reverse", 'data-theme' => "a", 'data-icon' => "star", 'data-iconpos' => "left", :class => "ui-btn-right" %>
+    </a>
+</div>
 
    <div data-role="content">
-      <h2>Favorite Stock Results</h2>
-      <p>Latest Results as of:<br>
-		<%= Time.now.strftime("at %I:%M%p") %></p>
+      <b>Family Favorite Results</b>
+      <p>Latest Results as of: <%= Time.now.strftime("%I:%M%p") %></p>
 		
 
     
-       <table data-role="table" id="table-custom-2" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-theme="b" data-column-btn-text="Columns to display..." data-column-popup-theme="a">
+       <table data-role="table" id="table-custom-2" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-theme="b" data-column-btn-text="Columns to display..." data-column-popup-theme="a" style="margin: auto;">
         
-                <thead>
-                  <tr class="ui-bar-d">
-                    <th data-priority="2">Mem</th>
-                    <th>Symbol</th>
-                    <th data-priority="3">Price</th>
-                    <th data-priority="1"><abbr title="Rotten Tomato Rating">Change</abbr></th>
-                    <th data-priority="5">Perf</th>
-                  </tr>
-                </thead>
-                <tbody>
+					<tr class="ui-bar-d">
+						<th>Family Member</th>
+						<th class='aln_c'>Portfolio Value</th>
+						<th class='aln_c'>Performance</th>
+					</tr>
+					
+			<% Portfolio.family_rank.each_with_index do |user, i| %>
+				<%= i.odd? ? "<tr style='background: #eee;' >".html_safe : "<tr>".html_safe %>
+					<td><%= User.find(user[0]).name %></td>
+					<td style='text-align:right !important;'><%= number_to_currency(user[1]) %></td>
+					<td style='text-align:right !important;'><%= number_to_percentage( 100 * (user[1] - 100000)/100000 ) %></td>
+			  </tr>
+				<% end %>
 
-					<% @price.portfolio(		    portfolio = [ 
-							      ['dis', 'Gina', 51.21, '01/03/12' ],
-							      ['dish', 'Mike', 36.93, '01/03/12' ],
-							      ['goog', 'Rissa', 723.67, '01/03/12' ],
-							      [ 'ltd', 'Mom', 44.71, '01/03/12' ],
-							      ['tsla', 'Tim', 34.77, '01/03/12' ],
-							      ['xom', 'Dad', 88.55, '01/03/12' ] ]
-					).each_with_index do |stock| %>
-						<% price = @price.current(stock[0]) %>
-						<tr>
-							<th><%= stock[1] %></th>
-							<td><%= link_to stock[6], "http://m.yahoo.com/w/yfinance/quote/#{stock[6]}/?chart=1d&.intl=US&.lang=en", :target => '_blank' %></td>
-							<td class='aln_r'>$<%= stock[7] %></td>
-							<td class='aln_r'><%= stock[8] %></td>
-							<td class='aln_r'><%= number_to_percentage (100*(stock[7].to_f - stock[2]) / stock[2]), :precision => 2 %></td>
-						</tr>
-						<% end %>			
 				</table>
+<p>Started on 01/03/2013 with $100,000</p>
+<%= link_to 'My Portfolios', stocks_path, 'data-role' => "button", 'data-icon' => "star", 'data-iconpos' => "left", 'data-mini' => "true", 'data-inline' => 'true', 'data-theme' => "b"  %>
 
+</div><!-- /content -->
 
-
-                </tbody>
-              </table>
-      
-         </div><!-- /content -->
-
-		<div data-role="footer">
-
-		      <h1>Denenberg @2012 | <%= link_to "Full Site", start_path(:mobile => 0), :target => '_blank' %></h1>
-		   </div><!-- /header -->
+<div data-role="footer">
+      <h1>Denenberg @2012 | <%= link_to "Full Site", start_path(:mobile => 0), :target => '_blank' %></h1>
+</div><!-- /header -->
 
 
 

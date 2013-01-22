@@ -1,6 +1,13 @@
 <script>
-$(function ()  
-$('#myModal').modal() ;
+	$('#myModal').modal('show') ;
+	
+</script>
+
+<script>
+function callModal(stock) {
+	$("#shares").text (stock);
+	$('#sellStockModal').modal('show') ;
+}
 </script>
 
 <style>
@@ -8,18 +15,18 @@ $('#myModal').modal() ;
     width: 300px; /* SET THE WIDTH OF THE MODAL */
     margin: -250px 0 0 -150px; /* CHANGE MARGINS TO ACCOMODATE THE NEW WIDTH (original = margin: -250px 0 0 -280px;) */
 }
+
 </style>
 
-<h2>Portfolio</h2>
+<h3>Portfolio</h3>
 
-<!-- Modal -->
+<!-- New Portfolio Modal -->
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">New Portfolio</h3>
   </div>
   <div class="modal-body">
-
 	<%= form_for(@portfolio, :url => portfolios_create_path(@portfolio), :html => { :class => 'form-horizontal' } ) do |f| %>
 	  	<%= f.label 'Portfolio Name:' %>
 	    <%= f.text_field :name  %>
@@ -32,13 +39,12 @@ $('#myModal').modal() ;
 		<%= f.hidden_field :user_id, :value => current_user.id %>
   </div>
   <div class="modal-footer">
-	    <%= f.button :submit, :class => 'btn btn-success'%>
-	
-	<% end %>
-	
+	    <%= f.button :submit, :class => 'btn btn-success'%>	
+	<% end %>	
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
   </div>
 </div>
+
 
 
 
@@ -48,12 +54,12 @@ $('#myModal').modal() ;
 			<div class='well' style='background-color:white;'>	
 					
 				<%= select_tag "portfolio_is", options_for_select(Portfolio.where(:user_id => current_user.id).collect { |p| p.name }, :selected => @port), :class => 'span2' %>
-				<!-- Button to trigger modal -->
-				
+				<!--  -->
+
 				<%= link_to 'New Portfolio', '#myModal', :class => 'btn btn-mini btn-info', 'data-toggle' => "modal" %>
-				<%= link_to 'Add Stock', new_stock_path(:portfolio_view => @port), :class => 'btn btn-mini btn-primary' %>
-
-
+				<%= link_to 'Add Position', new_stock_path(:portfolio_view => @port), :class => 'btn btn-mini btn-primary' %>	
+				<div id='spinner' style='display:none;'><%= image_tag '/assets/ajax-loader.gif' %></div>			
+				
 				<div id='portfolio_list'>
 				<%= render 'index' %>
 				</div>

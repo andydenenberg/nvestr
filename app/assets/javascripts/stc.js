@@ -12,13 +12,34 @@
 
 function GoHome1(Portfolio)
   {
-	window.location = '/stocks?mobile=1&portfolio=' + Portfolio;
+	alert('GoHome1') ;
+	baseURL = '/stocks?mobile=1'
+	if (Portfolio) 
+		{ port = '&portfolio=' + Portfolio }
+	else
+		{ port = '' }
+	window.location = baseURL + port ;
   }
 
 function GoHome()
   {
-	window.location = '/stocks?mobile=1' ;
+	window.location = '/home/start?mobile=1' ;
   }
+
+function GoAdmin()
+  {
+	window.location = '/users/edit?mobile=1' ;
+  }
+
+function StartSpinner()
+{
+	$('#spinner').css({'display':'inline'});
+}
+
+function KillSpinner()
+{
+	$('#spinner').css({'display':'none'});
+}
 
 $(function () {
         $('.pagination a').click(function () {
@@ -32,6 +53,7 @@ $(function () {
                 return false;
         });
         $('#portfolio_is').change(function () {
+		   StartSpinner() ;
 		   Portfolio_is = document.getElementById('portfolio_is').value ;
                 $.get('/stocks', { portfolio:Portfolio_is} , null, 'script');
                 return false;

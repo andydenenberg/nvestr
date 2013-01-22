@@ -21,25 +21,33 @@
 
 <% @stocks.each_with_index do |stock| %>
 	<tr>
-		<% s = Stock.where(:symbol => stock[6].downcase) %>
-		
 		<th><%= stock[1] %></th>
 		<td><%= stock[5] %> [<%= stock[6] %>]</td>
 		<td class='aln_r'>$<%= stock[2]%></td>
-		<td class='aln_r'><%= distance_of_time_in_words(stock[3], Date.today) %> </td> <!-- Holding Period -->
+		<td class='aln_r'><%= distance_of_time_in_words(stock.purch_date, Date.today) %> </td> <!-- Holding Period -->
 		<td class='aln_r'>$<%= stock[7] %></td>
 		<td class='aln_r'><%= stock[8] %></td>
-		<td><%= s.collect { |com| com.comments[0].note }[0] if s.collect { |com| com.comments[0].note } != [''] %></td>		
+		<td><%= stock.comments %></td>		
 	    <td>
 			<div class="btn-group">
-			<%= link_to 'Show', stock_path(s), :class => 'btn btn-mini' %>
-			<%= link_to 'Edit', edit_stock_path(s), :class => 'btn btn-mini btn-info' %>
-			<%= link_to 'Delete', stock_path(s), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %>
+			<%= link_to 'Show', stock_path(stock), :class => 'btn btn-mini' %>
+			<%= link_to 'Edit', edit_stock_path(stock, :portfolio => @port), :class => 'btn btn-mini btn-info' %>
+			<%= link_to 'Delete', stock_path(stock), method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %>
 			</div>
 			</td>
-
   </tr>
 <% end %>
+<tr>
+	<td></td>
+	<td>Cash</td>
+	<td class='aln_r'><%= number_to_currency(Portfolio.find_by_name(@port).cash) %></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+<tr>
+
 </table>
 
 

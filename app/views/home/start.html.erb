@@ -40,7 +40,27 @@
         <div class="span12 schoolbox">	
 			<div class='well' style='background-color:white;'>	
 	
-				<%= render 'stocks/index' %>
+				<table class='table table-condensed table-bordered table-striped'>
+
+						<tr>
+							<th>Family Member</th>
+							<th class='aln_c'>Portfolio Value</th>
+						</tr>
+						
+				<% Portfolio.family_rank.each do |user| %>
+					<tr>
+						<td><%= User.find(user[0]).name %>
+							<% if current_user.name == User.find(user[0]).name %>
+							<%= link_to 'my Portfolios', stocks_path, :class => 'btn btn-mini btn-success' %>
+							<% end %>
+						</td>
+						<td class='aln_r'><%= number_to_currency(user[1]) %></td>
+						<td class='aln_r'><%= number_to_percentage( 100 * (user[1] - 100000)/100000 ) %></td>
+						
+				  </tr>
+					<% end %>
+
+				</table>
 				
 		
 			</div><!--/well-->	
