@@ -9,9 +9,9 @@
  
            <tr class="ui-bar-d">
              <th>Stock</th>
-             <th>Position</th>
+             <th>Current<br>Value</th>
              <th>Days<br>Held</abbr></th>
-             <th>Perf</th>
+             <th>Gain/<br>Loss</th>
            </tr>
          <tbody>
 
@@ -20,7 +20,7 @@
 						<td style='border-bottom: 1px solid #000;'><%= stock.symbol.upcase %></td>
 						<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_currency stock.position_value %></td>
 						<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= Quote.distance_of_time_in_days(stock.purch_date, Date.today) %></td> <!-- Gain/Loss -->
-						<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_percentage (100*stock.position_gain_loss[1]), :precision => 2 %></td>
+						<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_currency stock.position_gain_loss[0], :precision => 2 %></td>
 				  </tr>
 				<% end %>
 			<tr style='border-bottom: 1px solid #000;'>

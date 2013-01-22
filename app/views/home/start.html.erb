@@ -16,7 +16,7 @@
 				<tr>
 					<td><%= link_to portfolio.name, stocks_path(:portfolio => portfolio.name), :class => 'btn btn-mini btn-success' %></td>
 					<td class='aln_r'><%= number_to_currency(portfolio.current_value) %></td>
-					<td class='aln_r'><%= number_to_currency(portfolio.unrealized_gain_loss ) %></td>						
+					<td class='aln_r'><%= number_to_currency(portfolio.unrealized_gain_loss[0] ) %></td>						
 			  </tr>
 				<% end %>
 			</table>

@@ -14,9 +14,11 @@ class Portfolio < ActiveRecord::Base
   end
   
   def unrealized_gain_loss
-    total = 0
-    Stock.where(:portfolio_id => self.id).each { |stock| total += stock.position_gain_loss[0] }
-    return total
+    overall = 0
+    today = 0
+    Stock.where(:portfolio_id => self.id).each { |stock| today += stock.quantity * stock.todays_change[0] }
+    Stock.where(:portfolio_id => self.id).each { |stock| overall += stock.position_gain_loss[0] }
+    return overall, today
   end
   
   def self.family_rank

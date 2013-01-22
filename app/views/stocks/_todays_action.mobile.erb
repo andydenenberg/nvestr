@@ -1,28 +1,41 @@
 
 
 <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-rel="dialog"  style="margin: auto;">
-<thead><tr><td colspan=5 style='text-align:center;'>
-	<div id='pv' style='display:none;'><%= @port %></div>
-	Today as of: <%= Time.now.strftime(" %I:%M%p") %><br>
-</td></tr> 
-</thead>         
+	<thead><tr><td colspan=4 style='text-align:center;'>
+		<div id='pv' style='display:none;'><%= @port %></div>
+		Overall Performance as of: <%= Time.now.strftime(" %I:%M%p") %><br>
+	</td></tr> 
+	</thead>         
+ 
            <tr class="ui-bar-d">
              <th>Stock</th>
-             <th>Price</th>
-             <th>Chng</th>
-			 <th>Percnt</th>
+             <th>Current<br>Value</th>
+             <th>Price<br>Change</abbr></th>
+             <th>Position<br>Change</th>
            </tr>
-         
          <tbody>
 
-				<% @stocks.each_with_index do |stock, i| %>
-				<%= i.odd? ? "<tr style='background: #eee;' >".html_safe : "<tr>".html_safe %>
+				<% @stocks.each_with_index do |stock,i| %>
+					<%= i.odd? ? "<tr style='background: #eee;' >".html_safe : "<tr>".html_safe %>
 						<td style='border-bottom: 1px solid #000;'><%= stock.symbol.upcase %></td>
-						<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_currency stock.current_price, :precision => 2 %></td>
-						<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_currency(stock.todays_change[0]) %></td>
-						<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_percentage 100*stock.todays_change[1] %></td> <!-- Gain/Loss -->
+						<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_currency stock.position_value %></td>
+						<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_currency(stock.todays_change[0]) %></td> <!-- Gain/Loss -->
+						<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_currency(stock.quantity * stock.todays_change[0]) %></td>
 				  </tr>
 				<% end %>
+			<tr style='border-bottom: 1px solid #000;'>
+				<td style='border-bottom: 1px solid #000;'>Cash</td>
+				<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_currency(Portfolio.find_by_name(@port).cash) if Portfolio.find_by_name(@port) %></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Total</td>
+				<td style='text-align:right !important;'><%= number_to_currency(Portfolio.find_by_name(@port).current_value) %></td>
+			</tr>
 
-        </tbody>
-</table>
+         </tbody>
+       </table>
+
+
+
