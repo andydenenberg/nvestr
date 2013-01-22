@@ -3,35 +3,53 @@
 <div class='row'>
 	<div class='span6'>
 		<div class='introbox'>
-	    	<h4><%= link_to 'My Notes', posts_path(:type_is => 'Discussion') %></h4>
-	
-					<% @disc.each do |post| %>
-			    	<b><em style='font-size:16px;'><%= link_to post.title, post_path(post, :type_is => 'Discussion') %></em></b>
-			    	<p><%= post.attachments.first.description.html_safe %>
-					   <code><%= link_to 'Read Item', post_path(post, :type_is => 'Discussion') %></code> |
-		 					 <%= post.created_at.strftime('%b-%d-%Y') %></p>
 
-			<hr>
-					<% end %>
-						<%= will_paginate @news, :class => 'pagination pagination-right pagination-small'%>
-	
-			<p><%= link_to 'Add Note &raquo;'.html_safe, posts_path(:type_is => 'Discussion') , :class => "btn btn-small btn-success" %></p>
+			<h3>My Portfolios</h3>
+
+			<table class='table table-condensed table-bordered table-striped'>
+					<tr>
+						<th>Portfolio Name</th>
+						<th class='aln_c'>Portfolio Value</th>
+						<th>Gain/Loss</th>
+					</tr>						
+			<% Portfolio.where(:user_id => current_user).each do |portfolio| %>
+				<tr>
+					<td><%= link_to portfolio.name, stocks_path(:portfolio => portfolio.name), :class => 'btn btn-mini btn-success' %></td>
+					<td class='aln_r'><%= number_to_currency(portfolio.current_value) %></td>
+					<td class='aln_r'><%= number_to_currency(portfolio.unrealized_gain_loss ) %></td>						
+			  </tr>
+				<% end %>
+			</table>
+
 		</div>		    
 	</div>
 	
 	<div class='span6'>
 		<div class='introbox'>
-			<h4><%= link_to 'News', posts_path(:type_is => 'News') %></h4>
-			<% @news.each do |post| %>
-	    	<b><em style='font-size:16px;'><%= link_to post.title, post_path(post, :type_is => 'News') %></em></b>
-	    	<p><%= post.attachments.first.description.html_safe %>
-			   <code><%= link_to 'Read Item', post_path(post, :type_is => 'News') %></code> |
- 					 <%= post.created_at.strftime('%b-%d-%Y') %></p>
-	
-	<hr>
-			<% end %>
-				<%= will_paginate @news, :class => 'pagination pagination-right pagination-small'%>
-			
+
+			<h3>Family Favorite Results</h3>
+
+			<table class='table table-condensed table-bordered table-striped'>
+					<tr>
+						<th>Family Member</th>
+						<th class='aln_c'>Portfolio Value</th>
+						<th>Gain/Loss</th>
+					</tr>						
+			<% Portfolio.family_rank.each do |user| %>
+				<tr>
+					<td>
+						<% if current_user.name == User.find(user[0]).name %>
+						<%= link_to User.find(user[0]).name, stocks_path, :class => 'btn btn-mini btn-success' %>
+						<% else %>
+						<%= User.find(user[0]).name %>
+						<% end %>
+					</td>
+					<td class='aln_r'><%= number_to_currency(user[1]) %></td>
+					<td class='aln_r'><%= number_to_percentage( 100 * (user[1] - 100000)/100000 ) %></td>						
+			  </tr>
+				<% end %>
+			</table>
+
 		</div>		    
 	</div>
 </div>
@@ -39,35 +57,23 @@
 	<div class="row">		
         <div class="span12 schoolbox">	
 			<div class='well' style='background-color:white;'>	
-	
-				<table class='table table-condensed table-bordered table-striped'>
-
-						<tr>
-							<th>Family Member</th>
-							<th class='aln_c'>Portfolio Value</th>
-						</tr>
-						
-				<% Portfolio.family_rank.each do |user| %>
-					<tr>
-						<td><%= User.find(user[0]).name %>
-							<% if current_user.name == User.find(user[0]).name %>
-							<%= link_to 'my Portfolios', stocks_path, :class => 'btn btn-mini btn-success' %>
-							<% end %>
-						</td>
-						<td class='aln_r'><%= number_to_currency(user[1]) %></td>
-						<td class='aln_r'><%= number_to_percentage( 100 * (user[1] - 100000)/100000 ) %></td>
-						
-				  </tr>
-					<% end %>
-
-				</table>
+				<b style='font-size:20px;'><%= link_to 'Discussion', posts_path %></b>
+				<%= link_to 'Add&raquo;'.html_safe, new_post_path(:type_is => 'Discussion') , :class => "btn btn-mini" %><br><br>
 				
-		
+						<% @disc.each do |post| %>
+				    	<b><em style='font-size:16px;'><%= link_to post.title, post_path(post, :type_is => 'Discussion') %></em></b>
+				    	<p><%= post.body.html_safe %>
+						   <code><%= link_to 'Read Item', post_path(post, :type_is => 'Discussion') %></code> |
+			 					 <%= post.created_at.strftime('%b-%d-%Y') %></p>
+
+				<hr>
+						<% end %>
+							<%= will_paginate @disc, :class => 'pagination pagination-right pagination-small' %>
+
+						
 			</div><!--/well-->	
         </div><!--/span-->
      </div><!--/row-->
-
-<%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %>
 
 
 

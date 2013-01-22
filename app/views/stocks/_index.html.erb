@@ -26,7 +26,7 @@
 <% if stock.quantity != 0 %><!-- Skip entries that have quantity of zero -->
 
 	<tr>
-		<td>Company Name[<%= stock.symbol.upcase %>]</td>
+		<td><%= stock.name %>[<%= stock.symbol.upcase %>]</td>
 		<td class='aln_r'><p><%= number_with_precision(stock.quantity, :delimiter => ',', :precision => 0) %></td>
 		<td><div class="dropdown">
 			  <a class="dropdown-toggle btn btn-mini btn-warning" data-toggle="dropdown" href="#">Sell</a>

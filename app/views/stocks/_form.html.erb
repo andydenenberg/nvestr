@@ -10,6 +10,7 @@ function GetPrice() {
 function UpdatePrice(data) {
 	var stock = data.split("#&#");
 	$("#stock_purch_price").val (stock[0]);
+	$("#stock_name").val (stock[1]);
 	$("#quantity").text (Math.floor(<%= Portfolio.find_by_name(@port).cash %> / stock[0]) );
 	
 //$("#stock_purch_price").text = 'data' ;
@@ -46,19 +47,20 @@ $(document).ready(function(){
 			<div style='float:left;'>Maximum Number of Shares:</div> <b><div id='quantity'>0</div></b>
 
 			<%= f.label 'Quantity:' %>
-    		<%= f.text_field :quantity %><span class="help-block">To take a short position - enter negative quantity</span><br>
+    		<%= f.text_field :quantity, :class => 'span2' %><span class="help-block">To take a short position - enter negative quantity</span><br>
 			<%= f.label 'Purchase Date: ' %>
 	  		<%= f.text_field :purch_date, :type => 'date', :value => Date.today, :class => 'span2' %>
 	</div>
 	<div class='span5'>	
+		<%= f.label 'Name: ' %>
+  		<%= f.text_field :name %>
 	  <%= f.label 'Portfolio: ' %>
 <%= f.select :portfolio_id, options_for_select(Portfolio.where(:user_id => current_user.id).collect { |p| [p.name, p.id] }, :selected => Portfolio.find_by_name(@port).id ) %>
 <%= f.association :user, :selected => current_user %>
 		<% i = 0 %>
 		<%= f.fields_for :comments do |comment| %>
-		<div class='form-box'>
 		<div class='row'>
-			<div class='span4'>
+			<div class='span5'>
 				<% if !comment.object.new_record? %>
 				<label class="checkbox inline">
 			<!--- attach.check_box :_destroy, {:checked => attach.object.persisted?}, '0', '1' %>Save Attachment? ---->
@@ -70,10 +72,9 @@ $(document).ready(function(){
 		<br>
 		  <div class="form-inputs">
 			<label for="stackedSelect"><b>Comment</b></label>
-		    <%= comment.text_area :note , :class => "input textarea span3", :rows => 5  %>
+		    <%= comment.text_area :note , :class => "input textarea span3", :rows => 4  %>
 			<%= comment.hidden_field :user_id , :value => current_user.id %>
 		  </div>
-		</div>
 		
 	</div>
 </div>

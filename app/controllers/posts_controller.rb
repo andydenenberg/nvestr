@@ -19,7 +19,10 @@ class PostsController < ApplicationController
     else 
       type_is = 'type_is = "' + params[:type_is] + '"' 
     end
-    @type_is = params[:type_is]
+
+    @type_is = 'Discussion' # params[:type_is]
+    type_is = 'type_is = "Discussion"'
+
     @posts = Post.where(type_is).paginate(:page => params[:page], :per_page => 5).order('created_at desc')
     
   end

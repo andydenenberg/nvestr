@@ -4,12 +4,13 @@ function GetPriceMobile() {
 	PurchDate = $("#stock_purch_date").val();
 	$.get('/stocks/lookup', 
       { symbol:Symbol, purch_date:PurchDate },         
-      function(data) { UpdatePrice(data); }
+      function(data) { UpdatePriceMobile(data); }
 	);
 }
-function UpdatePrice(data) {
+function UpdatePriceMobile(data) {
 	var stock = data.split("#&#");
 	$("#stock_purch_price").val (stock[0]);
+	$("#stock_name").val (stock[1]);
     $("#comp_name").html(stock[1]) ;
 }
 
@@ -41,7 +42,7 @@ function Cancel() {
 			<%= f.label 'Purchase Price:' %><br>	
 			<%= f.text_field :purch_price %>
 			<div id='comp_name'></div>
-			
+			<%= f.hidden_field :name %>
     	</div>
 	</div>
 </div>

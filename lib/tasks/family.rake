@@ -7,9 +7,22 @@ User.all.each do |user|
   puts 'New portfolio created: ' + p.name + ' for ' + p.user_id.to_s
 end
   
+introduction = Post.create! :title => 'Welcome to our Family Portfolio Competition',
+:body => 'At the first of the year everyone started with $100,000 cash.<br>
+<br>
+On January 3, everyone took a $10,000 position of their favorite stock.
+Therefore there is approximately $90,000 of uninvested cash available to purchase more stocks. <br>
+<br>
+You cannot purchase more than your cash balance can afford.
+You can sell a stock and the proceeds add to your cash balance to be reinvested. <br>',
+:type_is => 'Discussion',
+:user_id => User.find_by_email('andy@denenberg.net')
+
+
 user = User.find_by_email('andy@denenberg.net')
 shares = (10000 / 88.55).to_i
 stock = {"symbol"=>"xom",
+          "name"=>"Exxon Mobil Corporation",
           "purch_price"=>"88.55",
           "quantity"=> shares,
           "purch_date"=>"2013-01-03",
@@ -25,6 +38,7 @@ Stock.add_position ( stock )
 user = User.find_by_email('roberta@denenberg.net')
 shares = (10000 / 44.71).to_i
 stock = {"symbol"=>"ltd",
+          "name"=>"Limited Brands, Inc.",
           "purch_price"=>"44.71",
           "quantity"=> shares,
           "purch_date"=>"2013-01-03",
@@ -38,6 +52,7 @@ Stock.add_position ( stock )
 user = User.find_by_email('mike@denenberg.net')
 shares = (10000 / 36.93).to_i
 stock = {"symbol"=>"dish",
+          "name"=>"Dish Network Corp.",
           "purch_price"=>"36.93",
           "quantity"=> shares,
           "purch_date"=>"2013-01-03",
@@ -51,6 +66,7 @@ Stock.add_position ( stock )
 user = User.find_by_email('tim@denenberg.net')
 shares = (10000 / 34.77).to_i
 stock = {"symbol"=>"tsla",
+          "name"=>"Tesla Motors, Inc.",
           "purch_price"=>"34.77",
           "quantity"=> shares,
           "purch_date"=>"2013-01-03",
@@ -68,6 +84,7 @@ Stock.add_position ( stock )
 user = User.find_by_email('tim@denenberg.net')
 shares = (10000 / 15.92).to_i
 stock = {"symbol"=>"scty",
+          "name"=>"SolarCity Corporation",
           "purch_price"=>"15.92",
           "quantity"=> shares,
           "purch_date"=>"2013-01-18",
@@ -82,6 +99,7 @@ Stock.add_position ( stock )
 user = User.find_by_email('nerissa@denenberg.net')
 shares = (10000 / 723.67).to_i
 stock = {"symbol"=>"goog",
+          "name"=>"Google Inc.",
           "purch_price"=>"723.67",
           "quantity"=> shares,
           "purch_date"=>"2013-01-03",
@@ -95,6 +113,7 @@ Stock.add_position ( stock )
 user = User.find_by_email('gina@denenberg.net')
 shares = (10000 / 51.21).to_i
 stock = {"symbol"=>"dis",
+          "name"=>"The Walt Disney Company",
           "purch_price"=>"51.21",
           "quantity"=> shares,
           "purch_date"=>"2013-01-03",
@@ -118,6 +137,17 @@ def stock(size,symbol,price,date,user,comment, portfolio)
             }
   return s
 end
+
+introduction = Post.create! :title => 'Welcome to our Family Portfolio Competition',
+:body => 'At the first of the year everyone started with $100,000 cash.<br>
+<br>
+On January 3, everyone took a $10,000 position of their favorite stock.
+Therefore there is approximately $90,000 of uninvested cash available to purchase more stocks. <br>
+<br>
+You cannot purchase more than your cash balance can afford.
+You can sell a stock and the proceeds add to your cash balance to be reinvested. <br>',
+:type_is => 'Discussion',
+:user_id => User.find_by_email('andy@denenberg.net')
 
 portfolio = Portfolio.create!( :name => 'YCharts', :user_id => 1, :cash => 100000 )
 puts 'New portfolio created: ' + portfolio.name + ' for ' + portfolio.user_id.to_s

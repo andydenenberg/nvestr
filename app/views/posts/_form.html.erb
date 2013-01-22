@@ -11,10 +11,7 @@
 				<label for="stackedSelect">Title</label>
     			<%= f.text_field :title  , :class => "span4" %>
 			</div>
-			<div class='span4'>
-				<label for="stackedSelect">Type of Item</label>
-				<%= f.select :type_is , [ 'Discussion', 'News' ] , :selected => @type_is %>
-			</div>
+				<%= f.hidden_field :type_is , :value => 'Discussion' %>
 		</div>		
 		<label for="stackedSelect">Message</label>
 	    <%= f.text_area :body , :class => "input textarea span8", :rows => 10  %>
