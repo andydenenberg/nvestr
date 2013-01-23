@@ -3,7 +3,8 @@
 <table class="ui-body-d ui-shadow table-stripe ui-responsive" data-rel="dialog"  style="margin: auto;">
 	<thead><tr><td colspan=4 style='text-align:center;'>
 		<div id='pv' style='display:none;'><%= @port %></div>
-		Overall Performance as of: <%= Time.now.strftime(" %I:%M%p") %><br>
+		<% Time.zone = 'America/New_York' %>
+		Today's Performance at: <%= Time.zone.now.strftime(" %I:%M%p") %> EST<br>
 	</td></tr> 
 	</thead>         
  

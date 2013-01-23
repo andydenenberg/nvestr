@@ -19,19 +19,20 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe StocksController do
-
+  
   # This should return the minimal set of attributes required to create a valid
   # Stock. As you add validations to Stock, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { "user" => "" }
+    { "purch_date" => "01/03/2013",
+      "purch_price" => 21 }
   end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # StocksController. Be sure to keep this updated too.
   def valid_session
-    {}
+    {  }
   end
 
   describe "GET index" do

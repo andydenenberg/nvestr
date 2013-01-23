@@ -1,0 +1,48 @@
+<div data-theme="b" data-role="header">
+	<span class="ui-title">
+    </span>
+	<%= link_to_function "Home", "GoHome();", 'data-transition' => "fade", 'data-theme' => "a", 'data-icon' => "home" %>
+
+    <%= link_to 'Logout', destroy_user_session_path(:user), :method=>'delete', 'data-role' => "button", 'data-inline' => "true", 'data-direction' => "reverse", 'data-theme' => "a", 'data-icon' => "star", 'data-iconpos' => "left", :class => "ui-btn-right" %>
+    </a>
+</div>
+
+   <div data-role="content">
+      <b>Positions in Family Fun Portfolios</b>
+		<% Time.zone = 'America/New_York' %>
+      <p>Latest Results as of: <%= Time.now.strftime("%I:%M%p") %> EST</p>
+ 
+<table data-role="table" id="table-custom-2" data-mode="columntoggle" class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-theme="b" data-column-btn-text="Columns to display..." data-column-popup-theme="a" style="margin: auto;">
+
+		<tr class="ui-bar-d">
+			<th>Stock</th>
+			<th>Owner</th>
+			<th class='aln_c'>Days Held</th>
+			<th class='aln_c'>Gain/Loss</th>
+		</tr>
+
+	<% s = Portfolio.where(:name => 'Family Fun').collect { |p| p }.collect { |p| p.stocks }.flatten %>
+	<% stocks = s.collect { |stock| [ stock, stock.position_gain_loss[1] ] }.sort_by! { |i| -i[1] } %>
+
+	<% stocks.each_with_index do |s,i| %>
+	<% stock = s[0]%>
+	<%= i.odd? ? "<tr style='background: #eee;' >".html_safe : "<tr>".html_safe %>
+		<td><%= stock.symbol.upcase %></td>
+		<td><%= stock.portfolio.user.name %></td>
+		<td style='text-align:right !important;'><%= distance_of_time_in_words(stock.purch_date, Date.today) %> </td> <!-- Holding Period -->
+		<td style='text-align:right !important;'><%= number_to_percentage(100*(stock.current_price-stock.purch_price)/stock.purch_price) %></td>
+  </tr>
+	<% end %>
+
+</table>
+<br>
+<%= link_to 'Back', start_path, 'data-role' => "button", 'data-icon' => "star", 'data-iconpos' => "left", 'data-mini' => "true", 'data-inline' => 'true', 'data-theme' => "b" %>
+
+<br>
+<br>
+</div><!-- /content -->
+
+<div data-role="footer">
+      <h1>Denenberg @2012 | <%= link_to "Full Site", start_path(:mobile => 0), :target => '_blank' %></h1>
+</div><!-- /header -->
+

@@ -9,7 +9,8 @@
 
    <div data-role="content">
       <b>Family Favorite Results</b>
-      <p>Latest Results as of: <%= Time.now.strftime("%I:%M%p") %></p>
+		<% Time.zone = 'America/New_York' %>
+      <p>Latest Results as of: <%= Time.now.strftime("%I:%M%p") %> EST</p>
 		
 
     
@@ -32,6 +33,8 @@
 				</table>
 <p>Started on 01/03/2013 with $100,000</p>
 <%= link_to 'My Portfolios', stocks_path, 'data-role' => "button", 'data-icon' => "star", 'data-iconpos' => "left", 'data-mini' => "true", 'data-inline' => 'true', 'data-theme' => "b"  %>
+<%= link_to 'See Family Positions', family_fun_positions_stocks_path, 'data-role' => "button", 'data-icon' => "star", 'data-iconpos' => "left", 'data-mini' => "true", 'data-inline' => 'true', 'data-theme' => "b" %>
+
 
 </div><!-- /content -->
 

@@ -28,10 +28,11 @@
 		<div class='introbox'>
 
 			<h3>Family Favorite Results</h3>
+			
 
 			<table class='table table-condensed table-bordered table-striped'>
 					<tr>
-						<th>Family Member</th>
+						<th>Family Member<%= link_to 'Positions', family_fun_positions_stocks_path, :class => 'btn btn-mini' %></th>
 						<th class='aln_c'>Portfolio Value</th>
 						<th>Gain/Loss</th>
 					</tr>						
@@ -49,7 +50,6 @@
 			  </tr>
 				<% end %>
 			</table>
-
 		</div>		    
 	</div>
 </div>

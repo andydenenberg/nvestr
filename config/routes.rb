@@ -9,6 +9,7 @@ Stc::Application.routes.draw do
       get 'lookup'
       get 'new_portfolio'
       post 'sell_shares'
+      get 'family_fun_positions'
     end
   end
 

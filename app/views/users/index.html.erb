@@ -1,11 +1,13 @@
 <h3>Users</h3>
-<div class="span8">
+<div class="span10">
 <table class="table table-condensed">
 	  <thead>
       <tr>
           <th>Username</th>
           <th>Email</th>
           <th>Registered</th>
+		  <th>Current Sign in at</th>
+		  <th>Last Sign in at</th>		
           <th>Role</th>
           <th></th>
           <th></th>                                      
@@ -17,6 +19,8 @@
         <td><%= link_to user.name, user %></td>
         <td><%= user.email %></td>
         <td><%= user.created_at.to_date %></td>
+		<td><%= user.current_sign_in_at %></td>
+		<td><%= user.last_sign_in_at.to_date if user.last_sign_in_at %></td>
         <td><%= user.roles.first.name.titleize unless user.roles.first.nil? %></td>
         <td>
           <a data-toggle="modal" href="#role-options-<%= user.id %>" class="btn btn-mini" type="button">Change role</a>

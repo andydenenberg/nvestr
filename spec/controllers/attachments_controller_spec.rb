@@ -18,7 +18,13 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe AttachmentsController do
+describe AttachmentsController, :type => :controller do
+  
+  before (:each) do
+    @user = FactoryGirl.create(:user)
+    puts sign_in @user
+  end
+  
 
   # This should return the minimal set of attributes required to create a valid
   # Attachment. As you add validations to Attachment, be sure to
