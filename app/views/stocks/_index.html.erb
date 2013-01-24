@@ -65,7 +65,7 @@
 	<td></td>
 	<td></td>
 	<th class='aln_r'>Cash</th>
-	<td class='aln_r'><%= number_to_currency(Portfolio.find_by_name(@port).cash) if Portfolio.find_by_name(@port) %></td>
+	<td class='aln_r'><%= number_to_currency(Portfolio.where(:name => @port, :user_id => current_user).first.cash) %></td>
 	<td></td>
 	<td></td>
 	<td></td>

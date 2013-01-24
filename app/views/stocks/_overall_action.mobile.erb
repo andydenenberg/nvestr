@@ -26,13 +26,13 @@
 				<% end %>
 			<tr style='border-bottom: 1px solid #000;'>
 				<td style='border-bottom: 1px solid #000;'>Cash</td>
-				<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_currency(Portfolio.find_by_name(@port).cash) if Portfolio.find_by_name(@port) %></td>
+				<td style='text-align:right !important;border-bottom: 1px solid #000;'><%= number_to_currency(Portfolio.where(:name => @port, :user_id => current_user).first.cash) %></td>
 				<td></td>
 				<td></td>
 			</tr>
 			<tr>
 				<td>Total</td>
-				<td style='text-align:right !important;'><%= number_to_currency(Portfolio.find_by_name(@port).current_value) %></td>
+				<td style='text-align:right !important;'><%= number_to_currency(Portfolio.where(:name => @port, :user_id => current_user).first.current_value) %></td>
 			</tr>
 
          </tbody>
