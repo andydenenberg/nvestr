@@ -8,9 +8,19 @@
 
 
   <div class="container">
-
-
+	
 	<%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-signin' }) do |f| %>
+	
+	
+	<% flash.each do |name, msg| %>
+	  <% if msg.is_a?(String) %>
+	<div class="alert">
+	  <button type="button" class="close" data-dismiss="alert">&times;</button>
+	  <%= msg %>
+	</div>
+	  <% end %>
+	<% end %>
+	
     <h2 class="form-signin-heading">Please sign in</h2>
 	  <%= f.input :email, :autofocus => true, :class => "input-block-level", :placeholder => "Email address" %>
 	  <%= f.input :password , :class => "input-block-level", :placeholder => "Password"%>

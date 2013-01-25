@@ -23,6 +23,7 @@ describe AttachmentsController, :type => :controller do
   before (:each) do
     @user = FactoryGirl.create(:user)
     puts sign_in @user
+    @user.add_role :admin
   end
   
 

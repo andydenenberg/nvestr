@@ -20,6 +20,12 @@ require 'spec_helper'
 
 describe StocksController do
   
+  before (:each) do
+    @user = FactoryGirl.create(:user)
+    sign_in @user
+    @user.add_role :admin
+  end
+
   # This should return the minimal set of attributes required to create a valid
   # Stock. As you add validations to Stock, be sure to
   # update the return value of this method accordingly.

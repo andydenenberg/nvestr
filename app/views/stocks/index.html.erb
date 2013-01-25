@@ -20,6 +20,17 @@ function callModal(stock) {
 
 <%= link_to 'Home', start_path, :class => 'btn btn-mini'%><br><br>
 
+<% flash.each do |name, msg| %>
+  <% if msg.is_a?(String) %>
+<div class="alert">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <%= msg %>
+</div>
+  <% end %>
+<% end %>
+
+
+
 <!-- New Portfolio Modal -->
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">

@@ -19,6 +19,13 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe CommentsController do
+  
+  before (:each) do
+    @user = FactoryGirl.create(:user)
+    sign_in @user
+    @user.add_role :admin
+  end
+  
 
   # This should return the minimal set of attributes required to create a valid
   # Comment. As you add validations to Comment, be sure to

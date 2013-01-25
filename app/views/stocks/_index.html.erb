@@ -35,7 +35,7 @@
 					<%= form_tag(sell_shares_stocks_path(:portfolio => @port), :class => 'form-horizontal' ) do %>
 					  	<p><%= stock.quantity %> shares of <%= stock.symbol.upcase %></p>
 					    sell <%= text_field_tag :shares ,'', :class => 'span1' %><br>
-						<%= hidden_field_tag :stock_id, stock %>
+						<%= hidden_field_tag :stock_id, stock.id %>
 						<%= hidden_field_tag :price, stock.current_price %>
 						
 				  </div>

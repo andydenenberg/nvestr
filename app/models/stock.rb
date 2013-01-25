@@ -28,8 +28,12 @@ class Stock < ActiveRecord::Base
     end
     
     def position_gain_loss
-      g_l = self.position_value - self.position_cost
-      g_l_p = g_l / self.position_cost
+      g_l = 0
+      g_l_p = 0
+      if self.quantity > 0
+        g_l = self.position_value - self.position_cost
+        g_l_p = g_l / self.position_cost
+      end
       return g_l, g_l_p
     end
         

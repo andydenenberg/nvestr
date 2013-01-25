@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :user do
-    name 'Andy'
-    email 'andy@denenberg.net'
+    name 'XXX'
+    email 'xxx@denenberg.net'
     password 'xxxxxx'
     password_confirmation 'xxxxxx'
     # required if the Devise Confirmable module is used
