@@ -16,6 +16,7 @@
 //= requite stc.js
 //= require jquery.jqplot.min
 //= require_tree ./jqplot
+//= require_tree ./rockit
 //= require_tree .
 
 $(document).on("focus", "[data-behaviour~='datepicker']", function(e){
