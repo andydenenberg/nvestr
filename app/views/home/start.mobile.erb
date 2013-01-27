@@ -1,16 +1,42 @@
+<style type="text/css">
+	.myChart {
+		width: 300px;
+		height: 200px;
+	}
+</style>
+
+<script>
+	$(document).ready(function(){
+		rank = [ ] ;
+		<% Portfolio.family_rank.each do |user| %>
+		name = <%= "'#{User.find(user[0]).name}'".html_safe %> ;
+		value = <%= "#{user[1]}" %> ;
+		r1 = [name, value]  ;
+		rank.push(r1) ;
+		<% end %>
+		
+	ChartFamilyRank(rank);
+});
+
+</script>
+
 <div data-theme="b" data-role="header">
 	<span class="ui-title">
     </span>
-	<%= link_to_function 'Signed-in as ' + current_user.name, 'GoAdmin();', 'data-icon' => "home" %>
+	<%= link_to_function current_user.name, 'GoAdmin();', 'data-icon' => "home", 'data-theme' => "a" %>
 
     <%= link_to 'Logout', destroy_user_session_path(:user), :method=>'delete', 'data-role' => "button", 'data-inline' => "true", 'data-direction' => "reverse", 'data-theme' => "a", 'data-icon' => "star", 'data-iconpos' => "left", :class => "ui-btn-right" %>
     </a>
 </div>
 
    <div data-role="content">
-      <b>Family Favorite Results</b>
+	
+	
+		<div id="barChart" class="myChart"></div>
+	
+	
 		<% Time.zone = 'America/New_York' %>
-      <p>Latest Results as of: <%= Time.now.strftime("%I:%M%p") %> EST</p>
+      <p>As of: <%= Time.zone.now.strftime("%m/%d/%Y %I:%M%p") %> EST</p>
 		
 
     
@@ -33,7 +59,7 @@
 				</table>
 <p>Started on 01/03/2013 with $100,000</p>
 <%= link_to 'My Portfolios', stocks_path, 'data-role' => "button", 'data-icon' => "star", 'data-iconpos' => "left", 'data-mini' => "true", 'data-inline' => 'true', 'data-theme' => "b"  %>
-<%= link_to 'See Family Positions', family_fun_positions_stocks_path, 'data-role' => "button", 'data-icon' => "star", 'data-iconpos' => "left", 'data-mini' => "true", 'data-inline' => 'true', 'data-theme' => "b" %>
+<%= link_to 'Family Positions', family_fun_positions_stocks_path, 'data-role' => "button", 'data-icon' => "star", 'data-iconpos' => "left", 'data-mini' => "true", 'data-inline' => 'true', 'data-theme' => "b" %>
 
 
 </div><!-- /content -->

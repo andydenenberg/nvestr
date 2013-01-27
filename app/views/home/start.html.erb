@@ -1,5 +1,4 @@
 
-
 <div class='row'>
 	<div class='span6'>
 		<div class='introbox'>
@@ -29,12 +28,12 @@
 
 			<h3>Family Favorite Results</h3>
 			
-
 			<table class='table table-condensed table-bordered table-striped'>
 					<tr>
 						<th>Family Member<%= link_to 'Positions', family_fun_positions_stocks_path, :class => 'btn btn-mini' %></th>
 						<th class='aln_c'>Portfolio Value</th>
 						<th>Gain/Loss</th>
+						
 					</tr>						
 			<% Portfolio.family_rank.each do |user| %>
 				<tr>
@@ -46,10 +45,15 @@
 						<% end %>
 					</td>
 					<td class='aln_r'><%= number_to_currency(user[1]) %></td>
-					<td class='aln_r'><%= number_to_percentage( 100 * (user[1] - 100000)/100000 ) %></td>						
+					<td class='aln_r'><%= number_to_percentage( 100 * (user[1] - 100000)/100000 ) %></td>
 			  </tr>
 				<% end %>
 			</table>
+	</div>
+</div>
+
+		
+			
 		</div>		    
 	</div>
 </div>
@@ -74,7 +78,6 @@
 			</div><!--/well-->	
         </div><!--/span-->
      </div><!--/row-->
-
 
 
 

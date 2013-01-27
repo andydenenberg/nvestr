@@ -1,3 +1,6 @@
+
+
+
 <div data-theme="b" data-role="header">
 	<span class="ui-title">
     </span>
@@ -7,8 +10,9 @@
     </a>
 </div>
 
-   <div data-role="content">
-      <b>Positions in Family Fun Portfolios</b>
+   <div data-role="content">	
+<br>	
+
 		<% Time.zone = 'America/New_York' %>
       <p>Latest Results as of: <%= Time.now.strftime("%I:%M%p") %> EST</p>
  
@@ -36,7 +40,6 @@
 
 </table>
 <br>
-<%= link_to 'Back', start_path, 'data-role' => "button", 'data-icon' => "star", 'data-iconpos' => "left", 'data-mini' => "true", 'data-inline' => 'true', 'data-theme' => "b" %>
 
 <br>
 <br>

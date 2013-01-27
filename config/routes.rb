@@ -45,5 +45,7 @@ Stc::Application.routes.draw do
   get 'home/media' => 'home#media', :as => :media
   
   get 'home/start' => 'home#start', :as => :start
+  get 'home/test_graph' => 'home#test_graph', :as => :test_graph
+  
   
 end

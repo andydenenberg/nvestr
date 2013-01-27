@@ -12,7 +12,6 @@
 
 function GoHome1(Portfolio)
   {
-	alert('GoHome1') ;
 	baseURL = '/stocks?mobile=1'
 	if (Portfolio) 
 		{ port = '&portfolio=' + Portfolio }

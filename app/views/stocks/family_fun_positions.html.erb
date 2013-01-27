@@ -1,3 +1,47 @@
+<script>
+
+$(document).ready(function(){
+
+  var s1 = [2, 6, 7, 10];
+  var s2 = [7, 5, 3, 4];
+  var s3 = [14, 9, 3, 8];
+  plot3 = $.jqplot('chart3', [s1, s2, s3], {
+    // Tell the plot to stack the bars.
+    stackSeries: true,
+    captureRightClick: true,
+    seriesDefaults:{
+      renderer:$.jqplot.BarRenderer,
+      rendererOptions: {
+          // Put a 30 pixel margin between bars.
+          barMargin: 30,
+          // Highlight bars when mouse button pressed.
+          // Disables default highlighting on mouse over.
+          highlightMouseDown: true   
+      },
+      pointLabels: {show: true}
+    },
+    axes: {
+      xaxis: {
+          renderer: $.jqplot.CategoryAxisRenderer
+      },
+      yaxis: {
+        // Don't pad out the bottom of the data range.  By default,
+        // axes scaled as if data extended 10% above and below the
+        // actual range to prevent data points right on grid boundaries.
+        // Don't want to do that here.
+        padMin: 0
+      }
+    },
+    legend: {
+      show: true,
+      location: 'e',
+      placement: 'outside'
+    }      
+  });
+});
+
+</script>
+
 <%= link_to 'Home', start_path, :class => 'btn btn-mini'%><br><br>
 
 <h4>All Positions held in Family Fun Portfolios</h4><br>
@@ -28,4 +72,39 @@
 	<% end %>
 
 </table>
+
+
+<h3>Family Favorite Results</h3>
+
+<table class='table table-condensed table-bordered table-striped'>
+		<tr>
+			<th>Family Member<%= link_to 'Positions', family_fun_positions_stocks_path, :class => 'btn btn-mini' %></th>
+			<th class='aln_c'>Portfolio Value</th>
+			<th>Gain/Loss</th>
+			
+		</tr>						
+<% Portfolio.family_rank.each do |user| %>
+	<tr>
+		<td>
+			<% if current_user.name == User.find(user[0]).name %>
+			<%= link_to User.find(user[0]).name, stocks_path, :class => 'btn btn-mini btn-success' %>
+			<% else %>
+			<%= User.find(user[0]).name %>
+			<% end %>
+		</td>
+		<td class='aln_r'><%= number_to_currency(user[1]) %></td>
+		<td class='aln_r'><%= number_to_percentage( 100 * (user[1] - 100000)/100000 ) %></td>
+  </tr>
+	<% end %>
+</table>
+
+
+
+<div id="chart3" style="height:300px; width:500px;"></div>
+
+
+
+
+
+
 

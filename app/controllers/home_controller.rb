@@ -2,6 +2,10 @@ class HomeController < ApplicationController
   before_filter :authenticate_user!, :except => :welcome
   layout :choose_layout
   
+  def test_graph
+    render :layout => false 
+  end
+  
   def news
   end
   
