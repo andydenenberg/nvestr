@@ -54,9 +54,12 @@ $(document).ready(function(){
 	<div class='span5'>	
 		<%= f.label 'Name: ' %>
   		<%= f.text_field :name %>
+
 	  <%= f.label 'Portfolio: ' %>
 <%= f.select :portfolio_id, options_for_select(Portfolio.where(:user_id => current_user.id).collect { |p| [p.name, p.id] }, :selected => Portfolio.find_by_name(@port).id ) %>
+
 <%= f.association :user, :selected => current_user %>
+
 		<% i = 0 %>
 		<%= f.fields_for :comments do |comment| %>
 		<div class='row'>

@@ -7,13 +7,14 @@ class PostLogger < Logger
   class Formatter
     def call(severity, time, progname, msg)
       formatted_severity = sprintf("%-5s",severity.to_s)
-      formatted_time = time.strftime("%Y-%m-%d %H:%M:%S")
+      Time.zone = 'America/New_York'
+      formatted_time = time.zone.strftime("%m-%d-%Y %H:%M")
       "[#{formatted_severity} #{formatted_time}] #{msg.strip}\n"
     end
   end
 
   def initialize
-    super(Rails.root.join('log/post_error.log'))
+    super(Rails.root.join('log/portfolio_transaction.log'))
     self.formatter = Formatter.new
     self
   end

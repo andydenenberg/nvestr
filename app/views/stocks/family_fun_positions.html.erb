@@ -1,50 +1,74 @@
+<script class="include" language="javascript" type="text/javascript" src="/assets/jqplot/jqplot.dateAxisRenderer.min.js"></script>
+
+
 <script>
 
 $(document).ready(function(){
+	
+	var width = $('.container').innerWidth() * 0.95;
+	var height = width / 2 ;
+	$('#chart2').css({'height': height, 'width': width});
+	
+	
+  var line1 = [ ['2013-01-06 8:00AM',100000], ['2013-01-13 8:00AM',100000], ['2013-01-20 8:00AM',100000], ['2013-01-27 8:00AM',100617.9] ] ;
+  var line2 = [ ['2013-01-06 8:00AM',100000], ['2013-01-13 8:00AM',100000], ['2013-01-20 8:00AM',100000], ['2013-01-27 8:00AM',100389.27] ] ;
+  var line3 = [ ['2013-01-06 8:00AM',100000], ['2013-01-13 8:00AM',100000], ['2013-01-20 8:00AM',100000], ['2013-01-27 8:00AM',100215.1] ] ;
+  var line4 = [ ['2013-01-06 8:00AM',100000], ['2013-01-13 8:00AM',100000], ['2013-01-20 8:00AM',100000], ['2013-01-27 8:00AM',100212.54] ] ;
+  var line5 = [ ['2013-01-06 8:00AM',100000], ['2013-01-13 8:00AM',100000], ['2013-01-20 8:00AM',100000], ['2013-01-27 8:00AM',99954.04] ] ;
+  var line6 = [ ['2013-01-06 8:00AM',100000], ['2013-01-13 8:00AM',100000], ['2013-01-20 8:00AM',100000], ['2013-01-27 8:00AM',99939.98] ] ;
+  var plot2 = $.jqplot('chart2', [line1,line2,line3,line4,line5,line6], {
+      title:'Portfolio Performance',
+	   	axesDefaults: {
+	       	tickOptions: {
+	         		fontSize: '10pt'
+	       	}
+	   	}, 
+      axes:{
+        xaxis:{
+          renderer:$.jqplot.DateAxisRenderer, 
+          tickOptions:{formatString:'%b %#d, %#I %p'},
+          min:'Jan 03, 2013 8:00AM', 
+          tickInterval:'2 weeks'
+        },
+	   yaxis : {
+	        tickOptions: {formatString: "$%'i" },
+	    }
 
-  var s1 = [2, 6, 7, 10];
-  var s2 = [7, 5, 3, 4];
-  var s3 = [14, 9, 3, 8];
-  plot3 = $.jqplot('chart3', [s1, s2, s3], {
-    // Tell the plot to stack the bars.
-    stackSeries: true,
-    captureRightClick: true,
-    seriesDefaults:{
-      renderer:$.jqplot.BarRenderer,
-      rendererOptions: {
-          // Put a 30 pixel margin between bars.
-          barMargin: 30,
-          // Highlight bars when mouse button pressed.
-          // Disables default highlighting on mouse over.
-          highlightMouseDown: true   
       },
-      pointLabels: {show: true}
-    },
-    axes: {
-      xaxis: {
-          renderer: $.jqplot.CategoryAxisRenderer
-      },
-      yaxis: {
-        // Don't pad out the bottom of the data range.  By default,
-        // axes scaled as if data extended 10% above and below the
-        // actual range to prevent data points right on grid boundaries.
-        // Don't want to do that here.
-        padMin: 0
+      // Custom labels for the series are specified with the "label"
+      // option on the series option.  Here a series option object
+      // is specified for each series.
+      series:[
+          {label:'Gina'},
+          {label:'Nerissa'},
+          {label:'Mike'},
+          {label:'Roberta'},
+          {label:'Andy'},
+          {label:'Tim'}
+      ],
+      // Show the legend and put it outside the grid, but inside the
+      // plot container, shrinking the grid to accomodate the legend.
+      // A value of "outside" would not shrink the grid and allow
+      // the legend to overflow the container.
+      legend: {
+          show: true,
+          placement: 'outsideGrid'
       }
-    },
-    legend: {
-      show: true,
-      location: 'e',
-      placement: 'outside'
-    }      
+
   });
+
 });
 
 </script>
 
 <%= link_to 'Home', start_path, :class => 'btn btn-mini'%><br><br>
 
-<h4>All Positions held in Family Fun Portfolios</h4><br>
+<table   style="margin: auto;"><tr><td><td>
+	<td>
+		<div style="text-align:center;">
+
+
+<h3>All Positions held in Family Fun Portfolios</h3><br>
  
 <table class='table table-condensed table-bordered table-striped'>
 		<tr>
@@ -73,8 +97,9 @@ $(document).ready(function(){
 
 </table>
 
+<br><br>
 
-<h3>Family Favorite Results</h3>
+<h3>Results over Time</h3>
 
 <table class='table table-condensed table-bordered table-striped'>
 		<tr>
@@ -98,12 +123,19 @@ $(document).ready(function(){
 	<% end %>
 </table>
 
+<div id="chart2" style="height:300px; width:650px;"></div>
+
+	</td>
+	<td></td></tr>
+</table>
+<br><br>
 
 
-<div id="chart3" style="height:300px; width:500px;"></div>
+<h3>All Portfolio Transactions</h3>
 
-
-
+<% Translog.read_log[1..-1].each do |logfile| %>
+<%= logfile %><br>
+<% end %>
 
 
 

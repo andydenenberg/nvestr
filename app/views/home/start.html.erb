@@ -1,9 +1,17 @@
+<style>
+.top_header {
+font-size:22px;	
+}
+</style>
 
 <div class='row'>
 	<div class='span6'>
 		<div class='introbox'>
 
-			<h3>My Portfolios</h3>
+			<br>
+			<div class='top_header'>&nbsp;<b>My Portfolios</b>&nbsp;&nbsp;
+			<%= link_to 'New Portfolio', '#myModal', :class => 'btn btn-mini btn-info', 'data-toggle' => "modal" %></div><br>
+			
 
 			<table class='table table-condensed table-bordered table-striped'>
 					<tr>
@@ -20,17 +28,21 @@
 				<% end %>
 			</table>
 
+			<%= render '/stocks/partials/new_portfolio' %>
+
 		</div>		    
 	</div>
 	
 	<div class='span6'>
 		<div class='introbox'>
 
-			<h3>Family Favorite Results</h3>
-			
+			<br>
+			<div class='top_header'>&nbsp;<b>Family Favorite Results</b>&nbsp;&nbsp;
+			<%= link_to 'Positions', family_fun_positions_stocks_path, :class => 'btn btn-mini' %></div><br>
+
 			<table class='table table-condensed table-bordered table-striped'>
 					<tr>
-						<th>Family Member<%= link_to 'Positions', family_fun_positions_stocks_path, :class => 'btn btn-mini' %></th>
+						<th>Family Member</th>
 						<th class='aln_c'>Portfolio Value</th>
 						<th>Gain/Loss</th>
 						

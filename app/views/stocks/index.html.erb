@@ -29,35 +29,7 @@ function callModal(stock) {
   <% end %>
 <% end %>
 
-
-
-<!-- New Portfolio Modal -->
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">New Portfolio</h3>
-  </div>
-  <div class="modal-body">
-	<%= form_for(@portfolio, :url => portfolios_create_path(@portfolio), :html => { :class => 'form-horizontal' } ) do |f| %>
-	  	<%= f.label 'Portfolio Name:' %>
-	    <%= f.text_field :name  %>
-	  	<%= f.label 'Initial Cash:' %>
-		<div class="input-prepend input-append">
-		  <span class="add-on">$</span>
-		<%= f.text_field :cash, :value => number_with_precision(f.object.cash, :precision => 0), :class => 'span2' %>
-		<span class="add-on">.00</span>
-		</div>
-		<%= f.hidden_field :user_id, :value => current_user.id %>
-  </div>
-  <div class="modal-footer">
-	    <%= f.button :submit, :class => 'btn btn-success'%>	
-	<% end %>	
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-  </div>
-</div>
-
-
-
+<%= render '/stocks/partials/new_portfolio' %>
 
 	<div class="row">		
         <div class="span12 schoolbox">
