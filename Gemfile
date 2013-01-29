@@ -6,6 +6,7 @@ gem 'paperclip'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 # gem 'bootstrap-datepicker-rails', '>= 0.6.21'
+gem 'whenever', :require => false
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

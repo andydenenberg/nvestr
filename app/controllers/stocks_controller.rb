@@ -37,7 +37,7 @@ class StocksController < ApplicationController
         
     @stocks = Portfolio.where(:name => @port, :user_id => current_user).first.rank_by_gain_loss(params[:type_of_action]) 
 
-    
+    @portfolio = Portfolio.new :cash => 100000.0
 
      if params[:type_of_action]
        if params[:type_of_action] == 'overall'
