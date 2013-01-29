@@ -12,7 +12,10 @@ module  Translog
   end  
   
   def self.daily_snapshot
-    PostLogger.debug("Daily Timestamp")
+    ss = Portfolio.family_rank
+    text = 'Daily Snapshot: '
+    text += ss.collect { |p| User.find(p[0]).name + ' = ' + p[1].to_s + ', '  }.join
+    PostLogger.debug(text)
   end
   
   
