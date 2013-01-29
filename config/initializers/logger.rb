@@ -7,8 +7,7 @@ class PostLogger < Logger
   class Formatter
     def call(severity, time, progname, msg)
       formatted_severity = sprintf("%-5s",severity.to_s)
-      Time.zone = 'America/New_York'
-      formatted_time = time.zone.strftime("%m-%d-%Y %H:%M")
+      formatted_time = time.strftime("%m-%d-%Y %H:%M")
       "[#{formatted_severity} #{formatted_time}] #{msg.strip}\n"
     end
   end

@@ -12,6 +12,12 @@ require "net/ssh"
 require "net/scp"
 
 namespace :demo do
+
+  desc "Install production database to this copy. Warning: This will destroy your current data."
+  task :daily_snapshot => :environment do
+    Translog.daily_snapshot
+  end
+
   desc "Install production database to this copy. Warning: This will destroy your current data."
   task :sync_from_prod=>:environment do
     puts "** WARNING ** You are about to replace your database and public/system folder!"

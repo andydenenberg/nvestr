@@ -45,5 +45,9 @@ class Portfolio < ActiveRecord::Base
     
   end
   
+  def time_values
+    Array.new
+    
+  end
   
 end

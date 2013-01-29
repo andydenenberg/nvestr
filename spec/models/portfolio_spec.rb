@@ -1,5 +1,11 @@
 require 'spec_helper'
 
 describe Portfolio do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it "should return array of portfolio values" do
+    ports = Portfolio.new
+     (ports.time_values.class == Array) .should be_true
+  end
+
 end
+
