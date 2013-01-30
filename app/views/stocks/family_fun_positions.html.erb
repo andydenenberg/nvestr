@@ -8,15 +8,21 @@ $(document).ready(function(){
 	var width = $('.container').innerWidth() * 0.95;
 	var height = width / 2 ;
 	$('#chart2').css({'height': height, 'width': width});
+
+<% s = Translog.parse_daily_snapshot %>
+
+line = [ ] ;
+<% (0..5).each do |i| %>
+	<% line = s.collect { |a| a[i] } %>
+	rank = [ ] ;
+	<% line.each do |ln| %>
+	rank.push ([ <%= "'#{ln[0]}'".html_safe %>, <%= "#{ln[1]}" %> ]) ;
+	<% end %>
+	line.push(rank) ;
+<% end %>
+
 	
-	
-  var line1 = [ ['2013-01-06 8:00AM',100000], ['2013-01-13 8:00AM',100000], ['2013-01-20 8:00AM',100000], ['2013-01-27 8:00AM',100617.9] ] ;
-  var line2 = [ ['2013-01-06 8:00AM',100000], ['2013-01-13 8:00AM',100000], ['2013-01-20 8:00AM',100000], ['2013-01-27 8:00AM',100389.27] ] ;
-  var line3 = [ ['2013-01-06 8:00AM',100000], ['2013-01-13 8:00AM',100000], ['2013-01-20 8:00AM',100000], ['2013-01-27 8:00AM',100215.1] ] ;
-  var line4 = [ ['2013-01-06 8:00AM',100000], ['2013-01-13 8:00AM',100000], ['2013-01-20 8:00AM',100000], ['2013-01-27 8:00AM',100212.54] ] ;
-  var line5 = [ ['2013-01-06 8:00AM',100000], ['2013-01-13 8:00AM',100000], ['2013-01-20 8:00AM',100000], ['2013-01-27 8:00AM',99954.04] ] ;
-  var line6 = [ ['2013-01-06 8:00AM',100000], ['2013-01-13 8:00AM',100000], ['2013-01-20 8:00AM',100000], ['2013-01-27 8:00AM',99939.98] ] ;
-  var plot2 = $.jqplot('chart2', [line1,line2,line3,line4,line5,line6], {
+  var plot2 = $.jqplot('chart2', line, {
       title:'Portfolio Performance',
 	   	axesDefaults: {
 	       	tickOptions: {
@@ -27,7 +33,7 @@ $(document).ready(function(){
         xaxis:{
           renderer:$.jqplot.DateAxisRenderer, 
           tickOptions:{formatString:'%b %#d, %#I %p'},
-          min:'Jan 03, 2013 8:00AM', 
+          min:'Jan 25, 2013 8:00AM', 
           tickInterval:'2 weeks'
         },
 	   yaxis : {
@@ -39,11 +45,11 @@ $(document).ready(function(){
       // option on the series option.  Here a series option object
       // is specified for each series.
       series:[
-          {label:'Gina'},
-          {label:'Nerissa'},
-          {label:'Mike'},
-          {label:'Roberta'},
           {label:'Andy'},
+          {label:'Gina'},
+          {label:'Mike'},
+          {label:'Nerissa'},
+          {label:'Roberta'},
           {label:'Tim'}
       ],
 	  grid: {
