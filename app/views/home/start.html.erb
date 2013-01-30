@@ -38,13 +38,14 @@ font-size:22px;
 
 			<br>
 			<div class='top_header'>&nbsp;<b>Family Favorite Results</b>&nbsp;&nbsp;
-			<%= link_to 'Positions', family_fun_positions_stocks_path, :class => 'btn btn-mini' %></div><br>
+			<%= link_to 'Details', family_fun_positions_stocks_path, :class => 'btn btn-mini' %></div><br>
 
 			<table class='table table-condensed table-bordered table-striped'>
 					<tr>
 						<th>Family Member</th>
-						<th class='aln_c'>Portfolio Value</th>
-						<th>Gain/Loss</th>
+						<th class='aln_r'>Portfolio Value</th>
+						<th class='aln_r'>% Invested</th>
+						<th class='aln_r'>Gain/Loss</th>
 						
 					</tr>						
 			<% Portfolio.family_rank.each do |user| %>
@@ -57,6 +58,7 @@ font-size:22px;
 						<% end %>
 					</td>
 					<td class='aln_r'><%= number_to_currency(user[1]) %></td>
+					<td class='aln_r'><%= number_to_percentage( 100 * (user[1] - user[2]) / user[1] ) %></td>
 					<td class='aln_r'><%= number_to_percentage( 100 * (user[1] - 100000)/100000 ) %></td>
 			  </tr>
 				<% end %>

@@ -25,7 +25,7 @@ class Portfolio < ActiveRecord::Base
     portfolios = [ ]
     (1..6).each do |user|
       p = self.where(:user_id => user, :name => 'Family Fun').first
-      portfolios.push [ p.user_id, p.current_value ]
+      portfolios.push [ p.user_id, p.current_value, p.cash ]
     end
     return portfolios.sort_by!{|k| -k[1]}
   end
