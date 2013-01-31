@@ -7,6 +7,7 @@ class Stock < ActiveRecord::Base
   
   validates_numericality_of :purch_price
   validates :purch_date, :presence => true
+  validates_numericality_of :quantity, :presence => true
 
     def current_price  
       Quote.current_price(self.symbol)['LastTrade'].to_f

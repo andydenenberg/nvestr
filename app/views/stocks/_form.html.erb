@@ -11,22 +11,26 @@ function UpdatePrice(data) {
 	var stock = data.split("#&#");
 	$("#stock_purch_price").val (stock[0]);
 	$("#stock_name").val (stock[1]);
-	$("#quantity").text (Math.floor(<%= Portfolio.find_by_name(@port).cash %> / stock[0]) );
-	
-//$("#stock_purch_price").text = 'data' ;
+	$("#quantity").text (Math.floor(<%= Portfolio.where(:name => @port, :user_id => current_user.id).first.cash %> / stock[0]) );
+}
+
+function CalculateTotal() {
+	$("#cost").val ( '$' + ($('#stock_quantity').val() * $('#stock_purch_price').val()).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );		
 }
 
 $(document).ready(function(){
+
+	$('#stock_portfolio_id').change(function() {
+		alert('Reinitialize the available cash position') ;
+   });
+
 	
 	$('#stock_quantity').change(function() {
 		max = parseFloat($('#quantity').text()) ;
 	  if ( $('#stock_quantity').val() > max ) 
 			{ $('#stock_quantity').val (max) }
+	  $("#cost").val (0);	
     });
-//	$('#stock_purch_price').live('input', function() {
-//	  alert('Handler for .change() called.');
-//    });
-
 
 });
 
@@ -34,31 +38,53 @@ $(document).ready(function(){
 
 <%= simple_form_for(@stock) do |f| %>
   <%= f.error_notification %>
-<div class='row'>
-	<div class='span4'>
-  		<div class="form-inputs">
+<div class="form-inputs">
+	<div class='row'>
+		<div class='span3'>
 			<%= f.label 'Symbol:' %>
-		    <%= f.text_field :symbol %>
+		    <%= f.text_field :symbol, :class => 'span1' %>
 			<%= link_to_function 'Get Price', 'GetPrice();', :class => 'btn btn-info btn-mini' %><br>
-			<%= f.label 'Purchase Price:' %>
-		    <%= f.text_field :purch_price %>
+			<%= f.label 'Name: ' %>
+	  		<%= f.text_field :name %>
 			<br>
-			<div style='float:left;'>Available Cash:</div> <b> <%= number_to_currency(Portfolio.find_by_name(@port).cash) %></div></b>
-			<div style='float:left;'>Maximum Number of Shares:</div> <b><div id='quantity'>0</div></b>
-
-			<%= f.label 'Quantity:' %>
-    		<%= f.text_field :quantity, :class => 'span2' %><span class="help-block">To take a short position - enter negative quantity</span><br>
+				  <%= f.label 'Portfolio: ' %>
+			<%= f.select :portfolio_id, options_for_select(Portfolio.where(:user_id => current_user.id).collect { |p| [p.name, p.id] }, :selected => Portfolio.find_by_name(@port).id ) %>
 			<%= f.label 'Purchase Date: ' %>
 	  		<%= f.text_field :purch_date, :type => 'date', :value => Date.today, :class => 'span2' %>
-	</div>
-	<div class='span5'>	
-		<%= f.label 'Name: ' %>
-  		<%= f.text_field :name %>
-
-	  <%= f.label 'Portfolio: ' %>
-<%= f.select :portfolio_id, options_for_select(Portfolio.where(:user_id => current_user.id).collect { |p| [p.name, p.id] }, :selected => Portfolio.find_by_name(@port).id ) %>
-
-<%= f.association :user, :selected => current_user %>
+		</div>
+		<div class='span4'>	
+			<table class='table table-condensed table-bordered'>
+				<tr>
+					<td><%= f.label 'Available Cash:' %></td>
+					<td>
+					  <div class="input-prepend">
+					  <span class="add-on">$</span>
+						<span class="input-small uneditable-input"><%= number_with_precision(Portfolio.where(:name => @port, :user_id => current_user.id).first.cash, :precision => 2 ) %></span>
+					  </div></td>
+				</tr>
+				<tr>
+					<td><%= f.label 'Maximum Shares:' %></td><td><span id='quantity' class="input-small uneditable-input"></span></td>
+				</tr>
+				<tr>
+					<th><%= f.label 'Quantity:' %></th><th><%= f.text_field :quantity, :class => 'span1' %></th>
+				</tr>
+				<tr>
+					<th><%= f.label 'Price:' %></th>
+					<th><div class="input-prepend">
+					  <span class="add-on">$</span>
+						<%= f.text_field :purch_price, :class => 'span1' %></th>
+						</div>
+				</tr>
+				<tr>
+					<th><%= f.label 'Total Cost:' %></th>
+					<th>
+					<div class="input-append input-prepend">
+						<span class="add-on">$</span>
+					  <%= text_field_tag :cost, 0, :class => 'span2' %>
+					  <%= link_to_function 'Calc!', 'CalculateTotal();', :class => 'btn' %>
+					</div>
+				</tr>
+			</table>
 
 		<% i = 0 %>
 		<%= f.fields_for :comments do |comment| %>
@@ -72,10 +98,9 @@ $(document).ready(function(){
 				<% end %>				
 			</div>
 		</div>
-		<br>
 		  <div class="form-inputs">
-			<label for="stackedSelect"><b>Comment</b></label>
-		    <%= comment.text_area :note , :class => "input textarea span3", :rows => 4  %>
+			<label for="stackedSelect"><%= comment.label 'Notes or comments regarding purchase:' %></label>
+		    <%= comment.text_area :note , :class => "input textarea span4", :rows => 4  %>
 			<%= comment.hidden_field :user_id , :value => current_user.id %>
 		  </div>
 		

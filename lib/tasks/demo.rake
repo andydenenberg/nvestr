@@ -20,39 +20,56 @@ namespace :demo do
 
   desc "Install production database to this copy. Warning: This will destroy your current data."
   task :sync_from_prod=>:environment do
+    
     puts "** WARNING ** You are about to replace your database and public/system folder!"
+    
+    url = 'nvestr.denenberg.net'
+    app_database_name = 'nvestr'
+    
     t = Time.now
-    db_dump_file_name = "stcBackup#{t.to_i}.sql"
+    db_dump_file_name = "#{app_database_name}Backup#{t.to_i}.sql"
     tar_name = "#{t.to_i}.tar.gz"
     tmp_system = "/tmp/#{tar_name}"
-    Net::SSH.start('stc.ospreypointcap.com', 'ubuntu') do |ssh|
+    pub_sys = nil
+    Net::SSH.start(url, 'ubuntu') do |ssh|
       puts "Dumping database remotely into /tmp/#{db_dump_file_name}"
-      ssh.exec! "mysqldump -u root -h localhost stc > /tmp/#{db_dump_file_name}"
+      ssh.exec! "mysqldump -u root -h localhost railsdev > /tmp/#{db_dump_file_name}"
       puts 'db dump complete'
       puts "tar czvf #{tmp_system} public/system"
-      ssh.exec! "tar czvf #{tmp_system} --directory ~/rails/stc/public/ system"
+      pub_sys = ssh.exec! "tar czvf #{tmp_system} --directory ~/rails/#{app_database_name}/public/system"
+      puts !pub_sys.include?('empty')
     end
+    
     FileUtils.rm_rf tmp_system if File.exists? tmp_system
-    Net::SCP.start("stc.ospreypointcap.com", "ubuntu") do |scp|
+    Net::SCP.start(url, "ubuntu") do |scp|
       puts "Downloading database to your /tmp."
       scp.download("/tmp/#{db_dump_file_name}", "/tmp")
-      puts "Downloading system tar gz folder to your /tmp."
-      scp.download(tmp_system, "/tmp")
+      if !pub_sys.include?('empty')  
+        puts "Downloading system tar gz folder to your /tmp."
+        scp.download(tmp_system, "/tmp")
+      else
+        puts 'No Public System files to copy...'
+      end
     end
-    Net::SSH.start('stc.ospreypointcap.com', 'ubuntu') do |ssh|
+    
+    Net::SSH.start(url, 'ubuntu') do |ssh|
       puts "Removing remote database dump"
       ssh.exec! "rm -f /tmp/#{db_dump_file_name}"
 
       puts "Removing remote tar gz file"
       ssh.exec! "rm -f #{tmp_system}"
-
+      
     end
-    puts "Uncompressing system tar gz."
-    `tar xzvf /tmp/#{tar_name} --directory public/system`    
-    puts "Loading database (The dump file remains in /tmp)"
-    `mysql -u root -h localhost stc < /tmp/#{db_dump_file_name}`
+    if !pub_sys.include?('empty') 
+      puts "Uncompressing system tar gz."
+     `tar xzvf /tmp/#{tar_name} --directory public/system` 
+    end
+     
+      puts "Loading database (The dump file remains in /tmp)"
+      `mysql -u root -h localhost railsdev < /tmp/#{db_dump_file_name}`
 
   end
+
   
 end
 
