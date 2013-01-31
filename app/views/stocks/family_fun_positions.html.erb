@@ -112,27 +112,7 @@ line = [ ] ;
 
 <h3>Results over Time</h3>
 
-<table class='table table-condensed table-bordered table-striped'>
-		<tr>
-			<th>Family Member<%= link_to 'Positions', family_fun_positions_stocks_path, :class => 'btn btn-mini' %></th>
-			<th class='aln_c'>Portfolio Value</th>
-			<th>Gain/Loss</th>
-			
-		</tr>						
-<% Portfolio.family_rank.each do |user| %>
-	<tr>
-		<td>
-			<% if current_user.name == User.find(user[0]).name %>
-			<%= link_to User.find(user[0]).name, stocks_path, :class => 'btn btn-mini btn-success' %>
-			<% else %>
-			<%= User.find(user[0]).name %>
-			<% end %>
-		</td>
-		<td class='aln_r'><%= number_to_currency(user[1]) %></td>
-		<td class='aln_r'><%= number_to_percentage( 100 * (user[1] - 100000)/100000 ) %></td>
-  </tr>
-	<% end %>
-</table>
+
 
 <div id="chart2" style="height:300px; width:650px;"></div>
 
