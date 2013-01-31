@@ -11,11 +11,31 @@ function UpdatePrice(data) {
 	var stock = data.split("#&#");
 	$("#stock_purch_price").val (stock[0]);
 	$("#stock_name").val (stock[1]);
-	$("#quantity").text (Math.floor(<%= Portfolio.where(:name => @port, :user_id => current_user.id).first.cash %> / stock[0]) );
+	$("#daily_change").text ('Daily Chng: ' + stock[2] ) ;
+	$("#max_shares").text ('Maximum: ' + Math.floor(<%= Portfolio.where(:name => @port, :user_id => current_user.id).first.cash %> / stock[0]) ) ;
 }
 
 function CalculateTotal() {
 	$("#cost").val ( '$' + ($('#stock_quantity').val() * $('#stock_purch_price').val()).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") );		
+}
+
+function EnableCommit() {
+	if ( validateForm() ) {
+		$("#CreatePos").hide();	
+		$("#CommitPos").show();		
+	}
+}
+
+function validateForm()
+{
+var x=$('#stock_quantity').val();
+if (x==null || x=="")
+  {
+  alert("Quantity cannot be zero");
+  return false;
+  }
+else { return true }
+	
 }
 
 $(document).ready(function(){
@@ -29,67 +49,90 @@ $(document).ready(function(){
 		max = parseFloat($('#quantity').text()) ;
 	  if ( $('#stock_quantity').val() > max ) 
 			{ $('#stock_quantity').val (max) }
-	  $("#cost").val (0);	
+	  CalculateTotal();	
     });
+
+	$("#CommitPos").hide();
 
 });
 
 </script>
 
+
 <%= simple_form_for(@stock) do |f| %>
   <%= f.error_notification %>
 <div class="form-inputs">
 	<div class='row'>
-		<div class='span3'>
-			<%= f.label 'Symbol:' %>
-		    <%= f.text_field :symbol, :class => 'span1' %>
-			<%= link_to_function 'Get Price', 'GetPrice();', :class => 'btn btn-info btn-mini' %><br>
-			<%= f.label 'Name: ' %>
-	  		<%= f.text_field :name %>
-			<br>
-				  <%= f.label 'Portfolio: ' %>
-			<%= f.select :portfolio_id, options_for_select(Portfolio.where(:user_id => current_user.id).collect { |p| [p.name, p.id] }, :selected => Portfolio.find_by_name(@port).id ) %>
-			<%= f.label 'Purchase Date: ' %>
-	  		<%= f.text_field :purch_date, :type => 'date', :value => Date.today, :class => 'span2' %>
-		</div>
-		<div class='span4'>	
-			<table class='table table-condensed table-bordered'>
+		
+		<div class='span5'>	
+			<table>
 				<tr>
-					<td><%= f.label 'Available Cash:' %></td>
+					<td class='aln_r'><%= f.label 'Symbol:' %></td>
+					<td><div class="input-append">
+					<%= f.text_field :symbol, :class => 'span1' %>
+						<%= link_to_function 'Get Price', 'GetPrice();', :class => 'btn' %>
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<td class='aln_r'><%= f.label 'Name: ' %></td><td><%= f.text_field :name %></td>
+				</tr>
+				
+
+				<tr>
+					<td class='aln_r'><%= f.label 'Price:' %>
+					</td>
+					<td>
+					<div class="input-prepend input-append">
+					  <span class="add-on">$</span>
+						<%= f.text_field :purch_price, :class => 'span1 uneditable-input' %>
+						<span class="add-on" id='daily_change'></span>
+					</div>
+					</td>
+				</tr>
+
+				<tr>
+					<td class='aln_r'><%= f.label 'Available Cash:' %></td>
 					<td>
 					  <div class="input-prepend">
 					  <span class="add-on">$</span>
-						<span class="input-small uneditable-input"><%= number_with_precision(Portfolio.where(:name => @port, :user_id => current_user.id).first.cash, :precision => 2 ) %></span>
+						<span class="input-small uneditable-input span2"><%= number_with_delimiter(Portfolio.where(:name => @port, :user_id => current_user.id).first.cash, :delimiter => ',' ) %></span>
 					  </div></td>
 				</tr>
+
 				<tr>
-					<td><%= f.label 'Maximum Shares:' %></td><td><span id='quantity' class="input-small uneditable-input"></span></td>
+					<td class='aln_r'><%= f.label 'Quantity:' %></td>
+					<td>
+						<div class="input-prepend input-append">
+						<span class="add-on"></span>
+						<%= f.text_field :quantity, :class => 'span1' %>
+						<span class="add-on" id='max_shares'></span>
+					</td>
 				</tr>
 				<tr>
-					<th><%= f.label 'Quantity:' %></th><th><%= f.text_field :quantity, :class => 'span1' %></th>
-				</tr>
-				<tr>
-					<th><%= f.label 'Price:' %></th>
-					<th><div class="input-prepend">
-					  <span class="add-on">$</span>
-						<%= f.text_field :purch_price, :class => 'span1' %></th>
-						</div>
-				</tr>
-				<tr>
-					<th><%= f.label 'Total Cost:' %></th>
-					<th>
-					<div class="input-append input-prepend">
+					<td class='aln_r'><%= f.label 'Total Cost:' %></td>
+					<td>
+					<div class="input-prepend">
 						<span class="add-on">$</span>
 					  <%= text_field_tag :cost, 0, :class => 'span2' %>
-					  <%= link_to_function 'Calc!', 'CalculateTotal();', :class => 'btn' %>
 					</div>
+					</td>
 				</tr>
 			</table>
+	</div>
+	
+	<div class='span5'>
+		<%= f.label 'Portfolio: ' %>
+		<%= f.select :portfolio_id, options_for_select(Portfolio.where(:user_id => current_user.id).collect { |p| [p.name, p.id] }, :selected => Portfolio.find_by_name(@port).id ) %>
+		
+		<%= f.label 'Purchase Date: ' %>
+  		<%= f.text_field :purch_date, :type => 'date', :value => Date.today, :class => 'span2' %>
 
 		<% i = 0 %>
 		<%= f.fields_for :comments do |comment| %>
 		<div class='row'>
-			<div class='span5'>
+			<div class='span3'>
 				<% if !comment.object.new_record? %>
 				<label class="checkbox inline">
 			<!--- attach.check_box :_destroy, {:checked => attach.object.persisted?}, '0', '1' %>Save Attachment? ---->
@@ -103,14 +146,16 @@ $(document).ready(function(){
 		    <%= comment.text_area :note , :class => "input textarea span4", :rows => 4  %>
 			<%= comment.hidden_field :user_id , :value => current_user.id %>
 		  </div>
-		
+		<% end %>	
 	</div>
+	
 </div>
-	<% end %>
+	
 
 
   <div class="form-actions">
-    <%= f.button :submit, 'Add Poistion', :class => 'btn btn-mini btn-success' %>
+	<%= link_to_function 'Create Position', 'EnableCommit();' , :class => 'btn btn-mini btn-info', :id => 'CreatePos' %>
+    <%= f.button :submit, 'Commit Position', :class => 'btn btn-mini btn-success', :id => 'CommitPos' %>
 	<%= link_to 'cancel', stocks_path, :class => 'btn btn-mini' %>
 
   </div>

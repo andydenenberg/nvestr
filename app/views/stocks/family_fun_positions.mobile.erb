@@ -30,12 +30,14 @@
 
 	<% stocks.each_with_index do |s,i| %>
 	<% stock = s[0]%>
-	<%= i.odd? ? "<tr style='background: #eee;' >".html_safe : "<tr>".html_safe %>
-		<td><%= stock.symbol.upcase %></td>
-		<td><%= stock.portfolio.user.name %></td>
-		<td style='text-align:right !important;'><%= distance_of_time_in_words(stock.purch_date, Date.today) %> </td> <!-- Holding Period -->
-		<td style='text-align:right !important;'><%= number_to_percentage(100*(stock.current_price-stock.purch_price)/stock.purch_price) %></td>
-  </tr>
+		<% if stock.quantity > 0 %>
+		<%= i.odd? ? "<tr style='background: #eee;' >".html_safe : "<tr>".html_safe %>
+			<td><%= stock.symbol.upcase %></td>
+			<td><%= stock.portfolio.user.name %></td>
+			<td style='text-align:right !important;'><%= distance_of_time_in_words(stock.purch_date, Date.today) %> </td> <!-- Holding Period -->
+			<td style='text-align:right !important;'><%= number_to_percentage(100*(stock.current_price-stock.purch_price)/stock.purch_price) %></td>
+  		</tr>
+		<% end %>
 	<% end %>
 
 </table>

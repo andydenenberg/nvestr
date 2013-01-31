@@ -94,14 +94,16 @@ line = [ ] ;
 
 	<% stocks.each_with_index do |s,value| %>
 	<% stock = s[0]%>
-	<tr>
-		<td><%= stock.name %>[<%= stock.symbol.upcase %>]</td>
-		<td><%= stock.portfolio.user.name %></td>
-		<td class='aln_r'><%= number_to_currency(stock.purch_price) %></td>
-		<td class='aln_r'><%= distance_of_time_in_words(stock.purch_date, Date.today) %> </td> <!-- Holding Period -->
-		<td class='aln_r'><%= number_to_currency(stock.current_price) %></td>
-		<td class='aln_r'><%= number_to_percentage(100*(stock.current_price-stock.purch_price)/stock.purch_price) %></td>
-  </tr>
+		<% if stock.quantity > 0 %>
+		<tr>
+			<td><%= stock.name %>[<%= stock.symbol.upcase %>]</td>
+			<td><%= stock.portfolio.user.name %></td>
+			<td class='aln_r'><%= number_to_currency(stock.purch_price) %></td>
+			<td class='aln_r'><%= distance_of_time_in_words(stock.purch_date, Date.today) %> </td> <!-- Holding Period -->
+			<td class='aln_r'><%= number_to_currency(stock.current_price) %></td>
+			<td class='aln_r'><%= number_to_percentage(100*(stock.current_price-stock.purch_price)/stock.purch_price) %></td>
+	  	</tr>
+		<% end %>
 	<% end %>
 
 </table>
