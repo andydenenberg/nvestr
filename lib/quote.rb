@@ -17,10 +17,26 @@ module Quote
         symbol = 'xyzxyz'
       end
       url = "http://download.finance.yahoo.com/d/quotes.csv?s=#{symbol}&f=snl1d1c1&e=.csv"
-      data = CSV.parse(open(url).read)[0]
+
       current_price = { }
+      
+      begin
+        doc = open(url)
+      
+      got_data = doc.read
+      data = CSV.parse(got_data)[0]
       ['Symbol', 'Name', 'LastTrade', 'LastTradeDate', 'Change' ].each_with_index { |title, i| current_price[title] = data[i] }
-      current_price
+      current_price['Error'] = nil
+      return current_price
+
+      rescue Timeout::Error
+        current_price['Error'] = "The request timed out...skipping."
+        return current_price
+      rescue => e
+        current_price['Error'] = "The request returned an error - #{e.inspect}."
+        return current_price
+      end
+      
     end  
 
     def self.hist_price(symbol,date)  
@@ -38,6 +54,26 @@ module Quote
       end
       return hp # hash with "Date", "Open", "High", "Low", "Close", "Volume", "Adj Close"    
     end
+    
+    def self.looper
+      list = ['goog','csco','aapl','msft']
+      i = 0
+      good = 0
+      bad = 0
+      while i < 10000 do
+        i += 1 
+        i = 0 if i > 3
+        result = self.current_price(list[i])
+          if !result['Error']
+            good += 1
+          else 
+            bad += 1
+          end
+        puts "Good:#{good} - Bad:#{bad}" + result.inspect
+      sleep(3)
+      end
+    end
+    
   
 end
 
