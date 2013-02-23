@@ -60,7 +60,7 @@ namespace :demo do
       puts 'db dump complete'
       puts "tar czvf #{tmp_system} public/system"
       pub_sys = ssh.exec! "tar czvf #{tmp_system} --directory ~/rails/#{app_database_name}/public/system"
-      puts !pub_sys.include?('empty')
+      puts 'No Public System files to copy...' if pub_sys.include?('empty')
     end
     
     FileUtils.rm_rf tmp_system if File.exists? tmp_system
@@ -75,7 +75,7 @@ namespace :demo do
         puts "Downloading system tar gz folder to your /tmp."
         scp.download(tmp_system, "/tmp")
       else
-        puts 'No Public System files to copy...'
+        # puts 'No Public System files to copy...'
       end
     end
     
