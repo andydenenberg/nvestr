@@ -73,8 +73,27 @@ module Quote
       sleep(3)
       end
     end
-    
-  
+
+    def self.import_csv(filename)
+      lines = [ ]
+        File.open(filename, 'r') do |f1|  
+          while line = f1.gets # and i < 100
+            lines.push line
+          end  
+        end   
+        positions = [ ]
+        fields = CSV.parse(lines[1])[0]
+          lines[2..-1].each do |l|
+            position = Hash.new
+            line = CSV.parse(l)[0]
+            fields.each_with_index do |field,i|      
+              position[field] = line[i]
+            end
+          positions.push position
+          end
+        return positions
+    end  
+ 
 end
 
 
@@ -161,31 +180,6 @@ end
 
 
   
-  CONVERSIONS = [
-    [1000, 'M'],
-    [900, 'DM'],
-    [500, 'D'],
-    [400, 'CD'],
-    [100, 'C'],
-    [90, 'XC'],
-    [50, 'L'],
-    [40, 'XL'],
-    [10, 'X'],
-    [9, 'IX'],
-    [5, 'V'],
-    [4, 'IV'],
-    [1, 'I']
-  ]
-
-  def conversions_factors_for(in_arabic)
-    CONVERSIONS.find { |arabic, _| arabic <= in_arabic }
-  end
-
-  def convert(in_arabic)
-    return '' if in_arabic.zero?
-    arabic, roman = conversions_factors_for(in_arabic)
-    roman + convert(in_arabic - arabic)
-  end
   
   
   

@@ -35,7 +35,6 @@ class Portfolio < ActiveRecord::Base
       self.stocks.each do |stock|
       stock_array.push [ stock, stock.position_gain_loss[1], stock.todays_change[1] ]
     end
-
     if timeframe == 'today'
       stock_array.sort_by!{|k| -k[2]}
     else
@@ -46,8 +45,17 @@ class Portfolio < ActiveRecord::Base
   end
   
   def time_values
-    Array.new
-    
+    Array.new    
+  end
+  
+  def self.display_rank
+    colors = [ ]
+    list = self.family_rank # [ user_id, current_value, cash ]
+    seriesColors = [ '#4bb2c5', "#c5b47f", "#EAA228", "#579575", "#839557", "#958c12" ]
+    list.each_with_index do |l,i|
+      colors.push [ l[0], l[1], seriesColors[i] ]    
+    end
+    return colors
   end
   
 end
