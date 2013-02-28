@@ -1,4 +1,3 @@
-
 module  Translog 
 
   def self.read_log
@@ -16,6 +15,13 @@ module  Translog
     text = 'Daily Snapshot: '
     text += ss.collect { |p| User.find(p[0]).name + ' = ' + p[1].to_s + ', '  }.join
     PostLogger.debug(text)
+    pv = Portfolio.all.collect { |p| '[ "' + User.find(p.user_id).name + '", "' + p.name +  '", ' + p.current_value.to_s + ', ' + p.cash.to_s + ' ], ' }
+    text = 'daily["portfolios"] = '
+    text += pv.collect { |p| p }.join
+    indexes = Quote.get_indexes
+    text += '[ "nvestr_index", "S&P 500", ' + indexes[0]['LastTrade'] + ', ' + indexes[0]['Change'] + ' ], '  
+    text += '[ "nvestr_index", "NASDAQ" , ' + indexes[1]['LastTrade'] + ' ' + indexes[0]['Change'] + ' ]'  
+    PostLogger.info(text)
   end
   
   def self.parse_daily_snapshot(rank)

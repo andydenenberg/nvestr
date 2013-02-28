@@ -83,12 +83,13 @@ class StocksController < ApplicationController
   # POST /stocks
   # POST /stocks.json
   def create
-    stock = Stock.add_position(params[:stock])
-    if stock
-      PostLogger.info("Add position - Now: #{stock.quantity} shares of #{stock.symbol} in #{stock.portfolio.user.name}'s - #{stock.portfolio.name} Portfolio")
-      redirect_to stocks_path( :portfolio => stock.portfolio.name )
+    @stock = Stock.add_position(params[:stock])
+    if @stock
+      PostLogger.info("Add position - Now: #{@stock.quantity} shares of #{@stock.symbol} in #{@stock.portfolio.user.name}'s - #{@stock.portfolio.name} Portfolio")
+      redirect_to stocks_path( :portfolio => @stock.portfolio.name )
     else
-      @error = stock.errors.full_messages
+      @stock = Stock.new # added with controller tests and commented out the next line
+#      @error = @stock.errors.full_messages
       render action: "new"
     end
     
@@ -111,7 +112,7 @@ class StocksController < ApplicationController
 
     respond_to do |format|
       if @stock.update_attributes(params[:stock])
-        PostLogger.info("Change position - Now: #{stock.quantity} shares of #{stock.symbol} in #{stock.portfolio.user.name}'s - #{stock.portfolio.name} Portfolio")
+        PostLogger.info("Change position - Now: #{@stock.quantity} shares of #{@stock.symbol} in #{@stock.portfolio.user.name}'s - #{@stock.portfolio.name} Portfolio")
 
         format.html { redirect_to @stock, notice: 'Stock was successfully updated.' }
         format.json { head :no_content }

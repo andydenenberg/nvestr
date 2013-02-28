@@ -18,7 +18,7 @@ namespace :demo do
     Translog.daily_snapshot
   end
   
-  desc "Copy with Portfolio Transaction Log"
+  desc "Copy Portfolio Transaction Log"
   task :copy_file => :environment do
   # Establish the SSH session
   ssh = Net::SSH.start("nvestr.denenberg.net", 'ubuntu')

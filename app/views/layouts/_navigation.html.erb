@@ -28,6 +28,11 @@
 
 <% end %>
 
+<% indexes = Quote.get_indexes %>
+<ul class='nav'>
+<li style='color:white;'><%= link_to 'S&P 500: ' + indexes[0]['LastTrade'] + ' ' + indexes[0]['Change'] + ' , Nasdaq: ' + indexes[1]['LastTrade'] + ' ' + indexes[0]['Change'], '#' %></li>
+</ul>
+
 <ul class="nav pull-right">
   <% if user_signed_in? %>
   <li class="dropdown">

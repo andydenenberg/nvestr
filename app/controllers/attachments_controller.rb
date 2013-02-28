@@ -40,22 +40,22 @@ class AttachmentsController < ApplicationController
   # POST /attachments
   # POST /attachments.json
   def create
-
-    authorize! :index, @user, :message => 'Not authorized as an administrator.'
     @attachment = Attachment.new(params[:attachment])
-    @post = Post.find(params[:attachment][:post_id])
-    @attachment.save
-    redirect_to @post
 
-#    respond_to do |format|
-#      if @attachment.save
-#        format.html { redirect_to @attachment, notice: 'Attachment was successfully created.' }
-#        format.json { render json: @attachment, status: :created, location: @attachment }
-#      else
-#        format.html { render action: "new" }
-#        format.json { render json: @attachment.errors, status: :unprocessable_entity }
-#      end
-#    end
+#    authorize! :index, @user, :message => 'Not authorized as an administrator.'
+#    @post = Post.find(params[:attachment][:post_id])
+#    @attachment.save
+#    redirect_to @post
+
+    respond_to do |format|
+      if @attachment.save
+        format.html { redirect_to @attachment, notice: 'Attachment was successfully created.' }
+        format.json { render json: @attachment, status: :created, location: @attachment }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @attachment.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # PUT /attachments/1

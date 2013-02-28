@@ -23,8 +23,6 @@
 
 <% @stocks.each_with_index do |stock| %>
 
-<% if stock.quantity != 0 %><!-- Skip entries that have quantity of zero -->
-
 	<tr>
 		<td><%= stock.name %>[<%= stock.symbol.upcase %>]</td>
 		<td class='aln_r'><p><%= number_with_precision(stock.quantity, :delimiter => ',', :precision => 0) %></td>
@@ -57,7 +55,7 @@
 		<td class='aln_r'><%= number_to_currency(stock.position_gain_loss[0]) %></td>
   </tr>
 	<% end %>
-<% end %>
+
 	<tr><td colspan=10></td></tr>	
 <tr>
 	<td></td>

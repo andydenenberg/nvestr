@@ -1,8 +1,7 @@
 class Portfolio < ActiveRecord::Base
-  belongs_to :stock
   belongs_to :user
   has_many :stocks
-  attr_accessible :cash, :stock_id, :user_id, :name
+  attr_accessible :cash, :user_id, :name
   
   validates_uniqueness_of :name, :scope => :user_id
   validates :name, :presence => true
@@ -32,7 +31,7 @@ class Portfolio < ActiveRecord::Base
   
   def rank_by_gain_loss(timeframe)
     stock_array = [ ]
-      self.stocks.each do |stock|
+      Stock.where("portfolio_id = #{self.id} and quantity > 0").each do |stock|
       stock_array.push [ stock, stock.position_gain_loss[1], stock.todays_change[1] ]
     end
     if timeframe == 'today'

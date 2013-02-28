@@ -24,14 +24,36 @@ describe StocksController do
     @user = FactoryGirl.create(:user)
     sign_in @user
     @user.add_role :admin
+    
+    @port_attr = { 
+      :name => "New Portfolio",
+      :cash => 100000,
+      :user_id => 1,
+    }
+        
   end
 
   # This should return the minimal set of attributes required to create a valid
   # Stock. As you add validations to Stock, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { "purch_date" => "01/03/2013",
-      "purch_price" => 21 }
+    { 
+      :symbol => "ATMI",
+      :purch_price => 21.0,
+      :purch_date => '01/02/2013',
+      :portfolio_id => 1,
+      :quantity => 100
+       }
+  end
+
+  def invalid_attributes
+    { 
+      :symbol => "ATMI",
+      :purch_price => 21.0,
+      :purch_date => nil,
+      :portfolio_id => 1,
+      :quantity => 100
+       }
   end
 
   # This should return the minimal set of values that should be in the session
@@ -44,7 +66,8 @@ describe StocksController do
   describe "GET index" do
     it "assigns all stocks as @stocks" do
       stock = Stock.create! valid_attributes
-      get :index, {}, valid_session
+      p = Portfolio.create! ( @port_attr)
+      get :index, :params => {:name => 'New Portfolio', :user_id => 1, :type_of_action => 'overall' }
       assigns(:stocks).should eq([stock])
     end
   end
@@ -52,64 +75,75 @@ describe StocksController do
   describe "GET show" do
     it "assigns the requested stock as @stock" do
       stock = Stock.create! valid_attributes
-      get :show, {:id => stock.to_param}, valid_session
+      get :show, {:id => stock.to_param} # , valid_session
       assigns(:stock).should eq(stock)
     end
   end
-
+ 
   describe "GET new" do
     it "assigns a new stock as @stock" do
-      get :new, {}, valid_session
+      get :new, {} #, valid_session
       assigns(:stock).should be_a_new(Stock)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested stock as @stock" do
-      stock = Stock.create! valid_attributes
-      get :edit, {:id => stock.to_param}, valid_session
-      assigns(:stock).should eq(stock)
-    end
-  end
-
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Stock" do
-        expect {
-          post :create, {:stock => valid_attributes}, valid_session
-        }.to change(Stock, :count).by(1)
-      end
-
-      it "assigns a newly created stock as @stock" do
-        post :create, {:stock => valid_attributes}, valid_session
-        assigns(:stock).should be_a(Stock)
-        assigns(:stock).should be_persisted
-      end
-
-      it "redirects to the created stock" do
-        post :create, {:stock => valid_attributes}, valid_session
-        response.should redirect_to(Stock.last)
-      end
-    end
-
+   describe "GET edit" do
+     it "assigns the requested stock as @stock" do
+       stock = Stock.create! valid_attributes
+       get :edit, {:id => stock.to_param} #, valid_session
+       assigns(:stock).should eq(stock)
+     end
+   end
+ 
+   describe "POST create" do
+     
+     before (:each) do
+       p = Portfolio.create! ( @port_attr)
+     end
+     
+     describe "with valid params" do
+       it "creates a new Stock" do
+         expect {
+           post :create, {:stock => valid_attributes} #, valid_session
+         }.to change(Stock, :count).by(1)
+       end
+ 
+       it "assigns a newly created stock as @stock" do
+         post :create, {:stock => valid_attributes}
+         assigns(:stock).should be_a(Stock)
+         assigns(:stock).should be_persisted
+       end
+ 
+       it "redirects to the created stock" do
+         post :create, {:stock => valid_attributes}
+         response.should redirect_to(stocks_path(:portfolio => 'New Portfolio') )
+       end
+     end
+ 
     describe "with invalid params" do
+
       it "assigns a newly created but unsaved stock as @stock" do
         # Trigger the behavior that occurs when invalid params are submitted
         Stock.any_instance.stub(:save).and_return(false)
-        post :create, {:stock => { "user" => "invalid value" }}, valid_session
+        post :create, {:stock => invalid_attributes }
         assigns(:stock).should be_a_new(Stock)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Stock.any_instance.stub(:save).and_return(false)
-        post :create, {:stock => { "user" => "invalid value" }}, valid_session
+        post :create, {:stock => invalid_attributes }
         response.should render_template("new")
       end
     end
-  end
-
+   end
+ 
   describe "PUT update" do
+    
+    before (:each) do
+      p = Portfolio.create! ( @port_attr)
+    end
+    
     describe "with valid params" do
       it "updates the requested stock" do
         stock = Stock.create! valid_attributes
@@ -117,53 +151,53 @@ describe StocksController do
         # specifies that the Stock created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Stock.any_instance.should_receive(:update_attributes).with({ "user" => "" })
-        put :update, {:id => stock.to_param, :stock => { "user" => "" }}, valid_session
+        Stock.any_instance.should_receive(:update_attributes).with({ "user_id" => "" })
+        put :update, {:id => stock.to_param, :stock => { "user_id" => "" }}
       end
 
       it "assigns the requested stock as @stock" do
         stock = Stock.create! valid_attributes
-        put :update, {:id => stock.to_param, :stock => valid_attributes}, valid_session
+        put :update, {:id => stock.to_param, :stock => valid_attributes}
         assigns(:stock).should eq(stock)
       end
 
       it "redirects to the stock" do
         stock = Stock.create! valid_attributes
-        put :update, {:id => stock.to_param, :stock => valid_attributes}, valid_session
+        put :update, {:id => stock.to_param, :stock => valid_attributes}
         response.should redirect_to(stock)
       end
     end
-
-    describe "with invalid params" do
-      it "assigns the stock as @stock" do
-        stock = Stock.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Stock.any_instance.stub(:save).and_return(false)
-        put :update, {:id => stock.to_param, :stock => { "user" => "invalid value" }}, valid_session
-        assigns(:stock).should eq(stock)
-      end
-
-      it "re-renders the 'edit' template" do
-        stock = Stock.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Stock.any_instance.stub(:save).and_return(false)
-        put :update, {:id => stock.to_param, :stock => { "user" => "invalid value" }}, valid_session
-        response.should render_template("edit")
-      end
-    end
-  end
-
+ 
+     describe "with invalid params" do
+       it "assigns the stock as @stock" do
+         stock = Stock.create! valid_attributes
+         # Trigger the behavior that occurs when invalid params are submitted
+         Stock.any_instance.stub(:save).and_return(false)
+         put :update, {:id => stock.to_param, :stock => { "user_id" => "invalid value" }}
+         assigns(:stock).should eq(stock)
+       end
+ 
+       it "re-renders the 'edit' template" do
+         stock = Stock.create! valid_attributes
+         # Trigger the behavior that occurs when invalid params are submitted
+         Stock.any_instance.stub(:save).and_return(false)
+         put :update, {:id => stock.to_param, :stock => { "user_id" => "invalid value" }}
+         response.should render_template("edit")
+       end
+     end
+   end
+ 
   describe "DELETE destroy" do
     it "destroys the requested stock" do
       stock = Stock.create! valid_attributes
       expect {
-        delete :destroy, {:id => stock.to_param}, valid_session
+        delete :destroy, {:id => stock.to_param}
       }.to change(Stock, :count).by(-1)
     end
 
     it "redirects to the stocks list" do
       stock = Stock.create! valid_attributes
-      delete :destroy, {:id => stock.to_param}, valid_session
+      delete :destroy, {:id => stock.to_param}
       response.should redirect_to(stocks_url)
     end
   end

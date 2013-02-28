@@ -13,13 +13,19 @@ module Quote
     
     def self.current_price(symbol)
       symbol.gsub!(/[^a-z-]/i, '') # remove any non alpha chars
+      self.get_quote(symbol)
+    end
+    
+    def self.get_indexes
+      indexes = [ self.get_quote("%5EGSPC"), self.get_quote("%5EIXIC") ]
+    end
+    
+    def self.get_quote(symbol)
       if symbol.length == 0  # if blank stuff with dummy string
         symbol = 'xyzxyz'
       end
       url = "http://download.finance.yahoo.com/d/quotes.csv?s=#{symbol}&f=snl1d1c1&e=.csv"
-
       current_price = { }
-      
       begin
         doc = open(url)
       
@@ -35,9 +41,9 @@ module Quote
       rescue => e
         current_price['Error'] = "The request returned an error - #{e.inspect}."
         return current_price
-      end
-      
+      end      
     end  
+
 
     def self.hist_price(symbol,date)  
       comps = date.split('/')
