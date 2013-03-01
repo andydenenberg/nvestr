@@ -17,6 +17,11 @@ namespace :demo do
   task :daily_snapshot => :environment do
     Translog.daily_snapshot
   end
+
+  desc "Update Stock Prices"
+  task :update_prices => :environment do
+    Quote.update_last_price
+  end
   
   desc "Copy Portfolio Transaction Log"
   task :copy_file => :environment do

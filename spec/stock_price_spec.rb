@@ -59,15 +59,29 @@ describe 'Functional tests DenVestR' do
   end
 
   context 'Get stock price info from Yahoo Finance' do  
+
+    before(:each) do
+      @attr = { 
+        :symbol => "atmi",
+        :purch_price => 21.0,
+        :purch_date => '01/02/2013',
+        :portfolio_id => 1,
+        :quantity => 100
+      }
+      
+    end
+    
+     
     it 'check for historical price' do
       hp = Quote.hist_price('csco', '09/23/1999')
       hp['Close'].should be_a_kind_of(Numeric)
     end    
     it 'check for current price' do
+      stock = Stock.create!(@attr)
       Quote.current_price('atmi')['LastTrade'].to_f.should be_a_kind_of(Numeric)
     end    
     it 'should return detect broken ticker symbols' do
-      expect(Quote.current_price('?s@dsd12')['LastTrade'].to_f).to eq(0.0)
+      expect(Quote.current_price('?s@dsd12')['LastTrade'].to_f).to eq(nil)
     end    
   end
       

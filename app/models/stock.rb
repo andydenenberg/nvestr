@@ -1,7 +1,7 @@
 class Stock < ActiveRecord::Base
   belongs_to :user
   belongs_to :portfolio
-  attr_accessible :name, :quantity, :portfolio_id, :purch_date, :purch_price, :symbol, :user_id, :comments_attributes
+  attr_accessible :name, :last_price, :last_price_date, :price_change, :quantity, :portfolio_id, :purch_date, :purch_price, :symbol, :user_id, :comments_attributes
   has_many :comments, :dependent => :destroy
   accepts_nested_attributes_for :comments, :allow_destroy => true
   

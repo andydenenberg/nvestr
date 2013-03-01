@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130122135207) do
+ActiveRecord::Schema.define(:version => 20130301180846) do
 
   create_table "attachments", :force => true do |t|
     t.string   "url"
@@ -69,13 +69,16 @@ ActiveRecord::Schema.define(:version => 20130122135207) do
   create_table "stocks", :force => true do |t|
     t.integer  "user_id"
     t.string   "symbol"
-    t.decimal  "purch_price",  :precision => 16, :scale => 2
+    t.decimal  "purch_price",     :precision => 16, :scale => 2
     t.date     "purch_date"
     t.integer  "portfolio_id"
-    t.datetime "created_at",                                  :null => false
-    t.datetime "updated_at",                                  :null => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
     t.integer  "quantity"
     t.string   "name"
+    t.decimal  "last_price",      :precision => 10, :scale => 2
+    t.datetime "last_price_date"
+    t.decimal  "price_change",    :precision => 10, :scale => 2
   end
 
   add_index "stocks", ["user_id"], :name => "index_stocks_on_user_id"

@@ -1,5 +1,4 @@
   
-
 module Quote
   require 'csv'
   require 'open-uri'
@@ -13,27 +12,73 @@ module Quote
     
     def self.current_price(symbol)
       symbol.gsub!(/[^a-z-]/i, '') # remove any non alpha chars
-      self.get_quote(symbol)
+#      self.get_quote(symbols)
+      stock = Stock.find_by_symbol(symbol)
+      if stock
+      current_price = { }
+      current_price['Symbol'] = stock.symbol
+      current_price['Name'] = stock.name
+      current_price['LastTrade'] = stock.last_price
+      current_price['LastTradeTime'] = stock.last_price_date
+      current_price['Change'] = stock.price_change
+      return current_price
+      else
+        return nil
+      end
+      
     end
     
     def self.get_indexes
-      indexes = [ self.get_quote("%5EGSPC"), self.get_quote("%5EIXIC") ]
+#      indexes = [ self.get_quote("%5EGSPC"), self.get_quote("%5EIXIC") ]
+      indexes = self.get_quotes(["%5EGSPC", "%5EIXIC"])
     end
     
-    def self.get_quote(symbol)
-      if symbol.length == 0  # if blank stuff with dummy string
-        symbol = 'xyzxyz'
+#   def self.get_quote(symbol)
+#     if symbol.length == 0  # if blank stuff with dummy string
+#       symbol = 'xyzxyz'
+#     end
+#     url = "http://download.finance.yahoo.com/d/quotes.csv?s=#{symbol},aapl,msft&f=snl1d1c1&e=.csv"
+#     current_price = { }
+#     begin
+#       doc = open(url)
+#     
+#     got_data = doc.read
+#     data = CSV.parse(got_data)[0]
+#     ['Symbol', 'Name', 'LastTrade', 'LastTradeDate', 'Change' ].each_with_index { |title, i| current_price[title] = data[i] }
+#     current_price['Error'] = nil
+#     return current_price
+#
+#     rescue Timeout::Error
+#       current_price['Error'] = "The request timed out...skipping."
+#       return current_price
+#     rescue => e
+#       current_price['Error'] = "The request returned an error - #{e.inspect}."
+#       return current_price
+#     end      
+#   end  
+
+    def self.get_quotes(symbols)
+      list = ''
+      symbols.each do |s|
+        s.length == 0  ? symbol = 'xyzxyz' : symbol = s.strip  # if blank stuff with dummy string
+        list += symbol + ','
       end
-      url = "http://download.finance.yahoo.com/d/quotes.csv?s=#{symbol}&f=snl1d1c1&e=.csv"
-      current_price = { }
+      list = list[0..-2] # delete last comma
+
+      url = "http://download.finance.yahoo.com/d/quotes.csv?s=#{list}&f=snl1d1t1c1&e=.csv"
+      sym_list = [ ]
       begin
-        doc = open(url)
-      
-      got_data = doc.read
-      data = CSV.parse(got_data)[0]
-      ['Symbol', 'Name', 'LastTrade', 'LastTradeDate', 'Change' ].each_with_index { |title, i| current_price[title] = data[i] }
-      current_price['Error'] = nil
-      return current_price
+        doc = open(url)     
+        got_data = doc.read
+        t = symbols.length
+        t.times do |j|
+          data = CSV.parse(got_data)[j-1]
+          current_price = { }
+          ['Symbol', 'Name', 'LastTrade', 'LastTradeDate', 'LastTradeTime', 'Change' ].each_with_index { |title, i| current_price[title] = data[i] }
+          current_price['Error'] = nil
+          sym_list.push current_price
+        end
+        return sym_list
 
       rescue Timeout::Error
         current_price['Error'] = "The request timed out...skipping."
@@ -43,7 +88,6 @@ module Quote
         return current_price
       end      
     end  
-
 
     def self.hist_price(symbol,date)  
       comps = date.split('/')
@@ -61,23 +105,18 @@ module Quote
       return hp # hash with "Date", "Open", "High", "Low", "Close", "Volume", "Adj Close"    
     end
     
-    def self.looper
-      list = ['goog','csco','aapl','msft']
-      i = 0
-      good = 0
-      bad = 0
-      while i < 10000 do
-        i += 1 
-        i = 0 if i > 3
-        result = self.current_price(list[i])
-          if !result['Error']
-            good += 1
-          else 
-            bad += 1
-          end
-        puts "Good:#{good} - Bad:#{bad}" + result.inspect
-      sleep(3)
+    def self.update_last_price
+      stocks = Stock.all
+      list = stocks.collect { |s| s.symbol.downcase }
+        result = self.get_quotes(list)
+      stocks.each do |stock|
+        update = result.select { |s| s['Symbol'].downcase == stock.symbol.downcase.strip }[0]
+        stock.last_price = update['LastTrade'].to_f
+        stock.last_price_date = Time.parse(update['LastTradeDate'] + ' ' + update['LastTradeTime']).getutc
+        stock.price_change = update['Change'].to_f
+        stock.save
       end
+      return true
     end
 
     def self.import_csv(filename)
