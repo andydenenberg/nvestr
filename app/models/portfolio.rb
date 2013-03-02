@@ -1,6 +1,7 @@
 class Portfolio < ActiveRecord::Base
   belongs_to :user
   has_many :stocks
+  has_many :histories, :dependent => :destroy
   attr_accessible :cash, :user_id, :name
   
   validates_uniqueness_of :name, :scope => :user_id

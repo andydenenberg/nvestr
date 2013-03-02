@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130301180846) do
+ActiveRecord::Schema.define(:version => 20130302163438) do
 
   create_table "attachments", :force => true do |t|
     t.string   "url"
@@ -32,6 +32,14 @@ ActiveRecord::Schema.define(:version => 20130301180846) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "stock_id"
+  end
+
+  create_table "histories", :force => true do |t|
+    t.decimal  "value",        :precision => 10, :scale => 0
+    t.decimal  "cash",         :precision => 10, :scale => 0
+    t.integer  "portfolio_id"
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
   end
 
   create_table "portfolios", :force => true do |t|

@@ -11,7 +11,7 @@ $(document).ready(function(){
 
 	<% sc = Portfolio.display_rank %>
 
-	line = <%= Translog.parse_daily_snapshot(sc.collect { |name| User.find(name[0]).name }).inspect.html_safe %> ;
+	line = <%= Translog.db_daily_snapshot.inspect.html_safe %> ;
 
   var plot2 = $.jqplot('chart2', line, {
       title:'Portfolio Performance',

@@ -81,7 +81,7 @@ describe 'Functional tests DenVestR' do
       Quote.current_price('atmi')['LastTrade'].to_f.should be_a_kind_of(Numeric)
     end    
     it 'should return detect broken ticker symbols' do
-      expect(Quote.current_price('?s@dsd12')['LastTrade'].to_f).to eq(nil)
+      expect(Quote.current_price('?s@dsd12')).to eq(nil)
     end    
   end
       
