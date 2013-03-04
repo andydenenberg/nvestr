@@ -31,7 +31,7 @@ class StocksController < ApplicationController
   end
   
   def lookup
-    price = Quote.current_price(params[:symbol])
+    price = Quote.get_quotes([ params[:symbol] ]).first
     render :text => price['LastTrade'].to_s  + '#&#' + price['Name'] + '#&#' + price['Change'].to_f.to_s  
   end
 

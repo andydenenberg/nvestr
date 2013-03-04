@@ -314,7 +314,7 @@ csv = [
    s = Stock.add_position(position)
  end
 
- portfolio = Portfolio.find_by_name('SLAT2')
+ portfolio = Portfolio.find_by_name('MSA')
  portfolio.cash = 70206.42
  portfolio.save
 
