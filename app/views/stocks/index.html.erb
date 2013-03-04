@@ -41,6 +41,7 @@ function callModal(stock) {
 
 				<%= link_to 'New Portfolio', '#myModal', :class => 'btn btn-mini btn-info', 'data-toggle' => "modal" %>
 				<%= link_to 'Add Position', new_stock_path(:portfolio_view => @port), :class => 'btn btn-mini btn-primary' %>	
+				<%= link_to 'Graph Performance', family_fun_positions_stocks_path(:portfolio => @port), :class => 'btn btn-mini btn-success' %>	
 				<div id='spinner' style='display:none;'><%= image_tag '/assets/ajax-loader.gif' %></div>			
 				
 				<div id='portfolio_list'>

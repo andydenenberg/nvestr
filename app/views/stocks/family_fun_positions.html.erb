@@ -4,24 +4,26 @@
 <script>
 
 $(document).ready(function(){
+	PortfolioGraph()
 	
-$('#portfolio_id').change(function () {
-//	alert('test') ;
-  StartSpinner() ;
-   Portfolio_is = document.getElementById('portfolio_id').value ;
-        $.get('/stocks/family_fun_positions', { portfolio:Portfolio_is} , null, 'script');
-        return false;
+	$('#portfolio_id').change(function () {
+	PortfolioGraph() ;
+	});	
 });
 
-});
+function PortfolioGraph() {
+  	StartSpinner() ;
+   	Portfolio_is = document.getElementById('portfolio_id').value ;
+        $.get('/stocks/family_fun_positions', { portfolio:Portfolio_is} , null, 'script');
+        return false;
+		};
 
 
 </script>
 
 <%= link_to 'Home', start_path, :class => 'btn btn-mini'%><br><br>
 
-
-<%= select_tag("portfolio_id", options_for_select(Portfolio.where(:user_id => current_user).collect {|p| [ p.name] } ) ) %>
+<b style='font-size:16pt;'>Select Portfolio:</b> <%= select_tag("portfolio_id", options_for_select(Portfolio.where(:user_id => current_user).collect {|p| [ p.name] }, @port ) ) %>
 <div id='spinner' style='display:none;'><%= image_tag '/assets/ajax-loader.gif' %></div>			
 
 <table style="margin: auto;">
@@ -36,11 +38,6 @@ $('#portfolio_id').change(function () {
 <br><br>
 
 
-<h3>All Portfolio Transactions</h3>
-
-<% Translog.read_log[1..-1].each do |logfile| %>
-<%= logfile %><br>
-<% end %>
 
 
 

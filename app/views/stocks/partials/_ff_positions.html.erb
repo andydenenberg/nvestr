@@ -63,7 +63,8 @@ $('#chart2').css({'height': height, 'width': width});
 </script>
 <div id="chart2" style="height:300px; width:650px;"></div>
 
-<h3>Current Family Fun Positions</h3><br>
+<br><br>
+<div style='font-size:18pt'>Portfolio Positions</div><br>
  
 <table class='table table-condensed table-bordered table-striped'>
 	<% @portfolios.each_with_index do |port,i| %>	
@@ -138,3 +139,10 @@ $('#chart2').css({'height': height, 'width': width});
 </table>
 
 <br><br>
+
+<h3>All Portfolio Transactions</h3>
+
+<% Translog.read_log[1..-1].each do |logfile| %>
+<%= logfile %><br>
+<% end %>
+

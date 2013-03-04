@@ -16,6 +16,7 @@ namespace :demo do
   desc "Install production database to this copy. Warning: This will destroy your current data."
   task :daily_snapshot => :environment do
     Translog.daily_snapshot
+    # h = History.where(:created_at => '2013-03-02' .. '2013-03-05') to delete withing a range
   end
 
   desc "Update Stock Prices"

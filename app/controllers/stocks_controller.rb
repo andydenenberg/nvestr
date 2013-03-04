@@ -4,9 +4,9 @@ class StocksController < ApplicationController
   # GET /stocks.json
   
   def family_fun_positions
-    port = params[:portfolio]
-    port ||= 'Family Fun'
-    @portfolios = Portfolio.where(:name => port) # Portfolio.where(:name => 'Family Fun')
+    @port = params[:portfolio]
+    @port ||= 'Family Fun'
+    @portfolios = Portfolio.where(:name => @port) # Portfolio.where(:name => 'Family Fun')
   	series = Translog.db_daily_snapshot(@portfolios)
   	@line = series[0].inspect
   	@colors = series[1]
