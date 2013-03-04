@@ -281,12 +281,51 @@ end
   portfolio.save
   
 end  
+
+desc "Setup MSA"
+task :create_MSA => :environment do
+
+csv = [
+ [ 'AAPL','APPLE INC',120,430.47                  ],
+ [ 'ATMI','ATMI INC COM',26190,21.95           ],
+ [ 'CSCO','CISCO SYSTEMS INC',14100,20.83      ],
+ [ 'CVS','CVS CAREMARK CORP',690,51.56            ],
+ [ 'GS','GOLDMAN SACHS GROUP INC',80,150.53       ],
+ [ 'MCD','MCDONALDS CORP COM',260,95.68           ],
+ [ 'MO','ALTRIA GROUP INC',300,33.49              ],
+ [ 'MSFT','MICROSOFT CORP',7,153,27.95          ],
+ [ 'NKE','NIKE INC CL B COM STK',500,54.82        ],
+ [ 'PFE','PFIZER INC',290,27.39                   ],
+ [ 'PM','PHILIP MORRIS INTL',340,91.44            ],
+ [ 'SIAL','SIGMA-ALDRICH CORP',200,77.38          ],
+ [ 'STT','STATE STREET CORP COM',377,56.31        ],
+ [ 'SYK','STRYKER CORP COM',2130,64.9          ],
+ [ 'UTX','UNITED TECHNOLOGIES CORP',400,90.13     ],
+ [ 'WAG','WALGREEN CO COM',840,41.32              ],
+ [ 'XOM','EXXON MOBIL CORP',500,89.43             ],
+ [ 'ZBRA','ZEBRA TECHNOLOGIES CORP CL A',750,44.05]]
+
+ portfolio = Portfolio.create!( :name => 'MSA', :user_id => 1, :cash => 6000000 )
+ puts 'New portfolio created: ' + portfolio.name + ' for ' + portfolio.user_id.to_s
+ user = User.find_by_email('andy@denenberg.net')
+
+ csv.each do |pos|
+   position = purch( pos[2], pos[0].downcase, pos[3], "2013-02-23", user, "", portfolio )
+   s = Stock.add_position(position)
+ end
+
+ portfolio = Portfolio.find_by_name('SLAT2')
+ portfolio.cash = 70206.42
+ portfolio.save
+
+
+end
+
   
 end
 
 
-#arr.each { |a| Portfolio.last.stocks.create! 
-#  :symbol => a['Symbol'], :name => a['Name'], :quantity => a['Quanity'].to_f, :purch_date => '2012/12/31', :purch_price => 0  }
+
    
    
    
