@@ -1,0 +1,140 @@
+<script class="include" language="javascript" type="text/javascript" src="/assets/jqplot/jqplot.dateAxisRenderer.min.js"></script>
+
+
+<script>
+
+$(document).ready(function(){
+	
+var width = $('.container').innerWidth() * 0.95;
+var height = width / 2 ;
+$('#chart2').css({'height': height, 'width': width});
+
+  var plot2 = $.jqplot('chart2', <%= @line.html_safe %>, {
+	
+      title: {
+		text: 'Portfolio Performance',
+		fontSize: '18pt',
+		textColor: 'black' },
+	   	axesDefaults: {
+	       	tickOptions: {
+	         		fontSize: '10pt'
+	       	}
+	   	}, 
+      axes:{
+        xaxis:{
+          renderer:$.jqplot.DateAxisRenderer, 
+          tickOptions:{formatString:'%b %#d'},
+          min:'Jan 1, 2013', 
+          tickInterval:'1 weeks'
+        },
+	   yaxis : {
+	        tickOptions: {formatString: "$%'i" },
+	    }
+
+      },
+      // Custom labels for the series are specified with the "label"
+      // option on the series option.  Here a series option object
+      // is specified for each series.
+		<% colors = '' ; @colors.each { |c| colors += "'#{c}'," } %>
+      seriesColors: [ <%= colors.html_safe %> ],
+	  series:[
+		<% @names.each do |n| %>
+          <%= "{label: '#{n}' }, ".html_safe %>
+		<% end %>
+      ],
+	  grid: {
+	            backgroundColor: '#FFF'
+	        },
+      // Show the legend and put it outside the grid, but inside the
+      // plot container, shrinking the grid to accomodate the legend.
+      // A value of "outside" would not shrink the grid and allow
+      // the legend to overflow the container.
+      legend: {
+          show: true,
+          placement: 'outsideGrid'
+      }
+
+  });
+
+
+});
+
+
+</script>
+<div id="chart2" style="height:300px; width:650px;"></div>
+
+<h3>Current Family Fun Positions</h3><br>
+ 
+<table class='table table-condensed table-bordered table-striped'>
+	<% @portfolios.each_with_index do |port,i| %>	
+	<tr>
+		<td style="background-color:<%= @colors[i] %>;text-align:center;"><h4><%= User.find(port.user_id).name %></h4>
+		</td>
+		<td colspan="7" style="background-color:white;"><h4>
+			 YTD Gain <%= number_to_percentage(100 * ( (port.current_value / 100000 ) - 1 ) , :precision => 2) %></h4>
+		</td>
+	</tr>
+			<tr>
+				<th class='aln_c'>Stock</th>
+				<th class='aln_c'>Days Held</th>
+				<th class='aln_c'>Purchase Price</th>
+				<th class='aln_c'>Current Price</th>
+				<th class='aln_c'>Quantity Held</th>
+				<th class='aln_c'>Current Value</th>
+				<th class='aln_c'>Unrealized<br>Gain/Loss</th>
+				<th class='aln_c'>Percent</th>
+			</tr>
+			<% port.rank_by_gain_loss('overall') .each do |stock| %>
+				<% if stock.quantity > 0 %>
+				<tr>
+					<td><%= stock.name %>[<%= stock.symbol.upcase %>]</td>
+					<td class='aln_r'><%= distance_of_time_in_words(stock.purch_date, Date.today) %> </td> <!-- Holding Period -->
+					<td class='aln_r'><%= number_to_currency(stock.purch_price) %></td>
+					<td class='aln_r'><%= number_to_currency(stock.current_price) %></td>
+					<td class='aln_r'><p><%= number_with_precision(stock.quantity, :delimiter => ',', :precision => 0) %></td>
+					<td class='aln_r'><%= number_to_currency(stock.position_value) %></td>
+					<td class='aln_r'><%= number_to_currency(stock.position_gain_loss[0]) %></td>
+					<td class='aln_r'><%= number_to_percentage(100*(stock.current_price-stock.purch_price)/stock.purch_price) %></td>
+			  	</tr>
+				<% end %>						
+			<% end %>
+			
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<th class='aln_r'>Total Unrealized Gain/Loss</td>
+				<td class='aln_r'><%= number_to_currency(port.unrealized_gain_loss[1] ) %></td>
+				<td></td>
+			</tr>
+			
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<th class='aln_r'>Cash</th>
+				<td class='aln_r'><%= number_to_currency(port.cash) %></td>
+				<td></td>
+				<td></td>
+			</tr>
+				
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<th class='aln_r'>Total</th>
+					<td class='aln_r'><%= number_to_currency(port.current_value) %></td>
+					<td></td>
+					<td></td>
+				</tr>
+			
+			<tr><td colspan='8' style='background:white;'><br><br></td></tr>
+<% end %>
+
+</table>
+
+<br><br>

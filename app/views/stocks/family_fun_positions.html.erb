@@ -5,151 +5,33 @@
 
 $(document).ready(function(){
 	
-	var width = $('.container').innerWidth() * 0.95;
-	var height = width / 2 ;
-	$('#chart2').css({'height': height, 'width': width});
-
-	<% sc = Portfolio.display_rank %>
-
-	line = <%= Translog.db_daily_snapshot.inspect.html_safe %> ;
-
-  var plot2 = $.jqplot('chart2', line, {
-      title:'Portfolio Performance',
-	   	axesDefaults: {
-	       	tickOptions: {
-	         		fontSize: '10pt'
-	       	}
-	   	}, 
-      axes:{
-        xaxis:{
-          renderer:$.jqplot.DateAxisRenderer, 
-          tickOptions:{formatString:'%b %#d, %#I %p'},
-          min:'Jan 28, 2013 08:00PM', 
-          tickInterval:'1 weeks'
-        },
-	   yaxis : {
-	        tickOptions: {formatString: "$%'i" },
-	    }
-
-      },
-      // Custom labels for the series are specified with the "label"
-      // option on the series option.  Here a series option object
-      // is specified for each series.
-      seriesColors: [ "<%= sc[0][2] %>","<%= sc[1][2] %>","<%= sc[2][2] %>","<%= sc[3][2] %>","<%= sc[4][2] %>","<%= sc[5][2] %>" ],
-	  series:[
-          {label:"<%= User.find(sc[0][0]).name %>"},
-          {label:"<%= User.find(sc[1][0]).name %>"},
-          {label:"<%= User.find(sc[2][0]).name %>"},
-          {label:"<%= User.find(sc[3][0]).name %>"},
-          {label:"<%= User.find(sc[4][0]).name %>"},
-          {label:"<%= User.find(sc[5][0]).name %>"}
-      ],
-	  grid: {
-	            backgroundColor: '#FFF'
-	        },
-      // Show the legend and put it outside the grid, but inside the
-      // plot container, shrinking the grid to accomodate the legend.
-      // A value of "outside" would not shrink the grid and allow
-      // the legend to overflow the container.
-      legend: {
-          show: true,
-          placement: 'outsideGrid'
-      }
-
-  });
+$('#portfolio_id').change(function () {
+//	alert('test') ;
+  StartSpinner() ;
+   Portfolio_is = document.getElementById('portfolio_id').value ;
+        $.get('/stocks/family_fun_positions', { portfolio:Portfolio_is} , null, 'script');
+        return false;
+});
 
 });
+
 
 </script>
 
 <%= link_to 'Home', start_path, :class => 'btn btn-mini'%><br><br>
 
-<table   style="margin: auto;"><tr><td><td>
+
+<%= select_tag("portfolio_id", options_for_select(Portfolio.where(:user_id => current_user).collect {|p| [ p.name] } ) ) %>
+<div id='spinner' style='display:none;'><%= image_tag '/assets/ajax-loader.gif' %></div>			
+
+<table style="margin: auto;">
+  <tr>
+	<td><td>
 	<td>
-		<div style="text-align:center;">
-
-<h3>Results over Time</h3>
-
-<div id="chart2" style="height:300px; width:650px;"></div>
-
-<h3>Current Family Fun Positions</h3><br>
- 
-<table class='table table-condensed table-bordered table-striped'>
-	<% sc.collect { |ord| ord[0] }.each_with_index do |user,i| %>	
-	<tr>
-		<td style="background-color:<%= sc[i][2] %>;"><h4><%= User.find(user).name %></h4>
-		</td>
-		<td colspan="7" style="background-color:white;"><h4>
-			 YTD Gain <%= number_to_percentage(100 * ( (Portfolio.where(:name => 'Family Fun', :user_id => user).first.current_value / 100000 ) - 1 ) , :precision => 2) %></h4>
-		</td>
-	</tr>
-			<tr>
-				<th>Stock</th>
-				<th class='aln_c'>Days Held</th>
-				<th class='aln_c'>Purchase Price</th>
-				<th class='aln_c'>Current Price</th>
-				<th class='aln_c'>Quantity Held</th>
-				<th class='aln_c'>Current Value</th>
-				<th class='aln_c'>Unrealized<br>Gain/Loss</th>
-				<th class='aln_c'>Percent</th>
-			</tr>
-			<% Portfolio.where(:name => 'Family Fun', :user_id => user ).first.rank_by_gain_loss('overall') .each do |stock| %>
-				<% if stock.quantity > 0 %>
-				<tr>
-					<td><%= stock.name %>[<%= stock.symbol.upcase %>]</td>
-					<td class='aln_r'><%= distance_of_time_in_words(stock.purch_date, Date.today) %> </td> <!-- Holding Period -->
-					<td class='aln_r'><%= number_to_currency(stock.purch_price) %></td>
-					<td class='aln_r'><%= number_to_currency(stock.current_price) %></td>
-					<td class='aln_r'><p><%= number_with_precision(stock.quantity, :delimiter => ',', :precision => 0) %></td>
-					<td class='aln_r'><%= number_to_currency(stock.position_value) %></td>
-					<td class='aln_r'><%= number_to_currency(stock.position_gain_loss[0]) %></td>
-					<td class='aln_r'><%= number_to_percentage(100*(stock.current_price-stock.purch_price)/stock.purch_price) %></td>
-			  	</tr>
-				<% end %>						
-			<% end %>
-			
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<th class='aln_r'>Total Unrealized Gain/Loss</td>
-				<td class='aln_r'><%= number_to_currency(Portfolio.where(:name => 'Family Fun', :user_id => user).first.unrealized_gain_loss[1] ) %></td>
-				<td></td>
-			</tr>
-			
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<th class='aln_r'>Cash</th>
-				<td class='aln_r'><%= number_to_currency(Portfolio.where(:name => 'Family Fun', :user_id => user).first.cash) %></td>
-				<td></td>
-				<td></td>
-			</tr>
-				
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<th class='aln_r'>Total</th>
-					<td class='aln_r'><%= number_to_currency(Portfolio.where(:name => 'Family Fun', :user_id => user).first.current_value) %></td>
-					<td></td>
-					<td></td>
-				</tr>
-			
-			<tr><td colspan='8' style='background:white;'><br><br></td></tr>
-<% end %>
-
-</table>
-
-<br><br>
-
+		<div style="text-align:center;" id='index'>
 	</td>
-	<td></td></tr>
+	<td></td>
+  </tr>
 </table>
 <br><br>
 

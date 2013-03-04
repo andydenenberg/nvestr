@@ -3,6 +3,21 @@ class StocksController < ApplicationController
   # GET /stocks
   # GET /stocks.json
   
+  def family_fun_positions
+    port = params[:portfolio]
+    port ||= 'Family Fun'
+    @portfolios = Portfolio.where(:name => port) # Portfolio.where(:name => 'Family Fun')
+  	series = Translog.db_daily_snapshot(@portfolios)
+  	@line = series[0].inspect
+  	@colors = series[1]
+  	@names = series[2]
+    respond_to do |format|
+      format.html # show.html.erb
+      format.js # { render json: @stock }
+    end
+    
+  end
+  
   def sell_shares
     stock = Stock.find(params[:stock_id])
     stock.sell_position(params[:shares])  
@@ -27,18 +42,11 @@ class StocksController < ApplicationController
   end
   
   def index
-        
-        
-    @error = params[:error]
-    
+    @error = params[:error]    
     @view = params[:view] ||= 'Performance'
-    
     @port = params[:portfolio] ||= Portfolio.where(:user_id => current_user).first.name if !Portfolio.where(:user_id => current_user).empty?
-        
     @stocks = Portfolio.where(:name => @port, :user_id => current_user).first.rank_by_gain_loss(params[:type_of_action]) 
-
     @portfolio = Portfolio.new :cash => 100000.0
-
      if params[:type_of_action]
        if params[:type_of_action] == 'overall'
          render :partial => 'overall_action.mobile', :layout => false
@@ -46,7 +54,6 @@ class StocksController < ApplicationController
          render :partial => 'todays_action.mobile', :layout => false
        end
      end
-      
   end
 
   # GET /stocks/1
