@@ -93,7 +93,8 @@ module Quote
       comps = date.split('/')
       ds = "&a=#{comps[0].to_i-1}&b=#{comps[1]}&c=#{comps[2]}&d=#{comps[0].to_i-1}&e=#{comps[1]}&f=#{comps[2]}"
       url = "http://ichart.yahoo.com/table.csv?s=#{symbol}#{ds}&g=d&ignore=.csv"
-  #    url = "http://ichart.yahoo.com/table.csv?s=#{symbol}&a=0&b=09&c=2013&d=0&e=09&f=2013&g=d&ignore=.csv"
+      puts url
+  #    url = "http://ichart.yahoo.com/table.csv?s=ATMI&a=0&b=09&c=2013&d=0&e=09&f=2013&g=d&ignore=.csv"  
       # http://code.google.com/p/yahoo-finance-managed/wiki/csvHistQuotesDownload
       resp = CSV.parse(open(url).read)
       hp = { }
@@ -138,9 +139,35 @@ module Quote
           end
         return positions
     end  
- 
+    
+    def self.denmac(filename)
+      lines = [ ]
+        File.open(filename, 'r') do |f1|  
+          while line = f1.gets # and i < 100
+            lines.push line
+          end  
+        end   
+        arr = [ ]
+        lines.each_with_index do |l,i|
+          p = l.split(',')
+          i % 2 ? even = 'even' : even = 'odd'
+          arr.push [ -p[0].to_i, p[1], p[2].to_f, i % 2 ]
+        end
+        andy = arr.select { |l| l[3] == 1 }
+        lou = arr.select { |l| l[3] == 0 }
+        total = andy.each_with_index do |a,i|
+        puts a[0].to_s + ',' + lou[i][0].to_s + ',' + a[1] + ',' + a[2].to_s 
+      end
+        return nil
+    end  
+     
 end
 
+# Update Purchase price as of a date
+# s.each { |stock| stock.purch_price = Quote.hist_price(stock.symbol,'12/31/2012')['Close'] ; stock.purch_date = '2012/12/31' ; stock.save }
+
+#total = 0
+#s.each { |stock| total += stock.quantity * Quote.hist_price(stock.symbol,'12/31/2012')['Close']   }
 
 #  s – Symbol
 #  n – Name
