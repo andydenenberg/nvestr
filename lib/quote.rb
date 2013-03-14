@@ -113,7 +113,10 @@ module Quote
       stocks.each do |stock|
         update = result.select { |s| s['Symbol'].downcase == stock.symbol.downcase.strip }[0]
         stock.last_price = update['LastTrade'].to_f
-        stock.last_price_date = Time.parse(update['LastTradeDate'] + ' ' + update['LastTradeTime']).getutc
+        str = update['LastTradeDate']
+        re = /(\d{1,2})\/(\d{1,2})\/(\d{4})/
+        fields = str.match(re)        
+        stock.last_price_date = Time.parse(fields[3] + '/' + fields[1] + '/' + fields[2] + ' ' + update['LastTradeTime']).getutc
         stock.price_change = update['Change'].to_f
         stock.save
       end
