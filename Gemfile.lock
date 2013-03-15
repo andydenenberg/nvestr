@@ -129,6 +129,7 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.4.0)
       mime-types
+    pg (0.14.1)
     polyglot (0.3.3)
     quiet_assets (1.0.1)
       railties (~> 3.1)
@@ -189,6 +190,7 @@ GEM
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
     sqlite3 (1.3.6)
+    therubyracer-heroku (0.8.1.pre3)
     thin (1.5.0)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -232,6 +234,7 @@ DEPENDENCIES
   launchy (>= 2.1.2)
   mysql2
   paperclip
+  pg
   quiet_assets (>= 1.0.1)
   rails (= 3.2.8)
   rmagick
@@ -240,6 +243,7 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   simple_form (>= 2.0.4)
   sqlite3
+  therubyracer-heroku
   thin (>= 1.5.0)
   uglifier (>= 1.0.3)
   whenever
