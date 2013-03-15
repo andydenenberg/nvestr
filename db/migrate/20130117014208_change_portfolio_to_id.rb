@@ -1,6 +1,6 @@
 class ChangePortfolioToId < ActiveRecord::Migration
   def up
-    change_column :stocks, :portfolio, :integer
+#    change_column :stocks, :portfolio, :integer
     rename_column :stocks, :portfolio, :portfolio_id
   end
 
