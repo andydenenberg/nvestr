@@ -233,6 +233,7 @@ DEPENDENCIES
   jquery-rails
   launchy (>= 2.1.2)
   mysql2
+  net-scp
   net-ssh
   paperclip
   pg
