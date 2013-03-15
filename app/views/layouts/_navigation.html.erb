@@ -1,3 +1,5 @@
+
+
 <%= link_to 'DENvestR', start_path, :class => 'brand' %>
 
 <% if user_signed_in? %>
@@ -30,7 +32,7 @@
 
 <% indexes = Quote.get_indexes %>
 <ul class='nav'>
-<li class='active'><%= link_to '| S&P 500: ' + indexes[1]['LastTrade'] + ' ' + indexes[1]['Change'] + ' , Nasdaq: ' + indexes[0]['LastTrade'] + ' ' + indexes[0]['Change'] + ' | Refresh in: ' +  number_with_precision(Time.now - Stock.last.updated_at, :precision => 0) + ' secs', '#' %></li>
+<li class='active'><%= link_to '| S&P 500: ' + indexes[1]['LastTrade'] + ' ' + indexes[1]['Change'] + ' , Nasdaq: ' + indexes[0]['LastTrade'] + ' ' + indexes[0]['Change'] + ' | Refresh in: ' +  number_with_precision(Time.now - Stock.last.updated_at, :precision => 0) + ' secs', '#', :id => 'ticker' %></li>
 </ul>
 
 <ul class="nav pull-right">

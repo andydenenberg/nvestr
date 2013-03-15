@@ -3,6 +3,18 @@ class StocksController < ApplicationController
   # GET /stocks
   # GET /stocks.json
   
+  def new_price_time
+    indexes = Quote.get_indexes
+    message = '| S&P 500: ' + indexes[1]['LastTrade'] +
+    ' ' + indexes[1]['Change'] + ' , Nasdaq: ' +
+    indexes[0]['LastTrade'] + ' ' + indexes[0]['Change'] +
+    ' | Refresh in: ' + (3600 - ('%.0f' % (Time.now - Stock.last.updated_at).to_s).to_i).to_s  + ' secs'
+    npt = Hash.new
+    npt['time_next'] = message
+    render :json => npt
+    
+  end
+  
   def family_fun_positions
     @port = params[:portfolio]
     @port ||= 'Family Fun'

@@ -10,6 +10,7 @@ Stc::Application.routes.draw do
       get 'new_portfolio'
       post 'sell_shares'
       get 'family_fun_positions'
+      get 'new_price_time'
     end
   end
 
