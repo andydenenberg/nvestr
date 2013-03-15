@@ -16,6 +16,7 @@ gem 'rails', '3.2.8'
   end
 
 gem 'net-ssh'
+gem 'net-scp'
 
 gem 'paperclip'
 gem 'will_paginate'
