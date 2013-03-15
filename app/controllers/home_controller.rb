@@ -16,8 +16,8 @@ class HomeController < ApplicationController
   end
   
   def start 
-    @news = Post.where(:type_is => 'news').paginate(:page => params[:page], :per_page => 2)   
-    @disc = Post.where(:type_is => 'discussion').paginate(:page => params[:page], :per_page => 2).order('created_at desc')   
+    @news = Post.where(:type_is => 'News').paginate(:page => params[:page], :per_page => 2)   
+    @disc = Post.where(:type_is => 'Discussion').paginate(:page => params[:page], :per_page => 2).order('created_at desc')   
   end
   
   def index
