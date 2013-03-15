@@ -233,6 +233,7 @@ DEPENDENCIES
   jquery-rails
   launchy (>= 2.1.2)
   mysql2
+  net-ssh
   paperclip
   pg
   quiet_assets (>= 1.0.1)

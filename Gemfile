@@ -15,6 +15,7 @@ gem 'rails', '3.2.8'
    gem 'mysql2'
   end
 
+gem 'net-ssh'
 
 gem 'paperclip'
 gem 'will_paginate'
