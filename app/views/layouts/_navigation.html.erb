@@ -1,4 +1,12 @@
-
+<script>
+$(document).ready(function(){
+	<% if current_user %>
+		window.setInterval(function() {
+		 	getPriceData();
+		}, 10000);	
+	<% end %>	
+});
+</script>
 
 <%= link_to 'DENvestR', start_path, :class => 'brand' %>
 
