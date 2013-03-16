@@ -61,7 +61,7 @@ Stc::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.action_mailer.default_url_options = { :host => 'nvestr.denenberg.net' }
+  config.action_mailer.default_url_options = { :host => 'alpha.denenberg.net' }
   # ActionMailer Config
   # Setup for production - deliveries, no errors raised
   config.action_mailer.delivery_method = :smtp
@@ -76,7 +76,7 @@ Stc::Application.configure do
   name =  ENV['SENDGRID_USERNAME']
   pword = ENV['SENDGRID_PASSWORD']
   if File.exist?('../config.yml')
-     mail_cred = YAML.load('../config.yml')   
+     mail_cred = YAML.load(File.read('../config.yml'))  
      name =  mail_cred['user_name']
      pword = mail_cred['password']
   end
@@ -86,7 +86,7 @@ Stc::Application.configure do
     :user_name =>  name,
     :password => pword,
     
-    :domain => "stantallcampaign.com",
+    :domain => "denenberg.net",
     :address => "smtp.sendgrid.net",
     :port => 587,
     :authentication => :plain,
