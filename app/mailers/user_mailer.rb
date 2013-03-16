@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default :from => "app2014218@heroku.com"
+  default :from => "app13473659@heroku.com"
   
   def welcome_email(user)
     mail(:to => user.email, :subject => "Welcome to our Colaboration!")
