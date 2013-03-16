@@ -140,9 +140,12 @@ $('#chart2').css({'height': height, 'width': width});
 
 <br><br>
 
-<h3>All Portfolio Transactions</h3>
 
-<% Translog.read_log[1..-1].each do |logfile| %>
-<%= logfile %><br>
-<% end %>
+<!---  All Portfolio Transactions</h3>
+
+ Translog.read_log[1..-1].each do |logfile| %>
+ logfile %><br>
+ end %>
+-->
+
 
