@@ -30,18 +30,15 @@ $(document).ready(function(){
     <ul class="dropdown-menu">
       <li class="nav-header">Information</li>
       <li><%= link_to 'Discussion and Messages', posts_path %></li>
-      <li class="divider"></li>
-      <li><%= link_to 'Portfolios', stocks_path %></li>
     </ul>
   </li>
 </ul>
 
+<ul class='nav'>
+<li class='active'><%= link_to ' ', '#', :id => 'ticker' %></li>
+</ul>
 <% end %>
 
-<% indexes = Quote.get_indexes %>
-<ul class='nav'>
-<li class='active'><%= link_to '| S&P 500: ' + indexes[1]['LastTrade'] + ' ' + indexes[1]['Change'] + ' , Nasdaq: ' + indexes[0]['LastTrade'] + ' ' + indexes[0]['Change'] + ' | ', '#', :id => 'ticker' %></li>
-</ul>
 
 <ul class="nav pull-right">
   <% if user_signed_in? %>

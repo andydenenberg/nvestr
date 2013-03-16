@@ -35,19 +35,21 @@
 </table>
 </div>
 
-<% require 'mem_info' %>
-<% m = MemInfo.new %>
-<% vars = m.instance_variables %>
-<div class='row'>
-  <div class='span3'>
-   <table class='table table-condensed table-bordered table-striped'>
-     <% vars.each do |v| %>
-        <tr>
-                <th style='text-align:left;'><%= v.to_s.gsub!('@','').titleize %>:</th>
-                <td style='text-align:right;'><%= number_with_delimiter(m.instance_variable_get(v) )  %></td>
-        </tr>
-     <% end %>
-   </table>
-  </div>
-</div>
-<br><br>
+<% if Rails.env.production? %>
+	<% require 'mem_info' %>
+	<% m = MemInfo.new %>
+	<% vars = m.instance_variables %>
+	<div class='row'>
+	  <div class='span3'>
+	   <table class='table table-condensed table-bordered table-striped'>
+	     <% vars.each do |v| %>
+	        <tr>
+	                <th style='text-align:left;'><%= v.to_s.gsub!('@','').titleize %>:</th>
+	                <td style='text-align:right;'><%= number_with_delimiter(m.instance_variable_get(v) )  %></td>
+	        </tr>
+	     <% end %>
+	   </table>
+	  </div>
+	</div>
+	<br><br>
+<% end %>

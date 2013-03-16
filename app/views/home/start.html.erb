@@ -37,16 +37,15 @@ font-size:22px;
 		<div class='introbox'>
 
 			<br>
+		<% if [1,2,3,4,5,6].include?(current_user.id) %>
 			<div class='top_header'>&nbsp;<b>Family Favorite Results</b>&nbsp;&nbsp;
 			<%= link_to 'Details', family_fun_positions_stocks_path, :class => 'btn btn-mini' %></div><br>
-
 			<table class='table table-condensed table-bordered table-striped'>
 					<tr>
 						<th>Family Member</th>
 						<th class='aln_r'>Portfolio Value</th>
 						<th class='aln_r'>% Invested</th>
-						<th class='aln_r'>Gain/Loss</th>
-						
+						<th class='aln_r'>Gain/Loss</th>						
 					</tr>						
 			<% Portfolio.family_rank.each do |user| %>
 				<tr>
@@ -63,8 +62,11 @@ font-size:22px;
 			  </tr>
 				<% end %>
 			</table>
+		<% else %>
+			<div class='top_header'>&nbsp;<b>Section reserved for Family Members</b>&nbsp;&nbsp;
+		<% end %>
+		</div>
 	</div>
-</div>
 
 		
 			

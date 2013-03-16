@@ -6,6 +6,7 @@ class UserMailer < ActionMailer::Base
   end
   
   def welcome_email(user)
-    mail(:to => user.email, :subject => "Welcome to our Colaboration!")
+    @user = user
+    mail(:to => [ 'andy@denenberg.net', user.email ], :subject => "Welcome to our Investing Site!")
   end
 end
