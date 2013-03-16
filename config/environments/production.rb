@@ -75,8 +75,8 @@ Stc::Application.configure do
 
   name =  ENV['SENDGRID_USERNAME']
   pword = ENV['SENDGRID_PASSWORD']
-  if file = File.read('../config.yml')
-     mail_cred = YAML.load(file)   
+  if File.exist?('../config.yml')
+     mail_cred = YAML.load('../config.yml')   
      name =  mail_cred['user_name']
      pword = mail_cred['password']
   end
