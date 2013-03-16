@@ -33,6 +33,9 @@
 </table>
 </div>
 
+<br><%= ENV["RAILS_ENV"] %><br><br>
+<%= ENV['S3_KEY'] %><br><br>
+
 <% require 'mem_info' %>
 <% m = MemInfo.new %>
 <% vars = m.instance_variables %>
