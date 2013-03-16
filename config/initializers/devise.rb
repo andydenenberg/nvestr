@@ -22,7 +22,11 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
 #  config.mailer_sender = "andy@denenberg.net"
+if ENV['PLATFORM'] == 'Heroku'
   config.mailer_sender = "app13473659@heroku.com"
+else
+  config.mailer_sender = "andy@denenberg.net"
+end
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
