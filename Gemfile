@@ -13,6 +13,7 @@ gem 'rails', '3.2.8'
   group :development, :test do
    gem 'sqlite3'
    gem 'mysql2'
+   gem 'pg'
   end
 
 gem 'net-ssh'
