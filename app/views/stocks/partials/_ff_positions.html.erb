@@ -87,63 +87,65 @@ $('#chart2').css({'height': height, 'width': width});
 			 YTD Gain <%= number_to_percentage(100 * ( (port.current_value / 100000 ) - 1 ) , :precision => 2) %></h4>
 		</td>
 	</tr>
-			<tr>
-				<th class='aln_c'>Stock</th>
-				<th class='aln_c'>Days Held</th>
-				<th class='aln_c'>Purchase Price</th>
-				<th class='aln_c'>Current Price</th>
-				<th class='aln_c'>Quantity Held</th>
-				<th class='aln_c'>Current Value</th>
-				<th class='aln_c'>Daily Chart</th>
-				<th class='aln_c'>Daily Change</th>
-				<th class='aln_c'>Unrealized<br>Gain/Loss</th>
-				<th class='aln_c'>Percent</th>
-			</tr>
-			<% port.rank_by_gain_loss('overall') .each do |stock| %>
-				<% if stock.quantity > 0 %>
-				<tr>
-					<td><%= stock.name %>[<%= stock.symbol.upcase %>]</td>
-					<td class='aln_r'><%= distance_of_time_in_words(stock.purch_date, Date.today) %> </td> <!-- Holding Period -->
-					<td class='aln_r'><%= number_to_currency(stock.purch_price) %></td>
-					<td class='aln_r'><%= number_to_currency(stock.current_price) %></td>
-					<td class='aln_r'><p><%= number_with_precision(stock.quantity, :delimiter => ',', :precision => 0) %></td>
-					<td class='aln_r'><%= number_to_currency(stock.position_value) %></td>
-					<td><%= "<img src='https://www.google.com/finance/chart?q=#{stock.symbol}&cht=s' />".html_safe %></td>
-					<td class='aln_r'><%= number_to_currency(stock.quantity * stock.todays_change[0]) %></td> <!-- Gain/Loss -->
-					<td class='aln_r'><%= number_to_currency(stock.position_gain_loss[0]) %></td>
-					<td class='aln_r'><%= number_to_percentage(100*(stock.current_price-stock.purch_price)/stock.purch_price) %></td>
-			  	</tr>
-				<% end %>						
-			<% end %>
-						
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<th class='aln_r'>Cash</th>
-				<td class='aln_r'><%= number_to_currency(port.cash) %></td>
-				<th class='aln_r'>Gain/Loss</th>
-				<td class='aln_r'><%= number_to_currency(Portfolio.where(:name => @port, :user_id => current_user).first.unrealized_gain_loss[1] ) %></td>
-				<td class='aln_r'><%= number_to_currency(Portfolio.where(:name => @port, :user_id => current_user).first.unrealized_gain_loss[0] ) %></td>
-				<td></td>
-			</tr>
+	<tr>
+		<th class='aln_c'>Stock</th>
+		<th class='aln_c'>Days Held</th>
+		<th class='aln_c'>Purchase Price</th>
+		<th class='aln_c'>Current Price</th>
+		<th class='aln_c'>Quantity Held</th>
+		<th class='aln_c'>Current Value</th>
+		<th class='aln_c'>Daily Chart</th>
+		<th class='aln_c'>Daily Change</th>
+		<th class='aln_c'>Unrealized<br>Gain/Loss</th>
+		<th class='aln_c'>Percent</th>
+	</tr>
+	<% port.rank_by_gain_loss('overall').each_with_index do |stock| %>
+		<% if stock.quantity > 0 %>
+		<tr>
+			<td><%= stock.name %>[<%= stock.symbol.upcase %>]</td>
+			<td class='aln_r'><%= distance_of_time_in_words(stock.purch_date, Date.today) %> </td> <!-- Holding Period -->
+			<td class='aln_r'><%= number_to_currency(stock.purch_price) %></td>
+			<td class='aln_r'><%= number_to_currency(stock.current_price) %></td>
+			<td class='aln_r'><p><%= number_with_precision(stock.quantity, :delimiter => ',', :precision => 0) %></td>
+			<td class='aln_r'><%= number_to_currency(stock.position_value) %></td>
+			<td><%= "<img src='https://www.google.com/finance/chart?q=#{stock.symbol}&cht=s' />".html_safe %></td>
+			<td class='aln_r'><%= number_to_currency(stock.quantity * stock.todays_change[0]) %></td> <!-- Gain/Loss -->
+			<td class='aln_r'><%= number_to_currency(stock.position_gain_loss[0]) %></td>
+			<td class='aln_r'><%= number_to_percentage(100*(stock.current_price-stock.purch_price)/stock.purch_price) %></td>
+	  	</tr>
+		<% end %>	
+	<% end %>
+									
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<th class='aln_r'>Cash</th>
+		<td class='aln_r'><%= number_to_currency(port.cash) %></td>
+		<th class='aln_r'>Gain/Loss</th>
+		<td class='aln_r'><%= number_to_currency(Portfolio.where(:name => @port, :user_id => port.user_id).first.unrealized_gain_loss[1] ) %></td>
+		<td class='aln_r'><%= number_to_currency(Portfolio.where(:name => @port, :user_id => port.user_id).first.unrealized_gain_loss[0] ) %></td>
+		<td></td>
+	</tr>
 				
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<th class='aln_r'>Total</th>
-				<td class='aln_r'><%= number_to_currency(Portfolio.where(:name => @port, :user_id => current_user).first.current_value) %></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			<tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<th class='aln_r'>Total</th>
+		<td class='aln_r'><%= number_to_currency(Portfolio.where(:name => @port, :user_id => port.user_id).first.current_value) %> - <%= port.user_id %></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	<tr>
 			
-			<tr><td colspan='10' style='background:white;'><br><br></td></tr>
+	<tr><td colspan='10' style='background:white;'><br><br></td></tr>
+	
 <% end %>
+			
 
 </table>
 
