@@ -135,7 +135,7 @@ $('#chart2').css({'height': height, 'width': width});
 		<td></td>
 		<td></td>
 		<th class='aln_r'>Total</th>
-		<td class='aln_r'><%= number_to_currency(Portfolio.where(:name => @port, :user_id => port.user_id).first.current_value) %> - <%= port.user_id %></td>
+		<td class='aln_r'><%= number_to_currency(Portfolio.where(:name => @port, :user_id => port.user_id).first.current_value) %></td>
 		<td></td>
 		<td></td>
 		<td></td>
