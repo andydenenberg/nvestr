@@ -12,6 +12,11 @@ require "net/ssh"
 require "net/scp"
 
 namespace :demo do
+  
+# run the following in a crontab to update the heroku instance
+#
+#  0 22 * * * /bin/bash -l -c 'cd ~/rails/nvestr && RAILS_ENV=production bundle exec heroku run rake demo:daily_snapshot --silent >> /var/logs/my_app.log 2>> /var/logs/my_err.log'
+#  */10 * * * 1-5 /bin/bash -l -c 'cd ~/rails/nvestr && RAILS_ENV=production bundle exec heroku run rake demo:update_prices --silent >> /var/logs/my_app.log 2>> /var/logs/my_err.log'
 
   desc "Install production database to this copy. Warning: This will destroy your current data."
   task :daily_snapshot => :environment do
