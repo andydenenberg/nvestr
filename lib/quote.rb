@@ -57,6 +57,21 @@ module Quote
 #     end      
 #   end  
 
+    def self.check_dividend(symbol,date)
+          comps = date.split('/')
+          ds = "&a=#{comps[0].to_i-1}&b=#{comps[1]}&c=#{comps[2]}&d=#{comps[0].to_i-1}&e=#{comps[1]}&f=#{comps[2]}"
+          url = "http://ichart.finance.yahoo.com/table.csv?s=#{symbol}#{ds}&g=v&ignore=.csv"
+          puts url
+          resp = CSV.parse(open(url).read)
+          hp = { }
+          str = resp[1][0].split('-')
+          hp['Date'] = str[1] + '/' + str[2] + '/' + str[0]
+          resp[0][1..-1].each_with_index do |title, i|
+            hp[title] = resp[1][i+1].to_f
+          end
+          return hp # hash with "Date", "Dividends"          
+    end
+
     def self.get_quotes(symbols)
       list = ''
       symbols.each do |s|
@@ -107,18 +122,20 @@ module Quote
     end
     
     def self.update_last_price
-      stocks = Stock.all
-      list = stocks.collect { |s| s.symbol.downcase }
-        result = self.get_quotes(list)
-      stocks.each do |stock|
-        update = result.select { |s| s['Symbol'].downcase == stock.symbol.downcase.strip }[0]
-        stock.last_price = update['LastTrade'].to_f
-        str = update['LastTradeDate']
-        re = /(\d{1,2})\/(\d{1,2})\/(\d{4})/
-        fields = str.match(re)        
-        stock.last_price_date = Time.parse(fields[3] + '/' + fields[1] + '/' + fields[2] + ' ' + update['LastTradeTime']).getutc
-        stock.price_change = update['Change'].to_f
-        stock.save
+      all_stocks = Stock.all
+      all_stocks.each_slice(100) do |stocks|
+          list = stocks.collect { |s| s.symbol.downcase }
+            result = self.get_quotes(list)
+          stocks.each do |stock|
+            update = result.select { |s| s['Symbol'].downcase == stock.symbol.downcase.strip }[0]
+            stock.last_price = update['LastTrade'].to_f
+            str = update['LastTradeDate']
+            re = /(\d{1,2})\/(\d{1,2})\/(\d{4})/
+            fields = str.match(re)        
+            stock.last_price_date = Time.parse(fields[3] + '/' + fields[1] + '/' + fields[2] + ' ' + update['LastTradeTime']).getutc
+            stock.price_change = update['Change'].to_f
+            stock.save
+          end
       end
       return true
     end
